@@ -4,4 +4,5 @@ import { authMiddleware } from "../../middlewares/auth.middleware";
 
 export const expensesRouter = Router();
 
-expensesRouter.post("/", authMiddleware, createExpense);
+expensesRouter.post("/register/", authMiddleware, createExpense);
+expensesRouter.post("/history/", authMiddleware, createExpense);

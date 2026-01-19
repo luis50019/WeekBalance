@@ -1,19 +1,22 @@
-class Auth{
-    static async register(req:Request,res:Response){
-        try {
-            
-        } catch (error) {
-            
-        }
-    }
+import { Request, Response } from "express";
+import { AuthService } from "./auth.service";
 
-    static async login(req:Request,res:Response){
-        try {
-            
-        } catch (error) {
-            
-        }
-    }
+const service = new AuthService();
 
+export const createProfile = async (req: Request, res: Response) => {
+  try {
+    await service.createProfile(req.body);
+    res.status(201).json({ message: "Profile creado" });
+  } catch (e: any) {
+    res.status(400).json({ error: "Error al crear el perfil" });
+  }
+};
 
+export const getProfileById = async (req:Request,res:Response) =>{
+  try {
+    const data = await service.getProfile(req.body);
+    res.status(201).json({message:"Perfil encontrada",data:data})
+  } catch (e:any) {
+    res.status(400).json({ error: "Error al encontrar el perfil" });
+  }
 }

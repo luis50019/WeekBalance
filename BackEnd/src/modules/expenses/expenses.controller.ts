@@ -5,9 +5,18 @@ const service = new ExpensesService();
 
 export const createExpense = async (req: Request, res: Response) => {
   try {
-    await service.createExpense(req.user.id, req.body);
+    await service.createExpense(req.body);
     res.status(201).json({ message: "Gasto registrado" });
   } catch (e: any) {
-    res.status(400).json({ error: e.message });
+    res.status(400).json({ error: "Error al registrar el nuevo gasto" });
   }
 };
+
+export const getHistoryAccount = async (req:Request,res:Response) =>{
+  try {
+    const data = await service.getExpensesHistoryByAccount(req.body);
+    res.status(201).json({message:"Historial encontrado",data:data})
+  } catch (e:any) {
+    res.status(400).json({ error: "Errro al obtener el historial de la cuenta" });
+  }
+}
