@@ -4,7 +4,7 @@ import { SavingService } from "./savings.service";
 
 const service = new SavingService();
 
-export const createIncome = async (req:Request, res:Response) => {
+export const createSaving = async (req:Request, res:Response) => {
     try {
         await service.CreateSaving(req.body);
         res.status(200).send({message:"Ahorro registrado con exito"});
