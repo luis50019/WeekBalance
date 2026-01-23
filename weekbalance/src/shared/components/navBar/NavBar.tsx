@@ -1,9 +1,8 @@
 import { View } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome";
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Ionicons } from '@expo/vector-icons';
 import IconBar from "../UI/Icons/iconbar/IconBar";
 import { styleNavBar } from "./NavBar.style";
+import { COLORS } from "../../../core/constants/Color";
 
 function NavBar() {
 
@@ -12,17 +11,16 @@ function NavBar() {
   return (
     <View style={styleNavBar.container}>
       <IconBar text="Inicio">
-        <Icon name="home" size={25} color="#000" />
+        <Ionicons name="home" size={25} color={COLORS.Headers} />
       </IconBar>
-
       <IconBar text="Ingresos">
-        <Icon name="money" size={25} color="#000" />
+        <Ionicons name="cash-outline" size={25} color={COLORS.textSecondary} />
       </IconBar>
       <IconBar text="Ahorros">
-        <MaterialIcons name="savings" size={25} color="#000" />
+        <Ionicons name="wallet" size={25} color={COLORS.textSecondary} />
       </IconBar>
       <IconBar text="Estadisticas">
-        <Ionicons name="stats-chart" size={25} color="#000" />
+        <Ionicons name="stats-chart" size={25} color={COLORS.textSecondary} />
       </IconBar>
 
     </View>);

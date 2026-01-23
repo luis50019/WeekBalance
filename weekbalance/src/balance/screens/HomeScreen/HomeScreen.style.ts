@@ -10,9 +10,13 @@ export const HomeScreenStyle = StyleSheet.create({
     justifyContent:'space-between',
     borderColor:"black",
     height:hp(90),
-    paddingHorizontal:10,
+    paddingHorizontal:20,
   },
   body:{
     backgroundColor:'transparent',
+    paddingHorizontal:5,
+    display:"flex",
+    flexDirection:"column",
+    gap:20,
   }
 })

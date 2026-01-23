@@ -17,5 +17,6 @@ export  const getStylesButton = (color: string, backgroundColor: string) =>
     text: {
       color: color,
       fontSize: fs(15),
+      fontWeight: "500",
     },
   });

@@ -5,6 +5,8 @@ import BalanceStack from "./BalanceStack";
 
 function AppNavigation(){
   const {user} = useAuthStore();
+
+
   return(
     <NavigationContainer>
       {user ? <BalanceStack/> : <AuthStack/>}

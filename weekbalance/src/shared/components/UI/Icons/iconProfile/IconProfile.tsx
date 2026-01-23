@@ -5,13 +5,12 @@ interface IconProfileProps {
 }
 
 function IconProfile({ url }: IconProfileProps) {
-  return (<View>
+  return (
     <Image source={{uri:url}} style={{
-      height: 100,
-      width: 100,
+      height: 50,
+      width: 50,
       borderRadius: 50,
-    }} />
-  </View>);
+    }} />);
 }
 
 export default IconProfile;

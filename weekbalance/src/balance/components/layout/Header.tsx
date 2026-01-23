@@ -1,18 +1,20 @@
 import { Text, View } from "react-native";
 import IconProfile from "../../../shared/components/UI/Icons/iconProfile/IconProfile";
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Ionicons } from '@expo/vector-icons';
 import { useAuthStore } from "../../../auth/store";
+import { HeaderStyle } from "./Header.style";
+import { COLORS } from "../../../core/constants/Color";
 
 function Header() {
   const { profile } = useAuthStore();
-  return (<View>
+  return (<View style={HeaderStyle.container}>
     <IconProfile url={profile?.avatar_url!} />
-    <View>
-      <Text>Bienvenido de nuevo</Text>
-      <Text>{profile?.full_name!}</Text>
+    <View style={HeaderStyle.info}>
+      <Text style={HeaderStyle.message}>BIENVENIDO DE NUEVO</Text>
+      <Text style={HeaderStyle.full_name}>{profile?.full_name!}</Text>
     </View>
-    <View>
-      <Ionicons name="notifications" color="#000" size={24} />
+    <View style={HeaderStyle.icon}>
+      <Ionicons name="notifications" color={COLORS.Headers} size={24} />
     </View>
   </View>);
 }

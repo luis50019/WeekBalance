@@ -1,5 +1,5 @@
 import React from "react";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { Ionicons } from '@expo/vector-icons';
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { getStylesButton } from "./CustomButton.style";
 
@@ -21,7 +21,7 @@ function CustomButton({ iconName,title,backgroundColor,color,handleClick,sizeIco
       <View style={stylesButton.container}>
         <Text allowFontScaling={false} style={stylesButton.text}>{title}</Text>
         {iconName !== "" && (
-          <MaterialCommunityIcons name={iconName} color={color} size={sizeIcon} />
+          <Ionicons name={iconName} color={color} size={sizeIcon} />
         )}
       </View>
     </Pressable>

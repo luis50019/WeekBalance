@@ -3,36 +3,22 @@ import { LoginForm } from "../types/Form";
 import { loginWithEmail } from "../api/auth.service";
 import { useAuthStore } from "../store";
 import { Alert } from "react-native";
-import { use, useEffect } from "react";
+import { getProfile } from "../api/api.service";
 
-export const useLogin =(navigation)=>{
-  const {control,formState,handleSubmit} = useForm<LoginForm>({});
-  const { setSession,user } = useAuthStore();
+export const useLogin = () => {
+  const { control, formState, handleSubmit } = useForm<LoginForm>({});
+  const { setSession, setProfile } = useAuthStore();
 
-  const onSubmit = async (data:LoginForm)=>{
+  const onSubmit = async (data: LoginForm) => {
     try {
-      const response = await loginWithEmail(data.email,data.password);
-      console.log(response);
-      setSession(response.session);
-      
+      const response = await loginWithEmail(data.email, data.password);
+      const res  = await getProfile(response.user?.id!,response.session?.access_token!);
+      setProfile({avatar_url: res.avatar_url, full_name: res.full_name, id: res.id});
+      setSession(response.session, response.user);
     } catch (error) {
-      console.log(error);
-      Alert.alert("Error","Error al iniciar sesion");
+      Alert.alert("Error", "Error al iniciar sesion");
     }
   }
 
-  useEffect(()=>{
-    //TODO: enviar el id del usuario para poder obtener su informacion de la base de datos
-    if(!user) return;
-    navigation.reset({
-        index:0,
-        routes:[
-          {
-            name:"Home",
-          }
-        ]
-      })
-  },[user])
-
-  return {control,formState,handleSubmit,onSubmit,}
+  return { control, formState, handleSubmit, onSubmit, }
 }

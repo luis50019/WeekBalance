@@ -1,22 +1,35 @@
 // auth/store.ts
-import { create } from 'zustand';
-import { Profile } from './types/Profile';
+import { create } from "zustand";
+import { Session, User } from "@supabase/supabase-js";
+import { Profile } from "./types/Profile";
 
 interface AuthState {
-  token: string | null;
-  setToken: (token: string) => void;
+  session: Session | null;
+  user: User | null;
   profile: Profile | null;
-  user:any | null;
-  setSession: (session:any) => void;
+
+  setSession: (session: Session, user: User) => void;
+  setProfile: (profile: Profile) => void;
   logout: () => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
-  token: null,
-  user:null,
+  session: null,
+  user: null,
   profile: null,
-  setProfile: (profile:Profile) => set({ profile }),
-  setSession: (session) => set({ user: session }),
-  setToken: (token) => set({ token }),
-  logout: () => set({ token: null,user:null }),
+
+  setSession: (session, user) =>
+    set({
+      session,
+      user
+    }),
+
+  setProfile: (profile) => set({ profile }),
+
+  logout: () =>
+    set({
+      session: null,
+      user: null,
+      profile: null
+    })
 }));

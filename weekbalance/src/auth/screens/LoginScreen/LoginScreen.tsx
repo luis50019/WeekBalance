@@ -9,8 +9,8 @@ import CustomButton from "../../../shared/components/buttons/CustomButton/Custom
 import { COLORS } from "../../../core/constants/Color";
 import { Link } from "../../../shared/components/buttons/CustomButton/Link";
 
-function LoginScreen({navigation}) {
-   const {control,handleSubmit,onSubmit } = useLogin({navigation});
+function LoginScreen() {
+   const {control,handleSubmit,onSubmit } = useLogin();
   return (
     <View style={StyleAuth.container}>
        <IconWallet/>

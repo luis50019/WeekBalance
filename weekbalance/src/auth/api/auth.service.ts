@@ -8,7 +8,6 @@ export const loginWithEmail = async (
     email,
     password
   });
-
   if (error) throw error;
 
   return data;
@@ -19,7 +18,6 @@ export const registerWithEmail = async (email:string,password:string) => {
     email: email,
     password: password
   });
-  console.log('Error al registro '+error);
   if (error) throw error;
 
   return data;

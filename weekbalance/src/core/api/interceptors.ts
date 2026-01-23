@@ -3,10 +3,10 @@ import { api } from './axios';
 import { useAuthStore } from '../../auth/store'; 
 
 api.interceptors.request.use((config) => {
-  const token = useAuthStore.getState().token;
-
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+  const { session } = useAuthStore();
+  console.log('Interceptor - Token:', session?.access_token!);
+  if (session?.access_token) {
+    config.headers.Authorization = `Bearer ${session.access_token}`;
   }
 
   return config;
