@@ -1,6 +1,6 @@
 import { AuthRepository } from "./auth.repository";
 import { CreateAuthDto } from "./dto/create-auth.dto";
-
+import { validate as isUUID } from "uuid";
 
 export class AuthService {
   constructor(private readonly repo = new AuthRepository()) {}
@@ -17,7 +17,7 @@ export class AuthService {
   }
 
   getProfile(user_id:string){
-    if(user_id == ""){
+    if(!isUUID(user_id)){
       throw new Error("usuario no existente");
     }
     return this.repo.findByID(user_id);

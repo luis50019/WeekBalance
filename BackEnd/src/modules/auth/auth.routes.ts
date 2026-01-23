@@ -5,4 +5,4 @@ import { createProfile, getProfileById } from "./auth.controller";
 export const authRouter = Router();
 
 authRouter.post("/register/", authMiddleware, createProfile);
-authRouter.post("/profile/", authMiddleware, getProfileById);
+authRouter.get("/profile/:id", authMiddleware, getProfileById);

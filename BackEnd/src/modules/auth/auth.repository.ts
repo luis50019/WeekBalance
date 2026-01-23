@@ -10,13 +10,19 @@ export class AuthRepository extends SupabaseDataSource {
     if (error) throw new Error(error.message);
   }
 
-  async findByID(id: string):Promise<ResponseAuthDto> {
+  async findByID(id: string): Promise<ResponseAuthDto> {
     const { data, error } = await this.client
       .from("profiles")
-      .select("*")
-      .eq("id", id).single();
+      .select("id, full_name, avatar_url, created_at")
+      .eq("id", id)
+      .maybeSingle();
 
     if (error) throw new Error(error.message);
-    return data;
+
+    if (!data) {
+      throw new Error("Perfil no encontrado");
+    }
+
+    return data as ResponseAuthDto
   }
 }
