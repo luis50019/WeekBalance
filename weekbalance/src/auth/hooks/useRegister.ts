@@ -8,7 +8,6 @@ import { register } from "../api/api.service";
 
 export const useRegister = () => {
   const { control, formState, handleSubmit } = useForm<RegisterForm>();
-
   const {
     setSession,
     setProfile,
@@ -20,17 +19,16 @@ export const useRegister = () => {
         data.email,
         data.password
       );
-      const res  = await register(
+      const resApi = await register(
           {avatar_url:URL.url_avatar, 
             full_name: data.name!,
             id:response.user?.id!},response.session?.access_token!);
-      setProfile({avatar_url: URL.url_avatar, full_name: data.name, id: response.user?.id!});
+      setProfile({avatar_url: URL.url_avatar, full_name: data.name, id: response.user?.id!, account_id:resApi.account_id });
       setSession(response.session!, response.user!);
     } catch (err: any) {
       Alert.alert("Error", err.message || "Error al registrarse");
     }
   };
-
   return {
     control,
     formState,

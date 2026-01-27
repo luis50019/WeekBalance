@@ -7,7 +7,7 @@ export const CardCurrentFoundStyle = StyleSheet.create({
     backgroundColor: COLORS.Headers,
     borderWidth: 1,
     borderRadius: 20,
-    padding: 10,
+    padding: 15,
   },
   header:{
     flexDirection: 'row',

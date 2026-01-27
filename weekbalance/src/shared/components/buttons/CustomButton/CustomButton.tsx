@@ -1,5 +1,5 @@
 import React from "react";
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons,Feather  } from '@expo/vector-icons';
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { getStylesButton } from "./CustomButton.style";
 

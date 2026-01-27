@@ -12,10 +12,10 @@ interface ButtonLinkProps {
 }
 
 function ButtonLink({ nameIcon, label, to, colorLabel, colorBackground }: ButtonLinkProps) {
-  const { navigationTo } = useNavigate()
+  const { navigationToPath } = useNavigate()
   const style = ButtonLinkStyle({ colorLabel, colorBackground });
 
-  return (<Pressable onPress={() => navigationTo(to)}>
+  return (<Pressable onPress={() => navigationToPath(to)}>
     <View style={style.container}>
       <Ionicons name={nameIcon} size={24} color={colorLabel} />
       <Text style={style.label}>{label}</Text>

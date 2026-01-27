@@ -9,7 +9,7 @@ export const HomeScreenStyle = StyleSheet.create({
     flexDirection:"column",
     justifyContent:'space-between',
     borderColor:"black",
-    height:hp(90),
+    height:hp(100),
     paddingHorizontal:20,
   },
   body:{

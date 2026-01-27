@@ -17,7 +17,13 @@ export const useNavigate = () => {
     );
   };
 
+  const navigationToPath = (destination: string, params?: object) => {
+  navigation.push(destination as never, params as never);
+};
+
+
   return {
     navigationTo,
+    navigationToPath 
   };
 };

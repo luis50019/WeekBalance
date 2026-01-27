@@ -10,9 +10,10 @@ interface ButtonLinkStyleProps {
 export const ButtonLinkStyle = ({ colorLabel, colorBackground }: ButtonLinkStyleProps) => {
   return StyleSheet.create( {
   container:{
-    width:wp(40),
+    width:wp(38),
     height:wp(15),
     flexDirection: 'row',
+    justifyContent:'space-around',
     alignItems: 'center',
     padding: 10,
     gap: 5,

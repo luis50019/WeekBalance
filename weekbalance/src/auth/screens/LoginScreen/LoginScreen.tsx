@@ -19,7 +19,7 @@ function LoginScreen() {
       <View style={StyleAuth.container_form}>
         <FormInput control={control} name="email" label="Correo"  placeholder="nombre@ejemplo.com" />
         <FormInput control={control} name="password" label="Contraseña" secureTextEntry placeholder="Ingresa tu contraseña" />
-        <CustomButton title="Iniciar sesión" sizeIcon={20} iconName="arrow-right" backgroundColor="#2b4bee" color={COLORS.background}  handleClick={handleSubmit(onSubmit)}/>
+        <CustomButton title="Iniciar sesión" sizeIcon={20} iconName="arrow-forward-outline" backgroundColor="#2b4bee" color={COLORS.background}  handleClick={handleSubmit(onSubmit)}/>
       </View>
       <View style={StyleAuth.container_foot}>
           <Text>¿No tienes cuenta?</Text>

@@ -1,3 +1,4 @@
+import { CreateExpense } from "../../balance/types/Request/CreateExpense";
 import { api } from "./axios";
 interface IRegisterProfile {
   id: string;
@@ -5,12 +6,9 @@ interface IRegisterProfile {
   avatar_url: string;
 }
 // headers.Authorization = `Bearer ${session.access_token}`;
-export const registerProfile = async (data: IRegisterProfile, token: string) => {
-  console.log('Enviando:', data);
-  console.log('Token:', token)
-
+export const registerExpenses = async (data: CreateExpense, token: string) => {
   return api.post(
-    '/auth/register/',
+    '/expenses/register/',
     data,
     {
       headers: {
@@ -21,8 +19,8 @@ export const registerProfile = async (data: IRegisterProfile, token: string) => 
 };
 
 
-export const getInfoProfile = async (id:string,token:string) => {
-  return api.get('/auth/profile/'+id, {
+export const getHistoryExpenses = async (id:string,token:string) => {
+  return api.get('/expenses/history/'+id, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

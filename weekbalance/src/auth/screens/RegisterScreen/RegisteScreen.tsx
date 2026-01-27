@@ -20,7 +20,7 @@ function RegisterScreen() {
         <FormInput control={control} name="name" keyboardType="default" label="Nombre de usuario" placeholder="usuario123" />
         <FormInput control={control} name="email" label="Correo"  placeholder="nombre@ejemplo.com" />
         <FormInput control={control} name="password" label="Contraseña" secureTextEntry placeholder="Ingresa tu contraseña" />
-        <CustomButton title="Crear cuenta" sizeIcon={20} iconName="arrow-right" backgroundColor="#2b4bee" color={COLORS.background}handleClick={handleSubmit(onSubmit)}/>
+        <CustomButton title="Crear cuenta" sizeIcon={20} iconName="arrow-forward-outline" backgroundColor="#2b4bee" color={COLORS.background}handleClick={handleSubmit(onSubmit)}/>
       </View>
       <View style={StyleAuth.container_foot}>
           <Text>¿ya tienes un cuenta?</Text>

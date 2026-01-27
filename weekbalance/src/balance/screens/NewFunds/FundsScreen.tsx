@@ -1,15 +1,15 @@
 import { Pressable, Text, TextInput, View } from "react-native";
 import CustomButton from "../../../shared/components/buttons/CustomButton/CustomButton";
-import { StyleExpenseScreen } from "./ExpenseScreen.style";
-import { useExpenses } from "../../hooks/useExpenses";
+import { StyleExpenseScreen } from "../NewExpense/ExpenseScreen.style";
 import {Ionicons} from "@expo/vector-icons";
 import { Controller } from "react-hook-form";
+import { useFunds } from "../../hooks/useFunds";
 
-function ExpenseScreen() {
-  const { control, onSubmit, handleSubmit,handleCategoryChange,category } = useExpenses();
+function FundsScreen() {
+  const { control, onSubmit, handleSubmit,handleCategoryChange,category } = useFunds();
 
   return (<View style={StyleExpenseScreen.container}>
-    <Text style={StyleExpenseScreen.titlePage}>NUEVO GASTO</Text>
+    <Text style={StyleExpenseScreen.titlePage}>AGREGAR FONDOS</Text>
     <View>
       <Text>MONTO A REGISTRAR</Text>
       <Controller
@@ -35,16 +35,16 @@ function ExpenseScreen() {
     </View>
 
     <View style={StyleExpenseScreen.containerCategory}>
-      <Text>CATEGORÍA</Text>
+      <Text>Origen de los fondos</Text>
       <View style={StyleExpenseScreen.categories}>
-        <Pressable onPress={()=>handleCategoryChange("food")}>
-          <Ionicons name="restaurant" size={24} color={category === "food" ? "blue" : "black"} />
+        <Pressable onPress={()=>handleCategoryChange("briefcase")}>
+          <Ionicons name="briefcase" size={24} color={category === "briefcase" ? "blue" : "black"} />
         </Pressable>
-        <Pressable onPress={()=>handleCategoryChange("car")}>
-          <Ionicons name="car" size={24} color={category === "car" ? "blue" : "black"} />
+        <Pressable onPress={()=>handleCategoryChange("gift")}>
+          <Ionicons name="gift" size={24} color={category === "gift" ? "blue" : "black"} />
         </Pressable>
-        <Pressable onPress={()=>handleCategoryChange("shopping")}>
-          <Ionicons name="cart" size={24} color={category === "shopping" ? "blue" : "black"} />
+        <Pressable onPress={()=>handleCategoryChange("refresh")}>
+          <Ionicons name="refresh" size={24} color={category === "refresh" ? "blue" : "black"} />
         </Pressable>
         <Pressable onPress={()=>handleCategoryChange("other")}>
           <Ionicons name="ellipsis-horizontal" size={24} color={category === "other" ? "blue" : "black"} />
@@ -79,4 +79,4 @@ function ExpenseScreen() {
   </View>);
 }
 
-export default ExpenseScreen;
+export default FundsScreen;
