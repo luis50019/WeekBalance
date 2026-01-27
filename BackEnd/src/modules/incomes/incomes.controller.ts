@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { IncomesService } from "./incomes.service";
-import { getHistoryAccount } from "../expenses/expenses.controller";
 
 const service = new IncomesService();
 
@@ -9,6 +8,7 @@ export const createIncome = async (req:Request, res:Response) => {
         await service.CreateIncome(req.body);
         res.status(200).send({message:"Income Created"});
     } catch (error) {
+        console.log(error);
         res.status(500).send({message:error});
     }
 }

@@ -9,6 +9,7 @@ export const authMiddleware = async (
   const token = req.headers.authorization?.replace("Bearer ", "");
 
   if (!token) {
+    console.log("No token provided");
     return res.status(401).json({ message: "Token requerido" });
   }
 
@@ -16,6 +17,7 @@ export const authMiddleware = async (
   const { data, error } = await supabase.auth.getUser(token);
 
   if (error || !data.user) {
+    console.log("Auth error:", error);
     return res.status(401).json({ message: "Token inválido" });
   }
 

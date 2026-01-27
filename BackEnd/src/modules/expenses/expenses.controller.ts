@@ -8,11 +8,12 @@ export const createExpense = async (req: Request, res: Response) => {
     await service.createExpense(req.body);
     res.status(201).json({ message: "Gasto registrado" });
   } catch (e: any) {
+    console.log('Error creating expense:', e);  
     res.status(400).json({ error: "Error al registrar el nuevo gasto" });
   }
 };
 
-export const getHistoryAccount = async (req:Request,res:Response) =>{
+export const getHistoryExpensesById = async (req:Request,res:Response) =>{
   try {
     const data = await service.getExpensesHistoryByAccount(req.body);
     res.status(201).json({message:"Historial encontrado",data:data})

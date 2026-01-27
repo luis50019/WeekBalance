@@ -7,7 +7,8 @@ export class ExpensesService {
   createExpense(
     dto: CreateExpenseDto,
   ) {
-    if (dto.monto <= 0) {
+    console.log(dto.account_id);
+    if (dto.amount <= 0) {
       throw new Error("Monto inválido");
     }
     return this.repo.create({
