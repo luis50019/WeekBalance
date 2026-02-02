@@ -9,11 +9,11 @@ export const MessageStyle = StyleSheet.create({
     
   },
   message:{
-    color:COLORS.textSecondary,
+    color:COLORS.textPrimary,
     fontSize: 18,
   },
   important:{
-    color:COLORS.Headers,
+    color:COLORS.textSecondary,
     fontFamily: "arial",
     fontWeight: "bold",
     fontSize: 18,

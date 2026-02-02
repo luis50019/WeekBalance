@@ -13,7 +13,8 @@ export const useLogin = () => {
     try {
       const response = await loginWithEmail(data.email, data.password);
       const res  = await getProfile(response.user?.id!,response.session?.access_token!);
-      setProfile({avatar_url: res.avatar_url, full_name: res.full_name, id: res.id});
+      console.log(res);
+      setProfile({avatar_url: res.avatar_url, full_name: res.full_name, id: res.id,account_id:res.account_id});
       setSession(response.session, response.user);
     } catch (error) {
       Alert.alert("Error", "Error al iniciar sesion");

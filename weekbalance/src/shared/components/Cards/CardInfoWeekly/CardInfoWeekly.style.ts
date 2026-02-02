@@ -38,7 +38,7 @@ export const StyleWeeklyCard = StyleSheet.create({
   },
   subtitleInfoCard:{
     fontSize:10,
-    color:COLORS.textSecondary,
+    color:COLORS.textPrimary,
     fontWeight:'light',
   },
   textInfoCard:{

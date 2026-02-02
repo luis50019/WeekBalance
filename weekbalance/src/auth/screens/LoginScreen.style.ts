@@ -5,7 +5,7 @@ import { hp, wp } from "../../shared/utils/responsive";
 export const StyleAuth = StyleSheet.create({
   container: {
     height:"100%",
-    backgroundColor:"#fff",
+    backgroundColor:COLORS.background,
     flexDirection:"column",
     alignItems: "center", 
     justifyContent:"center",
@@ -26,9 +26,15 @@ export const StyleAuth = StyleSheet.create({
     flexDirection:"row",
     gap:10,
   },
-  link:{
-    color:COLORS.Headers,
+  messageLink:{
+    color:COLORS.textPrimary,
     fontWeight:"bold",
+    fontSize:15,
+  },
+  link:{
+    color:COLORS.textPrimary,
+    fontWeight:"bold",
+    textDecorationLine:"underline",
   },
   error:{
     color:COLORS.error,

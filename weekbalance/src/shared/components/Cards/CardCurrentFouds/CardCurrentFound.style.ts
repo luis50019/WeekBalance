@@ -4,7 +4,7 @@ import { fs } from "../../../utils/responsive";
 
 export const CardCurrentFoundStyle = StyleSheet.create({
   container: {
-    backgroundColor: COLORS.Headers,
+    backgroundColor: COLORS.backgroundCard,
     borderWidth: 1,
     borderRadius: 20,
     padding: 15,
@@ -17,7 +17,7 @@ export const CardCurrentFoundStyle = StyleSheet.create({
   headerTitle:{
     fontSize: fs(15),
     fontWeight: 'light',
-    color: "#9c9c9c",
+    color: COLORS.textPrimary,
   },
   body:{
     display: 'flex',
@@ -29,7 +29,7 @@ export const CardCurrentFoundStyle = StyleSheet.create({
   bodyAmount:{
     fontSize: fs(35),
     fontWeight: 'bold',
-    color: COLORS.background,
+    color: COLORS.textPrimary,
   },
   bodyInitialAmount:{
     display: 'flex',
@@ -46,5 +46,22 @@ export const CardCurrentFoundStyle = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 20,
+  },
+  /**style for the info of money of te card */
+  infoMoney:{
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    gap: 5,
+  },
+  infoMoneyTitle:{
+    fontSize: fs(15),
+    fontWeight:'ultralight',
+    color:COLORS.textPrimary
+  },
+  infoMoneyTitleValue:{
+    fontWeight: 'bold',
+    color:COLORS.textPrimary
   }
+
 });

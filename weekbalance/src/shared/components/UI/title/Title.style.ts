@@ -12,7 +12,7 @@ export const TitleStyle = StyleSheet.create({
     maxWidth: wp(100),
   },
   message:{
-    color:COLORS.Headers,
+    color:COLORS.textPrimary,
     overflow:'hidden',
     fontSize: hp(5),
     fontWeight:'bold',

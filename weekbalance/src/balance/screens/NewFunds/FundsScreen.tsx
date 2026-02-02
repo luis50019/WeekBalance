@@ -7,6 +7,7 @@ import { useFunds } from "../../hooks/useFunds";
 
 function FundsScreen() {
   const { control, onSubmit, handleSubmit,handleCategoryChange,category } = useFunds();
+  
 
   return (<View style={StyleExpenseScreen.container}>
     <Text style={StyleExpenseScreen.titlePage}>AGREGAR FONDOS</Text>

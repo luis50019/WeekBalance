@@ -13,7 +13,7 @@ function CardInfoWeekly() {
     <View style={StyleWeeklyCard.infoCard}>
         <Text style={StyleWeeklyCard.headerInfoCard}>AHORRO SEMANAL</Text>
       <View style={StyleWeeklyCard.info}>
-        <Text style={StyleWeeklyCard.textInfoCard}>$544.00</Text>
+        <Text style={StyleWeeklyCard.textInfoCard}>$ 00.00</Text>
         <Text style={StyleWeeklyCard.subtitleInfoCard}>ahorrado</Text>
       </View>
     </View>

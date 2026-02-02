@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { CreateExpense } from "../types/Request/CreateExpense";
 import { useAuthStore } from "../../auth/store";
 import { register } from "../api/expenses.service";
+import { BalanceContext } from "../../core/context/ContextBalance";
+import { useNavigate } from "../../shared/hooks/useNavigate";
 
 type Expense = {
   amount: number;
@@ -10,8 +12,10 @@ type Expense = {
 }
 
 export const useExpenses = () => {
+  const { setChangeValue} = useContext(BalanceContext);
+  const { navigationTo } = useNavigate();
   const { control, formState, handleSubmit } = useForm<Expense>({});
-  const { user,session,profile } = useAuthStore();
+  const { session,profile } = useAuthStore();
   const [category,setCategory] = useState<string>("");
 
   const onSubmit = async (data: Expense) => {
@@ -27,6 +31,8 @@ export const useExpenses = () => {
         throw new Error("No hay session activa");
       };
       const expenseData = await register(newExpense,session?.access_token);
+      setChangeValue();
+      navigationTo('Home');
     } catch (error) {
       console.error("Error al registrar el gasto:", error);
     }

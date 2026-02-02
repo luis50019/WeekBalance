@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import { fs, hp, wp } from "../../../utils/responsive";
+import { COLORS } from "../../../../core/constants/Color";
 
 export const styleFormInput = StyleSheet.create({
   container: { 
@@ -32,7 +33,7 @@ export const styleFormInput = StyleSheet.create({
     paddingLeft:5,
     fontSize:fs(15),
     fontWeight:"400",
-    color:"#636364",
+    color:COLORS.textPrimary,
     marginBottom:5,
   }
 });

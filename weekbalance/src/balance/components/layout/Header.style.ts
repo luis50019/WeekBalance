@@ -20,10 +20,10 @@ export const HeaderStyle = StyleSheet.create({
 
   },
   message:{
-    color:COLORS.textSecondary
+    color:COLORS.textPrimary
   },
   full_name:{
-    color:COLORS.Headers,
+    color:COLORS.textPrimary,
     fontWeight:'bold',
     fontSize:fs(18),
   }
