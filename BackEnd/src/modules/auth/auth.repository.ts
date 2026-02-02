@@ -23,11 +23,24 @@ export class AuthRepository extends SupabaseDataSource {
       .maybeSingle();
 
     if (error) throw new Error(error.message);
-    if (!data) {
-      throw new Error("Perfil no encontrado");
-    }
 
-    return data as ResponseAuthDto;
+    const { data:accountData, error:errorAccount } = await this.client
+      .from("accounts")
+      .select("id")
+      .eq("user_id", id)
+      .maybeSingle();
+
+    if (errorAccount) throw new Error(errorAccount.message);
+
+    if (!data) throw new Error("Perfil no encontrado");
+
+    return {
+      account_id: accountData?.id,
+      avatar_url: data.avatar_url,
+      created_at: data.created_at,
+      full_name: data.full_name,
+      id: data.id,
+    };
   }
 
   async getInfoUserByID(userId: string) {
