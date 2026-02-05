@@ -3,24 +3,27 @@ import { Ionicons } from '@expo/vector-icons';
 import IconBar from "../UI/Icons/iconbar/IconBar";
 import { styleNavBar } from "./NavBar.style";
 import { COLORS } from "../../../core/constants/Color";
+import { useState } from "react";
 
 function NavBar() {
 
   //TODO: logica para cambiar el color del icono seleccionado
+  const [selected, setSelected] = useState("Inicio");
+  
+  const handleIconPress = (icon:string) => {
+    setSelected(icon);
+  };
 
   return (
     <View style={styleNavBar.container}>
-      <IconBar to="Home" text="Inicio">
-        <Ionicons name="home" size={25} color={COLORS.textPrimary} />
+      <IconBar click={handleIconPress} to="Home" text="Inicio">
+        <Ionicons name="home" size={25} color={selected == "Inicio"? COLORS.textPrimary :COLORS.textSecondary } />
       </IconBar>
-      <IconBar to="historyIncomes" text="Ingresos">
-        <Ionicons name="cash-outline" size={25} color={COLORS.textSecondary} />
+      <IconBar click={handleIconPress} to="historyIncomes" text="Ingresos">
+        <Ionicons name="cash-outline" size={25} color={selected == "Ingresos"? COLORS.textPrimary :COLORS.textSecondary} />
       </IconBar>
-      <IconBar to="historySavings" text="Ahorros">
-        <Ionicons name="wallet" size={25} color={COLORS.textSecondary} />
-      </IconBar>
-      <IconBar to="stadistics" text="Estadisticas">
-        <Ionicons name="stats-chart" size={25} color={COLORS.textSecondary} />
+      <IconBar click={handleIconPress} to="historySavings" text="Ahorros">
+        <Ionicons name="wallet" size={25} color={selected == "Ahorros"? COLORS.textPrimary :COLORS.textSecondary} />
       </IconBar>
     </View>);
 }

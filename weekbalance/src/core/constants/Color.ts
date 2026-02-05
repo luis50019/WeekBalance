@@ -9,6 +9,8 @@ export const COLORS={
   
   textSecondary:'#94A3B8',
   textPrimary:'#FFFFFF',
+ 
+  backgroundCardSecondary:'#FF8A71',
 
   error:'#FF4040',
 }

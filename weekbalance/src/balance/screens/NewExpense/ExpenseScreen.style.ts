@@ -17,7 +17,7 @@ export const StyleExpenseScreen = StyleSheet.create({
       fontSize:24,
       fontWeight:"bold",
       textAlign:"center",
-      color:COLORS.Headers,
+      color:COLORS.textPrimary,
     },
     containerCategory:{
       display:"flex",
