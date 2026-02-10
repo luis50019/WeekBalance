@@ -1,17 +1,17 @@
-import { Pressable, Text, TextInput, View } from "react-native";
+import { Text, TextInput, View } from "react-native";
 import CustomButton from "../../../shared/components/buttons/CustomButton/CustomButton";
-import {Ionicons} from "@expo/vector-icons";
 import { Controller } from "react-hook-form";
 import { useFunds } from "../../hooks/useFunds";
 import { styleFundsScreen } from "./FundsScreen.style";
 import { COLORS } from "../../../core/constants/Color";
+import Category from "../../../shared/components/UI/categories/Category";
 
 function FundsScreen() {
   const { control, onSubmit, handleSubmit,handleCategoryChange,category } = useFunds();
   
  //TODO: Todos los componente 
   return (<View style={styleFundsScreen.container}>
-    <Text style={styleFundsScreen.titlePage}>AGREGAR FONDOS</Text>
+    {/* <Text style={styleFundsScreen.titlePage}>AGREGAR FONDOS</Text> */}
     {/*Este es otro componente es el input principal que debemos  */}
     <View style={styleFundsScreen.conatinerInput}>
       <Controller
@@ -45,19 +45,10 @@ function FundsScreen() {
     <View style={styleFundsScreen.containerCategory}>
       <Text style={styleFundsScreen.titleCategories}>Origen</Text>
       <View style={styleFundsScreen.categories}>
-        <Pressable style={styleFundsScreen.containerIconCategory} onPress={()=>handleCategoryChange("briefcase")}>
-          <Ionicons name="briefcase" size={24} color={category === "briefcase" ? "blue" : "#94A3B8"} />
-          <Text>color</Text>
-        </Pressable>
-        <Pressable style={styleFundsScreen.containerIconCategory} onPress={()=>handleCategoryChange("gift")}>
-          <Ionicons name="gift" size={24} color={category === "gift" ? "blue" : "#94A3B8"} />
-        </Pressable>
-        <Pressable style={styleFundsScreen.containerIconCategory} onPress={()=>handleCategoryChange("refresh")}>
-          <Ionicons name="refresh" size={24} color={category === "refresh" ? "blue" : "#94A3B8"} />
-        </Pressable>
-        <Pressable style={styleFundsScreen.containerIconCategory} onPress={()=>handleCategoryChange("other")}>
-          <Ionicons name="ellipsis-horizontal" size={24} color={category === "other" ? "blue" : "#94A3B8"} />
-        </Pressable>
+        <Category category={category} nameIcon="briefcase" handleCategoryChange={handleCategoryChange}   />
+        <Category category={category} nameIcon="gift" handleCategoryChange={handleCategoryChange}   />
+        <Category category={category} nameIcon="refresh" handleCategoryChange={handleCategoryChange}   />
+        <Category category={category} nameIcon="ellipsis-vertical" handleCategoryChange={handleCategoryChange}   />
       </View>
     </View>
   {/*? Este es un componente reutilzable  */}
@@ -84,7 +75,7 @@ function FundsScreen() {
             )}
           />
     </View>
-    <CustomButton handleClick={handleSubmit(onSubmit)} title="Guardar gasto" iconName="checkmark-outline" />
+    <CustomButton handleClick={handleSubmit(onSubmit)} title="Registrar Ingreso" iconName="checkmark-outline" />
     
   </View>);
 }

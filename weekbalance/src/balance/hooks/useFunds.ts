@@ -41,6 +41,7 @@ export const useFunds = () => {
   };
 
   const handleCategoryChange = (category: string) => {
+    console.log("Categoría seleccionada:", category);
     setCategory(category);
   }
 
