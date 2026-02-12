@@ -17,6 +17,7 @@ export const useLogin = () => {
       setProfile({avatar_url: res.avatar_url, full_name: res.full_name, id: res.id,account_id:res.account_id});
       setSession(response.session, response.user);
     } catch (error) {
+      console.log(error);
       Alert.alert("Error", "Error al iniciar sesion");
     }
   }

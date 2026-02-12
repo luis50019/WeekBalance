@@ -9,13 +9,12 @@ interface PropsCategory {
 }
 
 function Category({ category, handleCategoryChange, nameIcon }: PropsCategory) {
-  console.log(category);
   return (
   <View style={styleCategory.conatinerCategory}>
-    <Pressable style={styleCategory.containerIconCategory} onPress={() => handleCategoryChange(nameIcon)}>
-      <Ionicons name={nameIcon} size={24} color={category === nameIcon ? '#ffffff': '#94A3B8'} />
+    <Pressable style={category === nameIcon?styleCategory.containerIconCategorySelected:styleCategory.containerIconCategory} onPress={() => handleCategoryChange(nameIcon)}>
+      <Ionicons name={nameIcon} size={30} color={category === nameIcon ? '#d75a12c4': '#94A3B8'} />
+      <Text style={category === nameIcon?styleCategory.textColorSelected : styleCategory.textColor}>color</Text>
     </Pressable>
-    <Text>color</Text>
   </View>);
 }
 
