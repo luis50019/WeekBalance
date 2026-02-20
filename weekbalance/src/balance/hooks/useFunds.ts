@@ -1,22 +1,38 @@
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAuthStore } from "../../auth/store";
-import { register } from "../api/funds.service";
+import { getHistory, register } from "../api/funds.service";
 import { CreateFunds } from "../types/Request/CreateFunds";
 import { BalanceContext } from "../../core/context/ContextBalance";
 import { useNavigate } from "../../shared/hooks/useNavigate";
+import { ResponseIncomeDto } from "../types/Response/ResponseIncomeDto";
 
 type Expense = {
   amount: number;
   description: string;
-}
+};
 
 export const useFunds = () => {
-  const { setChangeValue} = useContext(BalanceContext);
+  const { setChangeValue } = useContext(BalanceContext);
   const { navigationTo } = useNavigate();
   const { control, formState, handleSubmit } = useForm<Expense>({});
-  const { user,session,profile } = useAuthStore();
-  const [category,setCategory] = useState<string>("");
+  const { session, profile } = useAuthStore();
+  const [category, setCategory] = useState<string>("");
+  const [history, setHistory] = useState<ResponseIncomeDto[]>([]);
+
+  const getHistoryFunds = async () => {
+    try {
+      if (!profile?.account_id || !session?.access_token)
+        throw new Error("No has iniciado sesion");
+      const response = await getHistory(
+        profile?.account_id,
+        session?.access_token,
+      );
+      setHistory(response);
+    } catch (error) {
+      console.log(error); //TODO: arreglar la logica para el control de los errores
+    }
+  };
 
   const onSubmit = async (data: Expense) => {
     try {
@@ -28,11 +44,11 @@ export const useFunds = () => {
         source: data.amount,
         description: data.description,
         amount: data.amount.toString(),
-      }
-      if(!session?.access_token){
-        throw new Error("No hay session activa");
       };
-      const expenseData = await register(newExpense,session?.access_token);
+      if (!session?.access_token) {
+        throw new Error("No hay session activa");
+      }
+      const expenseData = await register(newExpense, session?.access_token);
       setChangeValue();
       navigationTo("Home");
     } catch (error) {
@@ -43,7 +59,17 @@ export const useFunds = () => {
   const handleCategoryChange = (category: string) => {
     console.log("Categoría seleccionada:", category);
     setCategory(category);
-  }
+  };
 
-  return { control, formState, handleSubmit, onSubmit, handleCategoryChange,category}
-}
+  return {
+    control,
+    formState,
+    handleSubmit,
+    onSubmit,
+    handleCategoryChange,
+    category,
+    history,
+    getHistoryFunds,
+  };
+};
+

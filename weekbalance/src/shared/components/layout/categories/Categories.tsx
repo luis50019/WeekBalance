@@ -7,16 +7,35 @@ interface PropsCategories {
   handleCategoryChange: (category: string) => void;
 }
 
-function Categories({category, handleCategoryChange}: PropsCategories) {
-  return ( <View style={styleCategories.containerCategory}>
+function Categories({ category, handleCategoryChange }: PropsCategories) {
+  return (
+    <View style={styleCategories.containerCategory}>
       <Text style={styleCategories.titleCategories}>Origen</Text>
       <View style={styleCategories.categories}>
-        <Category category={category} nameIcon="briefcase" handleCategoryChange={handleCategoryChange}   />
-        <Category category={category} nameIcon="gift" handleCategoryChange={handleCategoryChange}   />
-        <Category category={category} nameIcon="refresh" handleCategoryChange={handleCategoryChange}   />
-        <Category category={category} nameIcon="ellipsis-vertical" handleCategoryChange={handleCategoryChange}   />
+        <Category
+          category={category}
+          nameIcon="briefcase"
+          handleCategoryChange={handleCategoryChange}
+        />
+        <Category
+          category={category}
+          nameIcon="gift"
+          handleCategoryChange={handleCategoryChange}
+        />
+        <Category
+          category={category}
+          nameIcon="refresh"
+          handleCategoryChange={handleCategoryChange}
+        />
+        <Category
+          category={category}
+          nameIcon="ellipsis-vertical"
+          handleCategoryChange={handleCategoryChange}
+        />
       </View>
-    </View> );
+    </View>
+  );
 }
 
 export default Categories;
+

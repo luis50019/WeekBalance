@@ -1,10 +1,10 @@
 import { StyleSheet } from "react-native";
 import { fs, wp } from "../../../utils/responsive";
 
-export  const getStylesButton = (color: string, backgroundColor: string) =>
+export const getStylesButton = (color: string, backgroundColor: string) =>
   StyleSheet.create({
     container: {
-      width: wp(80),
+      width: wp(90),
       borderRadius: 10,
       paddingVertical: 10,
       backgroundColor: backgroundColor,
@@ -12,7 +12,7 @@ export  const getStylesButton = (color: string, backgroundColor: string) =>
       flexDirection: "row",
       justifyContent: "center",
       alignItems: "center",
-      gap:10,
+      gap: 10,
     },
     text: {
       color: color,
@@ -20,3 +20,4 @@ export  const getStylesButton = (color: string, backgroundColor: string) =>
       fontWeight: "500",
     },
   });
+

@@ -1,19 +1,13 @@
 import { View, ScrollView } from "react-native";
 import { HomeScreenStyle } from "./HomeScreen.style";
-import Header from "../../components/layout/Header";
 import CardCurrentFound from "../../../shared/components/Cards/CardCurrentFouds/CardCurrentFound";
-import CardInfoWeekly from "../../../shared/components/Cards/CardInfoWeekly/CardInfoWeekly";
 import { useContext } from "react";
 import { BalanceContext } from "../../../core/context/ContextBalance";
 import { CircleGrapic } from "../../../shared/components/Grapics/CircleGrapic";
 
 function HomeScreen({ navigation }) {
-  const {
-    financialSummary,
-    totalExpenses,
-    totalIncomes,
-    expenseAnalysis,
-  } = useContext(BalanceContext);
+  const { financialSummary, totalExpenses, totalIncomes, expenseAnalysis } =
+    useContext(BalanceContext);
 
   return (
     <View style={HomeScreenStyle.container}>
