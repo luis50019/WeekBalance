@@ -4,6 +4,8 @@ import { ResponseIncomeDto } from "./dto/response-income.dto";
 
 export class IncomeRespository extends SupabaseDataSource {
   async create(data: CreateIncomeDto) {
+    console.log("Informacion recivida: ");
+    console.log(data);
     const { error } = await this.client.from("income_history").insert(data);
     if (error) {
       console.log(error);
@@ -23,6 +25,7 @@ export class IncomeRespository extends SupabaseDataSource {
     if (error) {
       throw new Error("No se logro obtener el historial");
     }
+    console.log(data);
     return data;
   }
 }

@@ -1,6 +1,7 @@
 import { SupabaseDataSource } from "../../infrastructure/database/supabase.datasource";
 import { ResponseAuthDto } from "./dto/response-auth.dto";
 export class AuthRepository extends SupabaseDataSource {
+  //?Registrar un nuevo usuario
   async create(userId: string, fullName: string) {
     const { data, error } = await this.client.rpc("create_user_profile", {
       p_user_id: userId,
@@ -14,7 +15,7 @@ export class AuthRepository extends SupabaseDataSource {
     console.log("data", data);
     return data[0]; // { user_id, account_id }
   }
-
+  //Encontrar la informacion de perfil del usuario
   async findByID(id: string): Promise<ResponseAuthDto> {
     const { data, error } = await this.client
       .from("profiles")
@@ -24,7 +25,7 @@ export class AuthRepository extends SupabaseDataSource {
 
     if (error) throw new Error(error.message);
 
-    const { data:accountData, error:errorAccount } = await this.client
+    const { data: accountData, error: errorAccount } = await this.client
       .from("accounts")
       .select("id")
       .eq("user_id", id)
@@ -48,7 +49,6 @@ export class AuthRepository extends SupabaseDataSource {
       "get_recent_incomes",
       {
         p_account_id: userId,
-        p_limit: 10,
       },
     );
 
@@ -62,8 +62,8 @@ export class AuthRepository extends SupabaseDataSource {
     );
 
     if (expenseError) throw new Error(expenseError.message);
-    
-    const { data: balance, error:balanceError } = await this.client
+
+    const { data: balance, error: balanceError } = await this.client
       .from("accounts")
       .select("balance")
       .eq("id", userId)
