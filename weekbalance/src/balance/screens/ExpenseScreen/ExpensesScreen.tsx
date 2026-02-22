@@ -1,28 +1,27 @@
 import { FlatList, ScrollView, Text, View } from "react-native";
-import { IncomeScreenStyle } from "./IncomeScreen.style";
-import FloatingButton from "../../../shared/components/buttons/FloattingButton/FloattingButton";
-import { useFunds } from "../../hooks/useFunds";
-import { useEffect } from "react";
-import Transactions from "../../../shared/components/layout/transactions/Transactions";
 import CardHistory from "../../../shared/components/Cards/CardInfoHistory/CardInfoHistory";
+import FloatingButton from "../../../shared/components/buttons/FloattingButton/FloattingButton";
+import { styleExpensesScreen } from "./ExpensesScreen.style";
 import { styleTransaction } from "../../../shared/components/layout/transactions/Transactions.style";
 import TransactionCard from "../../../shared/components/Cards/CardTransaction/CardTransaction";
+import { useFunds } from "../../hooks/useFunds";
+import { useEffect } from "react";
 
-function IncomeScreen() {
+function ExpensesScreen() {
   const { getHistoryFunds, history } = useFunds();
   useEffect(() => {
     getHistoryFunds();
   }, []);
 
   return (
-    <View style={IncomeScreenStyle.container}>
+    <View style={styleExpensesScreen.container}>
       <FlatList
         style={styleTransaction.container}
         ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
         data={history}
         ListHeaderComponent={
           <CardHistory
-            title="TOTAL DE INGRESO MENSUAL"
+            title="TOTAL DE GASTOS MENSUAL"
             amount={500}
             mouth="junio"
             year="2025"
@@ -38,10 +37,9 @@ function IncomeScreen() {
           />
         )}
       />
-
-      <FloatingButton to="AddFunds" />
+      <FloatingButton to="AddExpense" />
     </View>
   );
 }
 
-export default IncomeScreen;
+export default ExpensesScreen;

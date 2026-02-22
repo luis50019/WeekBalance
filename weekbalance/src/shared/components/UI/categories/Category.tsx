@@ -1,7 +1,7 @@
-import { Pressable, Text, View } from "react-native";
+import { Pressable, Text, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { styleCategory } from "./Category.style";
 import { categories } from "../../../../core/constants/Categories";
+import { styleCategory } from "./Category.style";
 
 interface PropsCategory {
   category: string;
@@ -10,32 +10,29 @@ interface PropsCategory {
 }
 
 function Category({ category, handleCategoryChange, nameIcon }: PropsCategory) {
+  const selected = category === nameIcon;
+
   return (
-    <View style={styleCategory.conatinerCategory}>
-      <Pressable
-        style={
-          category === nameIcon
-            ? styleCategory.containerIconCategorySelected
-            : styleCategory.containerIconCategory
-        }
-        onPress={() => handleCategoryChange(nameIcon)}
+    <Pressable
+      onPress={() => handleCategoryChange(nameIcon)}
+      style={({ pressed }) => [
+        styleCategory.card,
+        selected && styleCategory.cardActive,
+        pressed && styleCategory.pressed,
+      ]}
+    >
+      <Ionicons
+        name={nameIcon as any}
+        size={28}
+        color={selected ? "#F97316" : "#94A3B8"}
+      />
+
+      <Text
+        style={[styleCategory.label, selected && styleCategory.labelActive]}
       >
-        <Ionicons
-          name={nameIcon}
-          size={30}
-          color={category === nameIcon ? "#d75a12c4" : "#94A3B8"}
-        />
-        <Text
-          style={
-            category === nameIcon
-              ? styleCategory.textColorSelected
-              : styleCategory.textColor
-          }
-        >
-          {categories[nameIcon]}
-        </Text>
-      </Pressable>
-    </View>
+        {categories[nameIcon]}
+      </Text>
+    </Pressable>
   );
 }
 

@@ -4,6 +4,6 @@ export type ResponseIncomeDto = {
   amount: number;
   category: string;
   description: string | null;
-  source: string | null;
+  source?: string | null;
   created_at: string;
 };

@@ -1,42 +1,31 @@
 import { StyleSheet } from "react-native";
-import { COLORS } from "../../../../core/constants/Color";
 
 export const styleCategory = StyleSheet.create({
-  conatinerCategory: {
-    display: "flex",
-    flexDirection: "column",
+  card: {
+    width: "30%",
     alignItems: "center",
-  },
-  containerIconCategory: {
-    display: "flex",
     justifyContent: "center",
+    gap: 8,
+    paddingVertical: 16,
+    paddingHorizontal: 10,
+    borderRadius: 16,
     borderWidth: 1,
-    borderColor: "#32374E",
-    borderRadius: 10,
-    padding: 15,
+    borderColor: "#94A3B8",
   },
-  containerIconCategorySelected: {
-    display: "flex",
-    justifyContent: "center",
-    borderWidth: 1,
-    borderColor: "#d75a12c4",
-    backgroundColor: "#f15d080d",
-    borderRadius: 10,
-    padding: 15,
+  cardActive: {
+    borderColor: "#F97316",
+    backgroundColor: "rgba(249, 115, 22, 0.1)",
   },
-  iconColor: {
-    color: "#94A3B8",
+  pressed: {
+    transform: [{ scale: 0.96 }],
   },
-  iconColorSelected: {
-    color: "#ffffff",
+  label: {
+    fontSize: 12,
+    fontWeight: "700",
+    color: "#6B7280",
+    textAlign: "center",
   },
-  textColor: {
-    fontSize: 16,
-    color: "#656b85",
-  },
-  textColorSelected: {
-    fontSize: 16,
-    color: "#d75a12c4",
+  labelActive: {
+    color: "#F97316",
   },
 });
-

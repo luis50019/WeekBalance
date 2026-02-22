@@ -5,7 +5,7 @@ export const getStylesButton = (color: string, backgroundColor: string) =>
   StyleSheet.create({
     container: {
       width: wp(90),
-      borderRadius: 10,
+      borderRadius: 20,
       paddingVertical: 10,
       backgroundColor: backgroundColor,
       display: "flex",
@@ -20,4 +20,3 @@ export const getStylesButton = (color: string, backgroundColor: string) =>
       fontWeight: "500",
     },
   });
-

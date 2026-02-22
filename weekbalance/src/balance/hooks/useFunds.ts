@@ -48,7 +48,9 @@ export const useFunds = () => {
       if (!session?.access_token) {
         throw new Error("No hay session activa");
       }
-      const expenseData = await register(newExpense, session?.access_token);
+      console.log("Enviando la informacion: ");
+      console.log(newExpense);
+      await register(newExpense, session?.access_token);
       setChangeValue();
       navigationTo("Home");
     } catch (error) {
@@ -72,4 +74,3 @@ export const useFunds = () => {
     getHistoryFunds,
   };
 };
-

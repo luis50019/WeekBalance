@@ -1,27 +1,43 @@
 import { StyleSheet } from "react-native";
-import { COLORS } from "../../../../core/constants/Color";
 
-export const styleCategories = StyleSheet.create({
-  titleCategories: {
-    color: '#656b85',
-    fontSize: 18,
-    fontWeight: "ultralight",
+export const stylesCategoriesGrid = StyleSheet.create({
+  section: {
+    paddingHorizontal: 16,
+    marginBottom: 24,
   },
-  containerCategory: {
-    display: "flex",
-    flexDirection: "column",
-    gap: 10,
+  title: {
+    fontSize: 11,
+    fontWeight: "800",
+    color: "#94A3B8",
+    letterSpacing: 2,
+    marginBottom: 20,
   },
-  containerIconCategory: {
-    borderWidth: 1,
-    borderColor: '#32374E',
-    borderRadius: 10,
-    padding: 10,
-  },
-  categories: {
-    display: "flex",
-    flexDirection: "row",
+  row: {
     justifyContent: "space-between",
-    width: "100%",
-  }
-})
+    marginBottom: 16,
+  },
+  card: {
+    width: "30%",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    padding: 16,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: "#E5E7EB",
+    backgroundColor: "#FFFFFF",
+  },
+  cardActive: {
+    borderColor: "#F97316",
+    backgroundColor: "rgba(249, 115, 22, 0.1)",
+  },
+  label: {
+    fontSize: 12,
+    fontWeight: "700",
+    color: "#6B7280",
+  },
+  labelActive: {
+    color: "#F97316",
+  },
+});
+

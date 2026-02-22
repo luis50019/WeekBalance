@@ -1,14 +1,18 @@
 import { View, ScrollView } from "react-native";
 import { HomeScreenStyle } from "./HomeScreen.style";
 import CardCurrentFound from "../../../shared/components/Cards/CardCurrentFouds/CardCurrentFound";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { BalanceContext } from "../../../core/context/ContextBalance";
 import { CircleGrapic } from "../../../shared/components/Grapics/CircleGrapic";
 
-function HomeScreen({ navigation }) {
+function HomeScreen() {
   const { financialSummary, totalExpenses, totalIncomes, expenseAnalysis } =
     useContext(BalanceContext);
-
+  useEffect(() => {
+    console.log("expenses: " + totalExpenses);
+    console.log("incomes: " + totalIncomes);
+    console.log(financialSummary);
+  }, []);
   return (
     <View style={HomeScreenStyle.container}>
       <ScrollView
@@ -20,7 +24,7 @@ function HomeScreen({ navigation }) {
         <CardCurrentFound
           expenses={totalExpenses || 0}
           incomes={totalIncomes || 0}
-          balance={financialSummary?.balance?.balance || 0}
+          balance={financialSummary?.balance.balance || 0}
         />
         <CircleGrapic
           info={expenseAnalysis || null}

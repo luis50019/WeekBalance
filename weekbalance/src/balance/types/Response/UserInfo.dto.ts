@@ -1,4 +1,3 @@
-
 export interface RecentIncomeDto {
   id: string;
   amount: number;
@@ -13,9 +12,10 @@ export interface ExpenseCategoryPercentageDto {
   percentage: number;
 }
 
-
 export interface FinancialSummaryDto {
-  balance?: number;
+  balance: {
+    balance: number;
+  };
   recentIncomes: RecentIncomeDto[];
   expensesByCategory: ExpenseCategoryPercentageDto[];
 }

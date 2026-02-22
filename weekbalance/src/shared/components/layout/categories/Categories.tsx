@@ -1,41 +1,41 @@
-import { Text, View } from "react-native";
+import { FlatList, Text, View } from "react-native";
 import Category from "../../UI/categories/Category";
-import { styleCategories } from "./Categories.style";
+import { stylesCategoriesGrid } from "./Categories.style";
+import { Categories } from "../../../../core/constants/Categories";
 
 interface PropsCategories {
+  listCategories: Categories[];
   category: string;
   handleCategoryChange: (category: string) => void;
 }
 
-function Categories({ category, handleCategoryChange }: PropsCategories) {
+export function CategoriesGrid({
+  listCategories,
+  category,
+  handleCategoryChange,
+}: PropsCategories) {
   return (
-    <View style={styleCategories.containerCategory}>
-      <Text style={styleCategories.titleCategories}>Origen</Text>
-      <View style={styleCategories.categories}>
-        <Category
-          category={category}
-          nameIcon="briefcase"
-          handleCategoryChange={handleCategoryChange}
-        />
-        <Category
-          category={category}
-          nameIcon="gift"
-          handleCategoryChange={handleCategoryChange}
-        />
-        <Category
-          category={category}
-          nameIcon="refresh"
-          handleCategoryChange={handleCategoryChange}
-        />
-        <Category
-          category={category}
-          nameIcon="ellipsis-vertical"
-          handleCategoryChange={handleCategoryChange}
-        />
-      </View>
+    <View style={stylesCategoriesGrid.section}>
+      <Text style={stylesCategoriesGrid.title}>CATEGORÍAS</Text>
+
+      <FlatList
+        data={listCategories}
+        numColumns={3}
+        keyExtractor={(item) => item.nameIcon}
+        columnWrapperStyle={stylesCategoriesGrid.row}
+        renderItem={({ index, item }) => {
+          return (
+            <Category
+              key={index}
+              category={category}
+              handleCategoryChange={handleCategoryChange}
+              nameIcon={item.nameIcon}
+            />
+          );
+        }}
+      />
     </View>
   );
 }
 
-export default Categories;
-
+export default CategoriesGrid;

@@ -1,21 +1,21 @@
 import { View } from "react-native";
 import CustomButton from "../../../shared/components/buttons/CustomButton/CustomButton";
-import { useFunds } from "../../hooks/useFunds";
-import { styleFundsScreen } from "./FundsScreen.style";
+import { StyleExpenseScreen } from "./NewExpenseScreen.style";
+import { useExpenses } from "../../hooks/useExpenses";
+import InputAmount from "../../../shared/components/form/FormInputAmount/InputAmount";
 import Categories from "../../../shared/components/layout/categories/Categories";
 import InputNote from "../../../shared/components/form/formInputNote/InputNote";
-import InputAmount from "../../../shared/components/form/FormInputAmount/InputAmount";
-import { categoriesIncomes } from "../../../core/constants/Categories";
+import { categoriesExpenses } from "../../../core/constants/Categories";
 
-function FundsScreen() {
+function NewExpenseScreen() {
   const { control, onSubmit, handleSubmit, handleCategoryChange, category } =
-    useFunds();
+    useExpenses();
 
   return (
-    <View style={styleFundsScreen.container}>
+    <View style={StyleExpenseScreen.container}>
       <InputAmount control={control} name="amount" />
       <Categories
-        listCategories={categoriesIncomes}
+        listCategories={categoriesExpenses}
         category={category}
         handleCategoryChange={handleCategoryChange}
       />
@@ -26,11 +26,11 @@ function FundsScreen() {
       />
       <CustomButton
         handleClick={handleSubmit(onSubmit)}
-        title="Nuevo Ingreso"
+        title="Nuevo Gasto"
         iconName="checkmark-outline"
       />
     </View>
   );
 }
 
-export default FundsScreen;
+export default NewExpenseScreen;
