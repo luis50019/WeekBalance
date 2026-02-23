@@ -16,10 +16,10 @@ export const createIncome = async (req: Request, res: Response) => {
 export const getHistoryIncomesAccount = async (req: Request, res: Response) => {
   try {
     const { accountId } = req.params;
+    console.log(accountId);
     const data = await service.getIncomeHistory(accountId.toString());
     res.status(201).json({ message: "Historial encontrado", data: data });
   } catch (error) {
     res.status(500).send({ message: error });
   }
 };
-
