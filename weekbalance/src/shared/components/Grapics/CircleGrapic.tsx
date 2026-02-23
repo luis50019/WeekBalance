@@ -3,7 +3,7 @@ import { CircleGrapicStyle } from "./CircleGrapic.style";
 import { PieChart } from "react-native-gifted-charts";
 import { IExpensesAnalisys } from "../../../core/interfaces/IExpensesAnlisys";
 import { useCallback, useEffect } from "react";
-
+import EmptyData from "../UI/emptyData/EmptyData";
 interface PropsGrapic {
   info: IExpensesAnalisys[] | null;
   totalExpense: number | null;
@@ -16,6 +16,7 @@ export const CircleGrapic = ({ info, totalExpense = 0 }: PropsGrapic) => {
     });
   }, []);
 
+  //TODO: separar en otro componente
   const CenterLabel = useCallback(
     () => (
       <View style={{ alignItems: "center" }}>
@@ -29,7 +30,12 @@ export const CircleGrapic = ({ info, totalExpense = 0 }: PropsGrapic) => {
   );
 
   if (!info || info.length == 0 || !totalExpense) {
-    return <Text>No hay datos</Text>;
+    return (
+      <EmptyData
+        title="Sin datos disponibles"
+        message="Aun no hay gastos registrados"
+      />
+    );
   }
 
   return (

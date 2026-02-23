@@ -2,6 +2,7 @@ import { View, Text, StyleSheet } from "react-native";
 import { styleCardTransaction } from "./CardTransaction.style";
 import { Ionicons } from "@expo/vector-icons";
 import { categories } from "../../../../core/constants/Categories";
+import { useEffect } from "react";
 
 // TODO: agregar logica para colocar la categoria en espanol
 interface PropsTransactionsCard {
@@ -15,6 +16,7 @@ export default function TransactionCard({
   category,
   description,
 }: PropsTransactionsCard) {
+  useEffect(() => console.log(category), []);
   return (
     <View style={styleCardTransaction.card}>
       <View style={styleCardTransaction.left}>

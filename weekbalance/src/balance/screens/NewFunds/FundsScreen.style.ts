@@ -4,6 +4,7 @@ import { COLORS } from "../../../core/constants/Color";
 
 export const styleFundsScreen = StyleSheet.create({
   container: {
+    paddingHorizontal: 10,
     backgroundColor: COLORS.background,
     flex: 1,
     gap: 10,
@@ -50,4 +51,3 @@ export const styleFundsScreen = StyleSheet.create({
     gap: 10,
   },
 });
-

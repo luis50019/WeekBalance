@@ -36,8 +36,6 @@ export const useFunds = () => {
 
   const onSubmit = async (data: Expense) => {
     try {
-      console.log("Datos del gasto:", data);
-      console.log("Datos del usuario:", profile);
       const newExpense: CreateFunds = {
         account_id: profile?.account_id!,
         category: category,
@@ -48,11 +46,9 @@ export const useFunds = () => {
       if (!session?.access_token) {
         throw new Error("No hay session activa");
       }
-      console.log("Enviando la informacion: ");
-      console.log(newExpense);
       await register(newExpense, session?.access_token);
       setChangeValue();
-      navigationTo("Home");
+      navigationTo("historyIncomes");
     } catch (error) {
       console.error("Error al registrar el gasto:", error);
     }

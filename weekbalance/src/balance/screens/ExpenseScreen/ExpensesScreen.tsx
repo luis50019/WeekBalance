@@ -6,11 +6,15 @@ import { styleTransaction } from "../../../shared/components/layout/transactions
 import TransactionCard from "../../../shared/components/Cards/CardTransaction/CardTransaction";
 import { useFunds } from "../../hooks/useFunds";
 import { useEffect } from "react";
+import { useDriverContext } from "../../../core/context/ContextBalance";
+import EmptyData from "../../../shared/components/UI/emptyData/EmptyData";
+import { useExpenses } from "../../hooks/useExpenses";
 
 function ExpensesScreen() {
-  const { getHistoryFunds, history } = useFunds();
+  const { totalExpenses } = useDriverContext();
+  const { getHistoryExpenses, historyExpenses } = useExpenses();
   useEffect(() => {
-    getHistoryFunds();
+    getHistoryExpenses();
   }, []);
 
   return (
@@ -18,19 +22,27 @@ function ExpensesScreen() {
       <FlatList
         style={styleTransaction.container}
         ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-        data={history}
+        data={historyExpenses}
         ListHeaderComponent={
           <CardHistory
-            title="TOTAL DE GASTOS MENSUAL"
-            amount={500}
+            title="TOTAL DE GASTOS SEMANAL"
+            amount={totalExpenses || 0}
             mouth="junio"
             year="2025"
           />
         }
+        ListEmptyComponent={() => {
+          return (
+            <EmptyData
+              title="Sin datos disponibles"
+              message="Aun no has registrado ningun gastos"
+            />
+          );
+        }}
         keyExtractor={({ id }) => id}
         renderItem={({ item, index }) => (
           <TransactionCard
-            amount={item.amount}
+            amount={item.amount || 0}
             category={item.category}
             description={item.description || "Sin descripcion"}
             key={index}

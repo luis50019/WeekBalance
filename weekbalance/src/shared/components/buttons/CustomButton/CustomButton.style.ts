@@ -4,7 +4,7 @@ import { fs, wp } from "../../../utils/responsive";
 export const getStylesButton = (color: string, backgroundColor: string) =>
   StyleSheet.create({
     container: {
-      width: wp(90),
+      width: wp(80),
       borderRadius: 20,
       paddingVertical: 10,
       backgroundColor: backgroundColor,

@@ -16,10 +16,9 @@ export const COLORS = {
 };
 
 export const COLORSGRAPIC: Record<string, string> = {
-  car: "#94A3B8",
-  food: "#FF8A71",
-  shopping: "#6366F1",
-  other: "#3737377b",
-  transport: "#002366",
+  cart: "#94A3B8",
+  restaurant: "#FF8A71",
+  medical: "#6366F1",
+  film: "#3737377b",
+  car: "#002366",
 };
-

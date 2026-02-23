@@ -7,22 +7,18 @@ interface IRegisterProfile {
 }
 // headers.Authorization = `Bearer ${session.access_token}`;
 export const registerExpenses = async (data: CreateExpense, token: string) => {
-  return api.post(
-    '/expenses/register/',
-    data,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+  return api.post("/expenses/register/", data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 };
 
-
-export const getHistoryExpenses = async (id:string,token:string) => {
-  return api.get('/expenses/history/'+id, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+export const getHistoryExpenses = async (id: string, token: string) => {
+  console.log(id);
+  return api.get("/expenses/history/" + id, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 };

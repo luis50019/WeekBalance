@@ -3,12 +3,14 @@ import { IncomeScreenStyle } from "./IncomeScreen.style";
 import FloatingButton from "../../../shared/components/buttons/FloattingButton/FloattingButton";
 import { useFunds } from "../../hooks/useFunds";
 import { useEffect } from "react";
-import Transactions from "../../../shared/components/layout/transactions/Transactions";
 import CardHistory from "../../../shared/components/Cards/CardInfoHistory/CardInfoHistory";
 import { styleTransaction } from "../../../shared/components/layout/transactions/Transactions.style";
 import TransactionCard from "../../../shared/components/Cards/CardTransaction/CardTransaction";
+import EmptyData from "../../../shared/components/UI/emptyData/EmptyData";
+import { useDriverContext } from "../../../core/context/ContextBalance";
 
 function IncomeScreen() {
+  const { totalIncomes } = useDriverContext();
   const { getHistoryFunds, history } = useFunds();
   useEffect(() => {
     getHistoryFunds();
@@ -22,12 +24,20 @@ function IncomeScreen() {
         data={history}
         ListHeaderComponent={
           <CardHistory
-            title="TOTAL DE INGRESO MENSUAL"
-            amount={500}
+            title="TOTAL DE INGRESO SEMANAL"
+            amount={totalIncomes || 0}
             mouth="junio"
             year="2025"
           />
         }
+        ListEmptyComponent={() => {
+          return (
+            <EmptyData
+              title="Sin datos disponibles"
+              message="Aun no has registrado algun ingreso"
+            />
+          );
+        }}
         keyExtractor={({ id }) => id}
         renderItem={({ item, index }) => (
           <TransactionCard
@@ -38,7 +48,6 @@ function IncomeScreen() {
           />
         )}
       />
-
       <FloatingButton to="AddFunds" />
     </View>
   );

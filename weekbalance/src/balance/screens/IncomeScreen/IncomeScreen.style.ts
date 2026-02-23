@@ -9,4 +9,3 @@ export const IncomeScreenStyle = StyleSheet.create({
     borderColor: "black",
   },
 });
-

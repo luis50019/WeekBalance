@@ -27,14 +27,18 @@ export default function CardHistory({
         <View style={styleCardHistory.headerContent}>
           <Text style={styleCardHistory.subtitle}>{title}</Text>
           <Text style={styleCardHistory.amount}>${amount.toFixed(2)}</Text>
-          <View style={styleCardHistory.badge}>
-            <View style={styleCardHistory.pulse} />
-            <Text style={styleCardHistory.badgeText}>
-              {mouth} {year}
-            </Text>
-          </View>
         </View>
       </LinearGradient>
     </View>
   );
 }
+
+/*
+ *           <View style={styleCardHistory.badge}></View>
+
+ *             <View style={styleCardHistory.pulse} />
+
+ *<Text style={styleCardHistory.badgeText}>
+              {mouth} {year}
+            </Text>
+ * */
