@@ -2,26 +2,27 @@ import { Control, Controller } from "react-hook-form";
 import { Text, TextInput, View } from "react-native";
 import { styleInputAmount } from "./InputAmoun.style";
 import { COLORS } from "../../../../core/constants/Color";
+import { amountValidations } from "../formInputNote/inputsValidatios";
 interface InputAmountProps {
   control: Control<any>;
   name: string;
-  rules?: object;
 }
 
-function InputAmount({ control, name, rules }: InputAmountProps) {
-  return ( <View style={styleInputAmount.conatinerInput}>
-    <Text style={styleInputAmount.titlePage}>INGRESAR MONTO</Text>
+function InputAmount({ control, name }: InputAmountProps) {
+  return (
+    <View style={styleInputAmount.conatinerInput}>
+      <Text style={styleInputAmount.titlePage}>INGRESAR MONTO</Text>
       <Controller
         control={control}
         name={name}
-        rules={{ required: true }}
+        rules={amountValidations}
         render={({
           field: { onChange, onBlur, value },
           fieldState: { error },
         }) => (
-          <View style={styleInputAmount.inputNumeric} >
+          <View style={styleInputAmount.inputNumeric}>
             <TextInput
-              placeholder={'$ 00.0'}
+              placeholder={"$ 00.0"}
               placeholderTextColor={COLORS.textPrimary}
               onBlur={onBlur}
               onChangeText={onChange}
@@ -33,7 +34,9 @@ function InputAmount({ control, name, rules }: InputAmountProps) {
           </View>
         )}
       />
-    </View> );
+    </View>
+  );
 }
 
 export default InputAmount;
+

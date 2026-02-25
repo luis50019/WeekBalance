@@ -8,26 +8,61 @@ import CustomButton from "../../../shared/components/buttons/CustomButton/Custom
 import { COLORS } from "../../../core/constants/Color";
 import { Link } from "../../../shared/components/buttons/CustomButton/Link";
 import { useRegister } from "../../hooks/useRegister";
+import {
+  emailValidatios,
+  passwordValidations,
+  usernameValidations,
+} from "../../../validations/authValidations";
 
 function RegisterScreen() {
-   const {control,handleSubmit,onSubmit } = useRegister();
+  const { control, handleSubmit, onSubmit } = useRegister();
   return (
     <View style={StyleAuth.container}>
-       <IconWallet/>
-       <H1 message="WeekBalance" />
-       <Messages message="Unete a la élite de las" textImportant="finanzas"/>
+      <IconWallet />
+      <H1 message="WeekBalance" />
+      <Messages message="Unete a la élite de las" textImportant="finanzas" />
       <View style={StyleAuth.container_form}>
-        <FormInput control={control} name="name" keyboardType="default" label="Nombre de usuario" placeholder="usuario123" />
-        <FormInput control={control} name="email" label="Correo"  placeholder="nombre@ejemplo.com" />
-        <FormInput control={control} name="password" label="Contraseña" secureTextEntry placeholder="Ingresa tu contraseña" />
-        <CustomButton title="Crear cuenta" sizeIcon={20} iconName="arrow-forward-outline" backgroundColor="#2b4bee" color={COLORS.textPrimary}handleClick={handleSubmit(onSubmit)}/>
+        <FormInput
+          rules={usernameValidations}
+          control={control}
+          name="name"
+          keyboardType="default"
+          label="Nombre de usuario"
+          placeholder="usuario123"
+        />
+        <FormInput
+          rules={passwordValidations}
+          control={control}
+          name="email"
+          label="Correo"
+          placeholder="nombre@ejemplo.com"
+        />
+        <FormInput
+          rules={emailValidatios}
+          control={control}
+          name="password"
+          label="Contraseña"
+          secureTextEntry
+          placeholder="Ingresa tu contraseña"
+        />
+        <CustomButton
+          title="Crear cuenta"
+          sizeIcon={20}
+          iconName="arrow-forward-outline"
+          backgroundColor="#2b4bee"
+          color={COLORS.textPrimary}
+          handleClick={handleSubmit(onSubmit)}
+        />
       </View>
       <View style={StyleAuth.container_foot}>
-          <Text style={StyleAuth.messageLink}>¿ Tienes un cuenta?</Text>
-          <Link to="Login" style={StyleAuth.link}>inciar sesion</Link>
+        <Text style={StyleAuth.messageLink}>¿ Tienes un cuenta?</Text>
+        <Link to="Login" style={StyleAuth.link}>
+          inciar sesion
+        </Link>
       </View>
     </View>
-   );
+  );
 }
 
 export default RegisterScreen;
+

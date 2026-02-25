@@ -1,6 +1,7 @@
 import { Control, Controller } from "react-hook-form";
 import { Text, TextInput, View } from "react-native";
 import { styleInputNote } from "./InputNote.style";
+import { noteValidations } from "./inputsValidatios";
 interface PropsInputNote {
   control: Control<any>;
   name: string;
@@ -15,7 +16,7 @@ function InputNote({ control, name, rules, titleInput }: PropsInputNote) {
       <Controller
         control={control}
         name={name}
-        rules={{ required: true }}
+        rules={noteValidations}
         render={({
           field: { onChange, onBlur, value },
           fieldState: { error },
@@ -43,4 +44,3 @@ function InputNote({ control, name, rules, titleInput }: PropsInputNote) {
 }
 
 export default InputNote;
-

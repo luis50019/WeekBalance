@@ -14,7 +14,10 @@ import { useLogin } from "../../hooks/useLogin";
 import CustomButton from "../../../shared/components/buttons/CustomButton/CustomButton";
 import { COLORS } from "../../../core/constants/Color";
 import { Link } from "../../../shared/components/buttons/CustomButton/Link";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import {
+  emailValidatios,
+  passwordValidations,
+} from "../../../validations/authValidations";
 
 function LoginScreen() {
   const { control, handleSubmit, onSubmit } = useLogin();
@@ -28,12 +31,14 @@ function LoginScreen() {
       />
       <View style={StyleAuth.container_form}>
         <FormInput
+          rules={emailValidatios}
           control={control}
           name="email"
           label="Correo"
           placeholder="nombre@ejemplo.com"
         />
         <FormInput
+          rules={passwordValidations}
           control={control}
           name="password"
           label="Contraseña"
@@ -60,4 +65,3 @@ function LoginScreen() {
 }
 
 export default LoginScreen;
-
