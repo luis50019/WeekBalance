@@ -10,7 +10,7 @@ export const styleCardHistory = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowRadius: 20,
     elevation: 10,
-    marginBottom: 20,
+    marginBottom: 5,
   },
   header: {
     height: 144,

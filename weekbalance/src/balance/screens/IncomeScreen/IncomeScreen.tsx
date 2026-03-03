@@ -1,34 +1,39 @@
-import { FlatList, ScrollView, Text, View } from "react-native";
+import { FlatList, View } from "react-native";
 import { IncomeScreenStyle } from "./IncomeScreen.style";
 import FloatingButton from "../../../shared/components/buttons/FloattingButton/FloattingButton";
 import { useFunds } from "../../hooks/useFunds";
-import { useEffect } from "react";
 import CardHistory from "../../../shared/components/Cards/CardInfoHistory/CardInfoHistory";
 import { styleTransaction } from "../../../shared/components/layout/transactions/Transactions.style";
 import TransactionCard from "../../../shared/components/Cards/CardTransaction/CardTransaction";
 import EmptyData from "../../../shared/components/UI/emptyData/EmptyData";
 import { useDriverContext } from "../../../core/context/ContextBalance";
+import { Slider } from "../../../shared/components/layout/Sliders/Slider";
+import { getDataOptions } from "../../../core/constants/Categories";
 
 function IncomeScreen() {
   const { totalIncomes } = useDriverContext();
-  const { getHistoryFunds, history } = useFunds();
-  useEffect(() => {
-    getHistoryFunds();
-  }, []);
+  const { dataFilter, handlerFilter } = useFunds();
 
   return (
     <View style={IncomeScreenStyle.container}>
       <FlatList
         style={styleTransaction.container}
         ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-        data={history}
+        data={dataFilter}
         ListHeaderComponent={
-          <CardHistory
-            title="TOTAL DE INGRESO SEMANAL"
-            amount={totalIncomes || 0}
-            mouth="junio"
-            year="2025"
-          />
+          <View>
+            <CardHistory
+              title="TOTAL DE INGRESO SEMANAL"
+              amount={totalIncomes || 0}
+              mouth="junio"
+              year="2025"
+            />
+            <Slider
+              handlerClick={handlerFilter}
+              options={getDataOptions()}
+              title="categorias"
+            />
+          </View>
         }
         ListEmptyComponent={() => {
           return (

@@ -31,6 +31,7 @@ export default function FormInput({
             value={value}
             secureTextEntry={secureTextEntry}
             keyboardType={keyboardType}
+            placeholderTextColor={"#656b85"}
             style={[styleFormInput.input, error && styleFormInput.errorInput]}
           />
           <Text style={styleFormInput.errorText}>{error?.message || ""}</Text>

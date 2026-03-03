@@ -32,13 +32,3 @@ export default function CardHistory({
     </View>
   );
 }
-
-/*
- *           <View style={styleCardHistory.badge}></View>
-
- *             <View style={styleCardHistory.pulse} />
-
- *<Text style={styleCardHistory.badgeText}>
-              {mouth} {year}
-            </Text>
- * */

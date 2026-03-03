@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { CreateExpense } from "../types/Request/CreateExpense";
 import { useAuthStore } from "../../auth/store";
@@ -21,6 +21,16 @@ export const useExpenses = () => {
   const [historyExpenses, setHistoryExpenses] = useState<ResponseIncomeDto[]>(
     [],
   );
+  const [dataFilter, setDataFilter] = useState<ResponseIncomeDto[]>([]);
+
+  const handlerFilter = (cate: string) => {
+    if (cate == "All") {
+      setDataFilter(historyExpenses);
+      return;
+    }
+    const filter = historyExpenses.filter(({ category }) => category == cate);
+    setDataFilter(filter);
+  };
 
   const getHistoryExpenses = async () => {
     try {
@@ -30,11 +40,16 @@ export const useExpenses = () => {
         profile?.account_id,
         session?.access_token,
       );
+      setDataFilter(response);
       setHistoryExpenses(response);
     } catch (error) {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    getHistoryExpenses();
+  }, []);
 
   const onSubmit = async (data: Expense) => {
     try {
@@ -62,13 +77,13 @@ export const useExpenses = () => {
 
   return {
     getHistoryExpenses,
-    historyExpenses,
+    dataFilter,
     control,
     formState,
     handleSubmit,
     onSubmit,
     handleCategoryChange,
     category,
+    handlerFilter,
   };
 };
-

@@ -29,3 +29,27 @@ export const categoriesExpenses: Categories[] = [
   { nameIcon: "medical" },
   { nameIcon: "film" },
 ];
+
+//TODO: fucion que obtenga los datos en un solo objeto sobre las categorias
+export interface optionsCategories {
+  nameIcon: string;
+  title: string;
+}
+
+export function getDataOptions(): optionsCategories[] {
+  const data = categoriesIncomes.map((item) => {
+    return { nameIcon: item.nameIcon, title: categories[item.nameIcon] };
+  });
+  data.unshift({ nameIcon: "All", title: "Todo" });
+  console.log(data);
+  return data;
+}
+
+export function getDataExpenses(): optionsCategories[] {
+  const data = categoriesExpenses.map((item) => {
+    return { nameIcon: item.nameIcon, title: categories[item.nameIcon] };
+  });
+  data.unshift({ nameIcon: "All", title: "Todo" });
+  console.log(data);
+  return data;
+}

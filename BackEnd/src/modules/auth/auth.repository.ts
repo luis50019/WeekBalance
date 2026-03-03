@@ -53,7 +53,6 @@ export class AuthRepository extends SupabaseDataSource {
     );
 
     if (incomeError) throw new Error(incomeError.message);
-
     const { data: expenses, error: expenseError } = await this.client.rpc(
       "get_expense_percentage_by_category",
       {
@@ -62,7 +61,6 @@ export class AuthRepository extends SupabaseDataSource {
     );
 
     if (expenseError) throw new Error(expenseError.message);
-
     const { data: balance, error: balanceError } = await this.client
       .from("accounts")
       .select("balance")
