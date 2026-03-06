@@ -4,5 +4,5 @@ import { authMiddleware } from "../../middlewares/auth.middleware";
 
 export const savingRouter = Router();
 
-savingRouter.post("/add/",authMiddleware, createSaving);
-savingRouter.get("/history/",authMiddleware,getHistorySavingAccount)
+savingRouter.post("/add/", authMiddleware, createSaving);
+savingRouter.get("/history/:id", authMiddleware, getHistorySavingAccount);
