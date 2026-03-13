@@ -77,7 +77,6 @@ export class BalanceService {
               account.id,
               result.weeklySaving,
               result.weekStart,
-              result.weekEnd,
             );
             console.log(
               `[BalanceService] Inserted saving of ${result.weeklySaving} for account ${account.id}`,
