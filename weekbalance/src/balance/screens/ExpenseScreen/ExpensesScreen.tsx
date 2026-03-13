@@ -46,6 +46,7 @@ function ExpensesScreen() {
         keyExtractor={({ id }) => id}
         renderItem={({ item, index }) => (
           <TransactionCard
+            date={item.created_at}
             amount={item.amount || 0}
             category={item.category}
             description={item.description || "Sin descripcion"}

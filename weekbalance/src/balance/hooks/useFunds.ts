@@ -20,6 +20,9 @@ export const useFunds = () => {
   const [category, setCategory] = useState<string>("");
   const [history, setHistory] = useState<ResponseIncomeDto[]>([]);
   const [dataFilter, setDataFilter] = useState<ResponseIncomeDto[]>([]);
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handlerFilter = (cate: string) => {
     if (cate == "All") {
@@ -41,7 +44,7 @@ export const useFunds = () => {
       setDataFilter(response);
       setHistory(response);
     } catch (error) {
-      console.log(error); //TODO: arreglar la logica para el control de los errores
+      console.log(error);
     }
   };
 
@@ -49,8 +52,29 @@ export const useFunds = () => {
     getHistoryFunds();
   }, []);
 
+  const showError = (message: string) => {
+    setErrorMessage(message);
+    setShowErrorModal(true);
+  };
+
+  const closeErrorModal = () => {
+    setShowErrorModal(false);
+    setErrorMessage("");
+  };
+
   const onSubmit = async (data: Expense) => {
+    if (!category) {
+      showError("Debes seleccionar una categoría");
+      return;
+    }
+
+    if (!data.description || data.description.trim() === "") {
+      showError("Debes escribir una descripción");
+      return;
+    }
+
     try {
+      setIsSubmitting(true);
       const newExpense: CreateFunds = {
         account_id: profile?.account_id!,
         category: category,
@@ -59,18 +83,24 @@ export const useFunds = () => {
         amount: data.amount.toString(),
       };
       if (!session?.access_token) {
-        throw new Error("No hay session activa");
+        showError("No hay sesión activa");
+        return;
       }
       await register(newExpense, session?.access_token);
       setChangeValue();
       navigationTo("historyIncomes");
-    } catch (error) {
-      console.error("Error al registrar el gasto:", error);
+    } catch (error: unknown) {
+      const errorMsg =
+        error instanceof Error
+          ? error.message
+          : "Error al registrar el ingreso";
+      showError(errorMsg);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   const handleCategoryChange = (category: string) => {
-    console.log("Categoría seleccionada:", category);
     setCategory(category);
   };
 
@@ -84,5 +114,9 @@ export const useFunds = () => {
     dataFilter,
     getHistoryFunds,
     handlerFilter,
+    errorMessage,
+    showErrorModal,
+    closeErrorModal,
+    isSubmitting,
   };
 };

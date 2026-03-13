@@ -22,5 +22,7 @@ export const styleInputNote = StyleSheet.create({
     width: wp(80),
     height: hp(10),
   },
+  error: {
+    color: COLORS.error,
+  },
 });
-

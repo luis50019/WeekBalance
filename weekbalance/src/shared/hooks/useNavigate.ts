@@ -13,17 +13,20 @@ export const useNavigate = () => {
             params,
           },
         ],
-      })
+      }),
     );
+  };
+  const navigatePush = (destination: string) => {
+    navigation.push(destination);
   };
 
   const navigationToPath = (destination: string, params?: object) => {
-  navigation.push(destination as never, params as never);
-};
-
+    navigation.push(destination as never, params as never);
+  };
 
   return {
+    navigatePush,
     navigationTo,
-    navigationToPath 
+    navigationToPath,
   };
 };

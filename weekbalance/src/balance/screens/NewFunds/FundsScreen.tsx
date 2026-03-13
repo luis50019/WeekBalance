@@ -6,10 +6,21 @@ import Categories from "../../../shared/components/layout/categories/Categories"
 import InputNote from "../../../shared/components/form/formInputNote/InputNote";
 import InputAmount from "../../../shared/components/form/FormInputAmount/InputAmount";
 import { categoriesIncomes } from "../../../core/constants/Categories";
+import ErrorModal from "../../../shared/components/UI/ErrorModal/ErrorModal";
+import LoadingOverlay from "../../../shared/components/UI/LoadingOverlay/LoadingOverlay";
 
 function FundsScreen() {
-  const { control, onSubmit, handleSubmit, handleCategoryChange, category } =
-    useFunds();
+  const {
+    control,
+    onSubmit,
+    handleSubmit,
+    handleCategoryChange,
+    category,
+    errorMessage,
+    showErrorModal,
+    closeErrorModal,
+    isSubmitting,
+  } = useFunds();
 
   return (
     <View style={styleFundsScreen.container}>
@@ -29,6 +40,12 @@ function FundsScreen() {
         title="Nuevo Ingreso"
         iconName="checkmark-outline"
       />
+      <ErrorModal
+        visible={showErrorModal}
+        message={errorMessage}
+        onClose={closeErrorModal}
+      />
+      <LoadingOverlay visible={isSubmitting} />
     </View>
   );
 }

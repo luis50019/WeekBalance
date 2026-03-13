@@ -49,4 +49,7 @@ export const styleCardTransaction = StyleSheet.create({
     fontWeight: "700",
     color: COLORS.textPrimary,
   },
+  datestyle: {
+    color: COLORS.textSecondary,
+  },
 });
