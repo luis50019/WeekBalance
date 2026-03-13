@@ -1,4 +1,4 @@
-const MAXlENGTH = 15;
+const MAXlENGTH = 30;
 const MINLENGTH = 5;
 const MAXVALUE = 9999;
 const MINVALUE = 1;

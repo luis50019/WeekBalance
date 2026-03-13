@@ -4,43 +4,43 @@ import { fs } from "../../utils/responsive";
 
 export const CircleGrapicStyle = StyleSheet.create({
   container: {
-    display: 'flex',
-    flexDirection: 'column',
-    backgroundColor: '#26283a',
+    display: "flex",
+    flexDirection: "column",
+    backgroundColor: "#26283a",
     alignItems: "center",
     padding: 20,
     borderRadius: 20,
-    justifyContent: 'center',
+    justifyContent: "center",
     height: 400,
   },
   titleGrapic: {
-    textAlign: 'left',
-    width: '100%',
+    textAlign: "left",
+    width: "100%",
     color: COLORS.textPrimary,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: fs(18),
   },
   centerLabel: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   centerSubtitle: {
-    color: '#9CA3AF',
+    color: "#9CA3AF",
     fontSize: 12,
     letterSpacing: 1,
   },
   centerValue: {
-    color: '#FFFFFF',
+    color: "#FFFFFF",
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginTop: 4,
   },
   legendContainer: {
-    width: '100%',
+    width: "100%",
     marginTop: 24,
   },
   legendRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 12,
   },
   legendDot: {
@@ -51,12 +51,12 @@ export const CircleGrapicStyle = StyleSheet.create({
   },
   legendLabel: {
     flex: 1,
-    color: '#9CA3AF',
+    color: "#9CA3AF",
     fontSize: 14,
   },
   legendValue: {
-    color: '#FFFFFF',
-    fontWeight: '600',
+    color: "#FFFFFF",
+    fontWeight: "600",
   },
+});
 
-})

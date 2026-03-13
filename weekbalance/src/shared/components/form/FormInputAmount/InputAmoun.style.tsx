@@ -7,7 +7,7 @@ export const styleInputAmount = StyleSheet.create({
     fontSize: 15,
     fontWeight: "light",
     textAlign: "center",
-    color: '#656c79',
+    color: "#656c79",
   },
   conatinerInput: {
     display: "flex",
@@ -18,12 +18,20 @@ export const styleInputAmount = StyleSheet.create({
   inputNumeric: {
     color: COLORS.textPrimary,
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "center",
+    alignItems: "center",
     width: wp(90),
   },
   input: {
     color: COLORS.textPrimary,
     fontSize: fs(70),
   },
-})
+  error: {
+    width: "100%",
+    paddingLeft: 25,
+    textAlign: "left",
+    color: COLORS.error,
+  },
+});
+

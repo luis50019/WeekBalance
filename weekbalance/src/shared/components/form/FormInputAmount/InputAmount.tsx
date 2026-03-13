@@ -30,7 +30,9 @@ function InputAmount({ control, name }: InputAmountProps) {
               keyboardType="numeric"
               style={styleInputAmount.input}
             />
-            {error && <Text>{error.message}</Text>}
+            {error && (
+              <Text style={styleInputAmount.error}>{error.message}</Text>
+            )}
           </View>
         )}
       />
@@ -39,4 +41,3 @@ function InputAmount({ control, name }: InputAmountProps) {
 }
 
 export default InputAmount;
-
