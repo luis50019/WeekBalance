@@ -22,6 +22,9 @@ export const useExpenses = () => {
     [],
   );
   const [dataFilter, setDataFilter] = useState<ResponseIncomeDto[]>([]);
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handlerFilter = (cate: string) => {
     if (cate == "All") {
@@ -51,8 +54,29 @@ export const useExpenses = () => {
     getHistoryExpenses();
   }, []);
 
+  const showError = (message: string) => {
+    setErrorMessage(message);
+    setShowErrorModal(true);
+  };
+
+  const closeErrorModal = () => {
+    setShowErrorModal(false);
+    setErrorMessage("");
+  };
+
   const onSubmit = async (data: Expense) => {
+    if (!category) {
+      showError("Debes seleccionar una categoría");
+      return;
+    }
+
+    if (!data.description || data.description.trim() === "") {
+      showError("Debes escribir una descripción");
+      return;
+    }
+
     try {
+      setIsSubmitting(true);
       console.log("account_id", profile?.account_id);
       const newExpense: CreateExpense = {
         account_id: profile?.account_id!,
@@ -61,13 +85,17 @@ export const useExpenses = () => {
         category: category,
       };
       if (!session?.access_token) {
-        throw new Error("No hay session activa");
+        showError("No hay sesión activa");
+        return;
       }
       const expenseData = await register(newExpense, session?.access_token);
       setChangeValue();
       navigationTo("historySavings");
-    } catch (error) {
-      console.error("Error al registrar el gasto:", error);
+    } catch (error: unknown) {
+      const errorMsg = error instanceof Error ? error.message : "Error al registrar el gasto";
+      showError(errorMsg);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -85,5 +113,9 @@ export const useExpenses = () => {
     handleCategoryChange,
     category,
     handlerFilter,
+    errorMessage,
+    showErrorModal,
+    closeErrorModal,
+    isSubmitting,
   };
 };

@@ -35,7 +35,7 @@ function InputNote({ control, name, rules, titleInput }: PropsInputNote) {
               onChangeText={onChange}
               keyboardType="default"
             />
-            {error && <Text>{error.message}</Text>}
+            {error && <Text style={styleInputNote.error}>{error.message}</Text>}
           </>
         )}
       />

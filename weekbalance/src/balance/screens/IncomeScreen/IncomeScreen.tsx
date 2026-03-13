@@ -46,6 +46,7 @@ function IncomeScreen() {
         keyExtractor={({ id }) => id}
         renderItem={({ item, index }) => (
           <TransactionCard
+            date={item.created_at}
             amount={item.amount}
             category={item.category}
             description={item.description || "Sin descripcion"}

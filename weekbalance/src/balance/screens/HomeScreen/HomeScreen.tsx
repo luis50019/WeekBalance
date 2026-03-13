@@ -4,6 +4,7 @@ import CardCurrentFound from "../../../shared/components/Cards/CardCurrentFouds/
 import { useContext, useEffect } from "react";
 import { BalanceContext } from "../../../core/context/ContextBalance";
 import { CircleGrapic } from "../../../shared/components/Grapics/CircleGrapic";
+import CardInfoWeekly from "../../../shared/components/Cards/CardInfoWeekly/CardInfoWeekly";
 
 function HomeScreen() {
   const { financialSummary, totalExpenses, totalIncomes, expenseAnalysis } =
@@ -26,6 +27,7 @@ function HomeScreen() {
           incomes={totalIncomes || 0}
           balance={financialSummary?.balance.balance || 0}
         />
+        <CardInfoWeekly />
         <CircleGrapic
           info={expenseAnalysis || null}
           totalExpense={totalExpenses}

@@ -2,21 +2,41 @@ import { View, Text, StyleSheet } from "react-native";
 import { styleCardTransaction } from "./CardTransaction.style";
 import { Ionicons } from "@expo/vector-icons";
 import { categories } from "../../../../core/constants/Categories";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-// TODO: agregar logica para colocar la categoria en espanol
 interface PropsTransactionsCard {
   amount: number;
   category: string;
   description: string;
+  date: string;
 }
 
+interface typeDate {
+  mounth: string;
+  day: string;
+  numberDay: string;
+}
 export default function TransactionCard({
   amount,
   category,
   description,
+  date = "lunes",
 }: PropsTransactionsCard) {
-  useEffect(() => console.log(category), []);
+  const [dateInfo, setDateInfo] = useState<typeDate>({});
+  useEffect(() => {
+    const DATE = new Date(date);
+
+    const dayName = DATE.toLocaleDateString("es-MX", { weekday: "long" });
+    const monthName = DATE.toLocaleDateString("es-MX", { month: "long" });
+    const numberDay = DATE.getDate();
+
+    setDateInfo({
+      day: dayName,
+      mounth: monthName,
+      numberDay: numberDay,
+    });
+  }, [date]);
+
   return (
     <View style={styleCardTransaction.card}>
       <View style={styleCardTransaction.left}>
@@ -28,6 +48,9 @@ export default function TransactionCard({
           <Text style={styleCardTransaction.title}>{description}</Text>
           <Text style={styleCardTransaction.subtitle}>
             {categories[category]}
+          </Text>
+          <Text style={styleCardTransaction.datestyle}>
+            {dateInfo.day}-{dateInfo.numberDay}-{dateInfo.mounth}
           </Text>
         </View>
       </View>

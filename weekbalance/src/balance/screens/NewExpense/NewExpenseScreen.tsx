@@ -6,10 +6,21 @@ import InputAmount from "../../../shared/components/form/FormInputAmount/InputAm
 import Categories from "../../../shared/components/layout/categories/Categories";
 import InputNote from "../../../shared/components/form/formInputNote/InputNote";
 import { categoriesExpenses } from "../../../core/constants/Categories";
+import ErrorModal from "../../../shared/components/UI/ErrorModal/ErrorModal";
+import LoadingOverlay from "../../../shared/components/UI/LoadingOverlay/LoadingOverlay";
 
 function NewExpenseScreen() {
-  const { control, onSubmit, handleSubmit, handleCategoryChange, category } =
-    useExpenses();
+  const {
+    control,
+    onSubmit,
+    handleSubmit,
+    handleCategoryChange,
+    category,
+    errorMessage,
+    showErrorModal,
+    closeErrorModal,
+    isSubmitting,
+  } = useExpenses();
 
   return (
     <View style={StyleExpenseScreen.container}>
@@ -29,6 +40,12 @@ function NewExpenseScreen() {
         title="Nuevo Gasto"
         iconName="checkmark-outline"
       />
+      <ErrorModal
+        visible={showErrorModal}
+        message={errorMessage}
+        onClose={closeErrorModal}
+      />
+      <LoadingOverlay visible={isSubmitting} />
     </View>
   );
 }
