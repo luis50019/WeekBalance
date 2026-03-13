@@ -1,4 +1,4 @@
-import { app } from "./app";
+import { app } from "./app.ts";
 import { env } from "./config/env";
 import { startWeeklyBalanceCron } from "./modules/balance/balance.cron";
 
