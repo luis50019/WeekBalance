@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { getHistoryAccount } from "../expenses/expenses.controller";
 import { SavingService } from "./savings.service";
 
 const service = new SavingService();
@@ -15,11 +14,12 @@ export const createSaving = async (req: Request, res: Response) => {
 
 export const getHistorySavingAccount = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
-    const data = await service.getsSavingHistory(req.body);
+    const id = req.params.id as string;
+    console.log("ide ---" + id);
+    const data = await service.getsSavingHistory(id);
     res.status(201).json({ message: "Historial encontrado", data: data });
   } catch (error) {
+    console.log(error);
     res.status(500).send({ message: error });
   }
 };
-
