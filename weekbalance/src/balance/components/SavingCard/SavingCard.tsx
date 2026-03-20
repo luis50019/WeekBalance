@@ -1,4 +1,5 @@
 import { View, Text, StyleSheet } from "react-native";
+import { memo, useMemo } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { COLORS } from "../../../core/constants/Color";
@@ -10,15 +11,21 @@ interface SavingCardProps {
   weekEnd: string;
 }
 
-function SavingCard({ amount, weekStart, weekEnd }: SavingCardProps) {
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("es-ES", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    });
-  };
+function SavingCardComponent({ amount, weekStart, weekEnd }: SavingCardProps) {
+  const formattedDates = useMemo(() => {
+    const formatDate = (dateString: string) => {
+      const date = new Date(dateString);
+      return date.toLocaleDateString("es-ES", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      });
+    };
+    return {
+      start: formatDate(weekStart),
+      end: formatDate(weekEnd),
+    };
+  }, [weekStart, weekEnd]);
 
   return (
     <LinearGradient
@@ -37,7 +44,7 @@ function SavingCard({ amount, weekStart, weekEnd }: SavingCardProps) {
         </View>
         <View style={styles.dateRange}>
           <Text style={styles.dateLabel}>
-            {formatDate(weekStart)} - {formatDate(weekEnd)}
+            {formattedDates.start} - {formattedDates.end}
           </Text>
         </View>
       </View>
@@ -95,4 +102,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SavingCard;
+export default memo(SavingCardComponent);

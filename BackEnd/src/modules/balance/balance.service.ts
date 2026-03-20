@@ -1,5 +1,5 @@
 import { Account } from "../../domain/entities/Account";
-import { BalanceRepository } from "./balance.repository";
+import { BalanceRepository, MonthlyTrendItem, WeeklyTrendItem } from "./balance.repository";
 
 export interface BalanceCalculationResult {
   accountId: string;
@@ -15,6 +15,14 @@ export interface BalanceCalculationResult {
 
 export class BalanceService {
   constructor(private readonly repo = new BalanceRepository()) {}
+
+  async getMonthlyTrend(accountId: string, months: number = 6): Promise<MonthlyTrendItem[]> {
+    return this.repo.getMonthlyTrend(accountId, months);
+  }
+
+  async getWeeklyTrend(accountId: string, weeks: number = 6): Promise<WeeklyTrendItem[]> {
+    return this.repo.getWeeklyTrend(accountId, weeks);
+  }
 
   async calculateUserBalance(
     accountId: string,

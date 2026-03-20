@@ -20,7 +20,8 @@ import {
 } from "../../../validations/authValidations";
 
 function LoginScreen() {
-  const { control, handleSubmit, onSubmit } = useLogin();
+  const { control, handleSubmit, onSubmit, errorMessage } = useLogin();
+
   return (
     <View style={StyleAuth.container}>
       <IconWallet />
@@ -53,6 +54,9 @@ function LoginScreen() {
           color={COLORS.textPrimary}
           handleClick={handleSubmit(onSubmit)}
         />
+        {errorMessage ? (
+          <Text style={StyleAuth.error}>{errorMessage}</Text>
+        ) : null}
       </View>
       <View style={StyleAuth.container_foot}>
         <Text style={StyleAuth.messageLink}>¿No tienes cuenta?</Text>

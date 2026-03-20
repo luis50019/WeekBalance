@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import CustomButton from "../../../shared/components/buttons/CustomButton/CustomButton";
 import { StyleExpenseScreen } from "./NewExpenseScreen.style";
 import { useExpenses } from "../../hooks/useExpenses";
@@ -8,6 +8,7 @@ import InputNote from "../../../shared/components/form/formInputNote/InputNote";
 import { categoriesExpenses } from "../../../core/constants/Categories";
 import ErrorModal from "../../../shared/components/UI/ErrorModal/ErrorModal";
 import LoadingOverlay from "../../../shared/components/UI/LoadingOverlay/LoadingOverlay";
+import { ConfirmModal } from "../../../shared/components/UI/ConfirmModal";
 
 function NewExpenseScreen() {
   const {
@@ -20,7 +21,15 @@ function NewExpenseScreen() {
     showErrorModal,
     closeErrorModal,
     isSubmitting,
+    showGoalWarning,
+    goalWarningData,
+    handleConfirmGoalWarning,
+    handleCancelGoalWarning,
   } = useExpenses();
+
+  const warningMessage = goalWarningData
+    ? `Este gasto de $${goalWarningData.expenseAmount.toLocaleString("es-MX", { minimumFractionDigits: 2 })} excede lo que te falta para tu meta semanal ($${goalWarningData.remainingToGoal.toLocaleString("es-MX", { minimumFractionDigits: 2 })}). La meta semanal no se completará.`
+    : "";
 
   return (
     <View style={StyleExpenseScreen.container}>
@@ -46,6 +55,17 @@ function NewExpenseScreen() {
         onClose={closeErrorModal}
       />
       <LoadingOverlay visible={isSubmitting} />
+      <ConfirmModal
+        visible={showGoalWarning}
+        title="Meta en riesgo"
+        message={warningMessage}
+        confirmText="Registrar igual"
+        cancelText="Cancelar"
+        onConfirm={handleConfirmGoalWarning}
+        onCancel={handleCancelGoalWarning}
+        icon="alert-circle"
+        iconColor="#F59E0B"
+      />
     </View>
   );
 }

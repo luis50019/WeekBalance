@@ -7,6 +7,7 @@ import { expensesRouter } from "./modules/expenses/expenses.routes";
 import { incomesRouter } from "./modules/incomes/incomes.routes";
 import { authRouter } from "./modules/auth/auth.routes";
 import { savingRouter } from "./modules/savings/savings.routes";
+import { balanceRouter } from "./modules/balance/balance.routes";
 
 export const app = express();
 
@@ -18,4 +19,5 @@ app.use(json());
 app.use("/auth", authRouter);
 app.use("/expenses", expensesRouter);
 app.use("/incomes", incomesRouter);
-app.use('/saving',savingRouter);
+app.use("/saving", savingRouter);
+app.use("/balance", balanceRouter);

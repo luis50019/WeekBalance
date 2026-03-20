@@ -1,19 +1,20 @@
 import { View, ScrollView } from "react-native";
 import { HomeScreenStyle } from "./HomeScreen.style";
 import CardCurrentFound from "../../../shared/components/Cards/CardCurrentFouds/CardCurrentFound";
-import { useContext, useEffect } from "react";
+import { useContext, memo } from "react";
 import { BalanceContext } from "../../../core/context/ContextBalance";
-import { CircleGrapic } from "../../../shared/components/Grapics/CircleGrapic";
 import CardInfoWeekly from "../../../shared/components/Cards/CardInfoWeekly/CardInfoWeekly";
+import { MonthlyTrendCard } from "../../components/MonthlyTrendCard";
+import { RecentExpenses } from "../../components/RecentExpenses";
+import { useWeeklyTrend } from "../../hooks/useMonthlyTrend";
+import { useRecentExpenses } from "../../hooks/useRecentExpenses";
 
 function HomeScreen() {
-  const { financialSummary, totalExpenses, totalIncomes, expenseAnalysis } =
+  const { financialSummary, totalExpenses, totalIncomes } =
     useContext(BalanceContext);
-  useEffect(() => {
-    console.log("expenses: " + totalExpenses);
-    console.log("incomes: " + totalIncomes);
-    console.log(financialSummary);
-  }, []);
+  const { data: trendData, loading: trendLoading } = useWeeklyTrend();
+  const { data: recentExpenses, loading: recentLoading } = useRecentExpenses(5);
+
   return (
     <View style={HomeScreenStyle.container}>
       <ScrollView
@@ -28,13 +29,11 @@ function HomeScreen() {
           balance={financialSummary?.balance.balance || 0}
         />
         <CardInfoWeekly />
-        <CircleGrapic
-          info={expenseAnalysis || null}
-          totalExpense={totalExpenses}
-        />
+        <MonthlyTrendCard data={trendData} loading={trendLoading} />
+        <RecentExpenses data={recentExpenses} loading={recentLoading} />
       </ScrollView>
     </View>
   );
 }
 
-export default HomeScreen;
+export default memo(HomeScreen);

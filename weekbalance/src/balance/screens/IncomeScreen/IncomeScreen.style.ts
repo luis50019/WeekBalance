@@ -6,6 +6,5 @@ export const IncomeScreenStyle = StyleSheet.create({
   container: {
     backgroundColor: COLORS.background,
     flex: 1,
-    borderColor: "black",
   },
 });

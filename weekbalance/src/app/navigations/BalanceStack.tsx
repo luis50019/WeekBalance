@@ -8,6 +8,7 @@ import IncomeScreen from "../../balance/screens/IncomeScreen/IncomeScreen";
 import ExpensesScreen from "../../balance/screens/ExpenseScreen/ExpensesScreen";
 import NewExpenseScreen from "../../balance/screens/NewExpense/NewExpenseScreen";
 import SavingScreen from "../../balance/screens/SavingScreen/SavingScreen";
+import NewSavingScreen from "../../balance/screens/NewSavingScreen/NewSavingScreen";
 const Stack = createNativeStackNavigator();
 
 function BalanceStack() {
@@ -23,6 +24,7 @@ function BalanceStack() {
           <Stack.Screen name="AddExpense" component={NewExpenseScreen} />
           <Stack.Screen name="AddFunds" component={FundsScreen} />
           <Stack.Screen name="Saving" component={SavingScreen} />
+          <Stack.Screen name="AddSaving" component={NewSavingScreen} />
           <Stack.Screen name="historyIncomes" component={IncomeScreen} />
           <Stack.Screen name="historySavings" component={ExpensesScreen} />
         </Stack.Navigator>

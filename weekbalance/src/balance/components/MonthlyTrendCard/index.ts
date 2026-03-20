@@ -1,0 +1,1 @@
+export { MonthlyTrendCard } from "./MonthlyTrendCard";

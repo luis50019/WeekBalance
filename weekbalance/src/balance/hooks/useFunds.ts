@@ -44,7 +44,7 @@ export const useFunds = () => {
       setDataFilter(response);
       setHistory(response);
     } catch (error) {
-      console.log(error);
+      // Error silencioso - no afecta la UX
     }
   };
 

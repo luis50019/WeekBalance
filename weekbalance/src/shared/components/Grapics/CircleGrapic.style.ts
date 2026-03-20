@@ -6,12 +6,9 @@ export const CircleGrapicStyle = StyleSheet.create({
   container: {
     display: "flex",
     flexDirection: "column",
-    backgroundColor: "#26283a",
+    backgroundColor: "transparent",
     alignItems: "center",
-    padding: 20,
-    borderRadius: 20,
     justifyContent: "center",
-    height: 400,
   },
   titleGrapic: {
     textAlign: "left",
