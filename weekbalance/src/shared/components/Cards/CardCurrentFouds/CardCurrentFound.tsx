@@ -1,9 +1,9 @@
 import { Text, View } from "react-native";
+import { memo } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { CardCurrentFoundStyle } from "./CardCurrentFound.style";
 import { COLORS } from "../../../../core/constants/Color";
 import { LinearGradient } from "expo-linear-gradient";
-import { useEffect } from "react";
 
 interface CardCurrentFoundProps {
   balance: number;
@@ -16,9 +16,6 @@ function CardCurrentFound({
   expenses,
   incomes,
 }: CardCurrentFoundProps) {
-  useEffect(() => {
-    console.log(balance);
-  }, []);
   return (
     <LinearGradient
       colors={[COLORS.backgroundCard, "#050846"]}
@@ -58,10 +55,4 @@ function CardCurrentFound({
   );
 }
 
-export default CardCurrentFound;
-/**
- * 
- * <ButtonLink colorBackground={COLORS.cardGold} colorLabel={COLORS.Headers} label="Añadir Fondos" nameIcon="add-circle" to="AddFunds"  />
-      <ButtonLink colorBackground={COLORS.HeaderSlow} colorLabel={COLORS.background} label="Añadir Gasto" nameIcon="cash-outline" to="AddExpense"  />
- * 
- */
+export default memo(CardCurrentFound);

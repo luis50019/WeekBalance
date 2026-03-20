@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { CreateExpense } from "../types/Request/CreateExpense";
 import { useAuthStore } from "../../auth/store";
@@ -13,18 +13,25 @@ type Expense = {
 };
 
 export const useExpenses = () => {
-  const { setChangeValue } = useContext(BalanceContext);
+  const { setChangeValue, financialSummary } = useContext(BalanceContext);
   const { navigationTo } = useNavigate();
   const { control, formState, handleSubmit } = useForm<Expense>({});
   const { session, profile } = useAuthStore();
   const [category, setCategory] = useState<string>("");
-  const [historyExpenses, setHistoryExpenses] = useState<ResponseIncomeDto[]>(
-    [],
-  );
+  const [historyExpenses, setHistoryExpenses] = useState<ResponseIncomeDto[]>([]);
   const [dataFilter, setDataFilter] = useState<ResponseIncomeDto[]>([]);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const [pendingExpense, setPendingExpense] = useState<Expense | null>(null);
+  const [showGoalWarning, setShowGoalWarning] = useState(false);
+  const [goalWarningData, setGoalWarningData] = useState<{
+    remainingToGoal: number;
+    expenseAmount: number;
+  } | null>(null);
+
+  const currentBalance = financialSummary?.balance.balance ?? 0;
 
   const handlerFilter = (cate: string) => {
     if (cate == "All") {
@@ -46,7 +53,7 @@ export const useExpenses = () => {
       setDataFilter(response);
       setHistoryExpenses(response);
     } catch (error) {
-      console.log(error);
+      // Error silencioso
     }
   };
 
@@ -64,6 +71,53 @@ export const useExpenses = () => {
     setErrorMessage("");
   };
 
+  const getWeekDates = useCallback(() => {
+    const now = new Date();
+    const dayOfWeek = now.getDay();
+    const diffToSunday = dayOfWeek;
+
+    const weekStart = new Date(now);
+    weekStart.setDate(now.getDate() - diffToSunday);
+    weekStart.setHours(0, 0, 0, 0);
+
+    const weekEnd = new Date(weekStart);
+    weekEnd.setDate(weekStart.getDate() + 6);
+    weekEnd.setHours(23, 59, 59, 999);
+
+    return {
+      weekStart: weekStart.toISOString().split("T")[0],
+      weekEnd: weekEnd.toISOString().split("T")[0],
+    };
+  }, []);
+
+  const calculateWeeklySavings = useCallback(() => {
+    const { weekStart } = getWeekDates();
+    const weekStartDate = new Date(weekStart);
+
+    const weeklyIncomes = (financialSummary?.recentIncomes || [])
+      .filter((income) => {
+        const incomeDate = new Date(income.created_at);
+        return incomeDate >= weekStartDate;
+      })
+      .reduce((sum, inc) => sum + inc.amount, 0);
+
+    const weeklyExpenseTotal = (historyExpenses || [])
+      .filter((exp) => new Date(exp.created_at) >= weekStartDate)
+      .reduce((sum, exp) => sum + exp.amount, 0);
+
+    const weeklyNet = weeklyIncomes - weeklyExpenseTotal;
+    const targetWeeklySavings = 500;
+    const remainingToGoal = Math.max(targetWeeklySavings - weeklyNet, 0);
+
+    return {
+      weeklyIncomeTotal: weeklyIncomes,
+      weeklyExpenseTotal,
+      weeklyNet,
+      targetWeeklySavings,
+      remainingToGoal,
+    };
+  }, [financialSummary, historyExpenses, getWeekDates]);
+
   const onSubmit = async (data: Expense) => {
     if (!category) {
       showError("Debes seleccionar una categoría");
@@ -75,9 +129,31 @@ export const useExpenses = () => {
       return;
     }
 
+    if (data.amount > currentBalance) {
+      showError(
+        `No puedes registrar este gasto. El monto ($${data.amount.toLocaleString("es-MX", { minimumFractionDigits: 2 })}) excede tu saldo disponible ($${currentBalance.toLocaleString("es-MX", { minimumFractionDigits: 2 })}).`
+      );
+      return;
+    }
+
+    const { remainingToGoal } = calculateWeeklySavings();
+
+    if (data.amount > remainingToGoal && remainingToGoal > 0) {
+      setPendingExpense(data);
+      setGoalWarningData({
+        remainingToGoal,
+        expenseAmount: data.amount,
+      });
+      setShowGoalWarning(true);
+      return;
+    }
+
+    await executeExpenseSubmission(data);
+  };
+
+  const executeExpenseSubmission = async (data: Expense) => {
     try {
       setIsSubmitting(true);
-      console.log("account_id", profile?.account_id);
       const newExpense: CreateExpense = {
         account_id: profile?.account_id!,
         amount: data.amount,
@@ -88,7 +164,7 @@ export const useExpenses = () => {
         showError("No hay sesión activa");
         return;
       }
-      const expenseData = await register(newExpense, session?.access_token);
+      await register(newExpense, session?.access_token);
       setChangeValue();
       navigationTo("historySavings");
     } catch (error: unknown) {
@@ -97,6 +173,21 @@ export const useExpenses = () => {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleConfirmGoalWarning = () => {
+    setShowGoalWarning(false);
+    if (pendingExpense) {
+      executeExpenseSubmission(pendingExpense);
+    }
+    setPendingExpense(null);
+    setGoalWarningData(null);
+  };
+
+  const handleCancelGoalWarning = () => {
+    setShowGoalWarning(false);
+    setPendingExpense(null);
+    setGoalWarningData(null);
   };
 
   const handleCategoryChange = (category: string) => {
@@ -117,5 +208,10 @@ export const useExpenses = () => {
     showErrorModal,
     closeErrorModal,
     isSubmitting,
+    currentBalance,
+    showGoalWarning,
+    goalWarningData,
+    handleConfirmGoalWarning,
+    handleCancelGoalWarning,
   };
 };

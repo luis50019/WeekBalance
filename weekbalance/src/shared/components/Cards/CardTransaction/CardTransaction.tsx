@@ -1,8 +1,8 @@
 import { View, Text, StyleSheet } from "react-native";
+import { memo, useMemo } from "react";
 import { styleCardTransaction } from "./CardTransaction.style";
 import { Ionicons } from "@expo/vector-icons";
 import { categories } from "../../../../core/constants/Categories";
-import { useEffect, useState } from "react";
 
 interface PropsTransactionsCard {
   amount: number;
@@ -16,26 +16,26 @@ interface typeDate {
   day: string;
   numberDay: string;
 }
-export default function TransactionCard({
+
+function TransactionCardComponent({
   amount,
   category,
   description,
   date = "lunes",
 }: PropsTransactionsCard) {
-  const [dateInfo, setDateInfo] = useState<typeDate>({});
-  useEffect(() => {
+  const dateInfo = useMemo<typeDate>(() => {
     const DATE = new Date(date);
-
     const dayName = DATE.toLocaleDateString("es-MX", { weekday: "long" });
     const monthName = DATE.toLocaleDateString("es-MX", { month: "long" });
     const numberDay = DATE.getDate();
-
-    setDateInfo({
+    return {
       day: dayName,
       mounth: monthName,
-      numberDay: numberDay,
-    });
+      numberDay: numberDay.toString(),
+    };
   }, [date]);
+
+  const categoryName = useMemo(() => categories[category] || category, [category]);
 
   return (
     <View style={styleCardTransaction.card}>
@@ -47,7 +47,7 @@ export default function TransactionCard({
         <View>
           <Text style={styleCardTransaction.title}>{description}</Text>
           <Text style={styleCardTransaction.subtitle}>
-            {categories[category]}
+            {categoryName}
           </Text>
           <Text style={styleCardTransaction.datestyle}>
             {dateInfo.day}-{dateInfo.numberDay}-{dateInfo.mounth}
@@ -59,3 +59,5 @@ export default function TransactionCard({
     </View>
   );
 }
+
+export default memo(TransactionCardComponent);

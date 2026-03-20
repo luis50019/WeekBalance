@@ -27,7 +27,7 @@ export const StyleAuth = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     gap: 10,
-    marginTop: 65,
+    marginTop: 80,
   },
   messageLink: {
     color: COLORS.textPrimary,

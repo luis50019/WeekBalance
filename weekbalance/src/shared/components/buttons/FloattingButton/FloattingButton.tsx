@@ -1,16 +1,23 @@
-import { Pressable, StyleSheet } from "react-native";
+import { Pressable, Text, StyleSheet, View } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigate } from "../../../hooks/useNavigate";
 
 interface FloatingButtonProps {
   to: string;
+  label?: string;
 }
 
-function FloatingButton({ to }: FloatingButtonProps) {
+function FloatingButton({ to, label }: FloatingButtonProps) {
   const { navigationToPath } = useNavigate();
   return (
-    <Pressable style={styles.fab} onPress={() => navigationToPath(to)}>
-      <MaterialIcons name="add" size={28} color="#fff" />
+    <Pressable
+      style={[styles.fab, label && styles.fabWithLabel]}
+      onPress={() => navigationToPath(to)}
+    >
+      <View style={styles.content}>
+        <MaterialIcons name="add" size={24} color="#fff" />
+        {label && <Text style={styles.label}>{label}</Text>}
+      </View>
     </Pressable>
   );
 }
@@ -20,18 +27,27 @@ export default FloatingButton;
 const styles = StyleSheet.create({
   fab: {
     position: "absolute",
-    bottom: 10,
+    bottom: 25,
     right: 20,
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+    paddingHorizontal: 16,
+    height: 48,
+    borderRadius: 24,
     backgroundColor: "#6C6CFF",
     justifyContent: "center",
     alignItems: "center",
-    elevation: 6,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
+    zIndex: 999,
+  },
+  fabWithLabel: {
+    paddingRight: 20,
+  },
+  content: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+  },
+  label: {
+    color: "#fff",
+    fontSize: 14,
+    fontWeight: "600",
   },
 });

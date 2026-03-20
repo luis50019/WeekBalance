@@ -31,13 +31,15 @@ export const useInfoUser = () => {
   };
 
   useEffect(() => {
-    const incomes = financialSummary?.recentIncomes
+    if (!financialSummary) return;
+
+    const incomes = (financialSummary.recentIncomes || [])
       .map((income) => income.amount)
       .reduce((a, b) => a + b, 0);
-    const expenses = financialSummary?.expensesByCategory
+    const expenses = (financialSummary.expensesByCategory || [])
       .map((expense) => expense.total_spent)
       .reduce((a, b) => a + b, 0);
-    const expenseAnalysis = financialSummary?.expensesByCategory.map(
+    const expenseAnalysis = (financialSummary.expensesByCategory || []).map(
       (expense) => {
         return {
           value: expense.percentage,
@@ -46,10 +48,10 @@ export const useInfoUser = () => {
         };
       },
     );
-    setExpenseAnalysis(expenseAnalysis!);
+    setExpenseAnalysis(expenseAnalysis || []);
 
-    setTotalIncomes(incomes!);
-    setTotalExpenses(expenses!);
+    setTotalIncomes(incomes || 0);
+    setTotalExpenses(expenses || 0);
   }, [financialSummary]);
 
   return {

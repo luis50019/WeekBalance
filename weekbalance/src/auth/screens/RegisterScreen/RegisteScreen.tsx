@@ -15,7 +15,7 @@ import {
 } from "../../../validations/authValidations";
 
 function RegisterScreen() {
-  const { control, handleSubmit, onSubmit } = useRegister();
+  const { control, handleSubmit, onSubmit, errorMessage } = useRegister();
   return (
     <View style={StyleAuth.container}>
       <IconWallet />
@@ -31,14 +31,14 @@ function RegisterScreen() {
           placeholder="usuario123"
         />
         <FormInput
-          rules={passwordValidations}
+          rules={emailValidatios}
           control={control}
           name="email"
           label="Correo"
           placeholder="nombre@ejemplo.com"
         />
         <FormInput
-          rules={emailValidatios}
+          rules={passwordValidations}
           control={control}
           name="password"
           label="Contraseña"
@@ -53,6 +53,8 @@ function RegisterScreen() {
           color={COLORS.textPrimary}
           handleClick={handleSubmit(onSubmit)}
         />
+
+        <Text style={StyleAuth.error}>{errorMessage ? errorMessage : ""}</Text>
       </View>
       <View style={StyleAuth.container_foot}>
         <Text style={StyleAuth.messageLink}>¿ Tienes un cuenta?</Text>
@@ -65,4 +67,3 @@ function RegisterScreen() {
 }
 
 export default RegisterScreen;
-

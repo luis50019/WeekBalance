@@ -1,11 +1,11 @@
 //validaciones parar el login y el registro de usuario
-export const usernamevalidations = {
-  required: "el nombre es obligatorio",
-  minlength: {
+export const usernameValidations = {
+  required: "El nombre es obligatorio",
+  minLength: {
     value: 3,
     message: "la nombre debe de tener almenos 3 caracteers",
   },
-  maxlength: {
+  maxLength: {
     value: 15,
     message: "el nombre no puede superar los 15 caracteres",
   },

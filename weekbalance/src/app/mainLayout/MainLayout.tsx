@@ -8,9 +8,11 @@ import Header from "../../balance/components/layout/Header";
 function MainLayout({ children }: { children: React.ReactNode }) {
 
   return (
-    <SafeAreaView style={{flex: 1,paddingHorizontal:20, height: hp(100),padding:0, margin:0,backgroundColor:COLORS.background}}>
+    <SafeAreaView style={{flex: 1,paddingHorizontal:20, height: hp(100),padding:0, margin:0,backgroundColor:COLORS.background, overflow: "visible"}}>
       <Header />
-      {children}
+      <View style={{ flex: 1, position: "relative" }}>
+        {children}
+      </View>
       <NavBar />
     </SafeAreaView>
   );
