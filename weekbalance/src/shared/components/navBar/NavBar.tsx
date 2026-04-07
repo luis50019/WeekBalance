@@ -6,7 +6,6 @@ import { COLORS } from "../../../core/constants/Color";
 import { useState } from "react";
 
 function NavBar() {
-  //TODO: logica para cambiar el color del icono seleccionado
   const [selected, setSelected] = useState("Inicio");
 
   const handleIconPress = (icon: string) => {

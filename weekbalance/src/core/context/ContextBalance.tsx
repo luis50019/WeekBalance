@@ -1,8 +1,14 @@
 import { createContext, useContext } from "react";
 import { IBalanceContext } from "../interfaces/IBalanceContext";
 
-export const BalanceContext = createContext<IBalanceContext>(
+export const BalanceContextLocal = createContext<IBalanceContext>(
   {} as IBalanceContext,
 );
 
-export const useDriverContext = () => useContext(BalanceContext);
+export const useDriverContext = () => useContext(BalanceContextLocal);
+
+export const BalanceContext = createContext<{
+  setChangeValue: () => void;
+}>({
+  setChangeValue: () => {},
+});

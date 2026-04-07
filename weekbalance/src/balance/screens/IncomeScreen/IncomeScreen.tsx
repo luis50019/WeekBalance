@@ -5,12 +5,11 @@ import { useFunds } from "../../hooks/useFunds";
 import CardHistory from "../../../shared/components/Cards/CardInfoHistory/CardInfoHistory";
 import TransactionCard from "../../../shared/components/Cards/CardTransaction/CardTransaction";
 import EmptyData from "../../../shared/components/UI/emptyData/EmptyData";
-import { useDriverContext } from "../../../core/context/ContextBalance";
+import { useBalanceContext } from "../../../core/context/BalanceProvider";
 import { Slider } from "../../../shared/components/layout/Sliders/Slider";
 import { getDataOptions } from "../../../core/constants/Categories";
 import { WeekHeader } from "../../components/WeekHeader";
 import { ResponseIncomeDto } from "../../types/Response/ResponseIncomeDto";
-import { COLORS } from "../../../core/constants/Color";
 
 interface WeekGroup {
   weekKey: string;
@@ -82,7 +81,7 @@ type ListItem =
   | { type: "income"; data: ResponseIncomeDto };
 
 function IncomeScreen() {
-  const { totalIncomes } = useDriverContext();
+  const { totalIncomes } = useBalanceContext();
   const { dataFilter, handlerFilter } = useFunds();
 
   const listData: ListItem[] = [];
@@ -174,7 +173,7 @@ function IncomeScreen() {
           return (
             <EmptyData
               title="Sin datos disponibles"
-              message="Aun no has registrado algun ingreso"
+              message="Aun no has registrado algum ingreso"
             />
           );
         }}
