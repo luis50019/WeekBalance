@@ -1,11 +1,11 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { useAuthStore } from "../../auth/store";
 import { getHistory, register } from "../api/funds.service";
 import { CreateFunds } from "../types/Request/CreateFunds";
-import { BalanceContext } from "../../core/context/ContextBalance";
 import { useNavigate } from "../../shared/hooks/useNavigate";
 import { ResponseIncomeDto } from "../types/Response/ResponseIncomeDto";
+import { BalanceContext } from "../../core/context/BalanceProvider";
 
 type Expense = {
   amount: number;
@@ -13,10 +13,10 @@ type Expense = {
 };
 
 export const useFunds = () => {
-  const { setChangeValue } = useContext(BalanceContext);
   const { navigationTo } = useNavigate();
   const { control, formState, handleSubmit } = useForm<Expense>({});
-  const { session, profile } = useAuthStore();
+  const { account, refreshAccount } = useAuthStore();
+  const { setChangeValue } = useContext(BalanceContext);
   const [category, setCategory] = useState<string>("");
   const [history, setHistory] = useState<ResponseIncomeDto[]>([]);
   const [dataFilter, setDataFilter] = useState<ResponseIncomeDto[]>([]);
@@ -35,22 +35,18 @@ export const useFunds = () => {
 
   const getHistoryFunds = async () => {
     try {
-      if (!profile?.account_id || !session?.access_token)
-        throw new Error("No has iniciado sesion");
-      const response = await getHistory(
-        profile?.account_id,
-        session?.access_token,
-      );
+      if (!account) return;
+      const response = await getHistory(account.id);
       setDataFilter(response);
       setHistory(response);
     } catch (error) {
-      // Error silencioso - no afecta la UX
+      console.log(error);
     }
   };
 
   useEffect(() => {
     getHistoryFunds();
-  }, []);
+  }, [account]);
 
   const showError = (message: string) => {
     setErrorMessage(message);
@@ -75,18 +71,16 @@ export const useFunds = () => {
 
     try {
       setIsSubmitting(true);
-      const newExpense: CreateFunds = {
-        account_id: profile?.account_id!,
+      const newFunds: CreateFunds = {
+        account_id: account?.id!,
         category: category,
         source: data.amount,
         description: data.description,
         amount: data.amount.toString(),
       };
-      if (!session?.access_token) {
-        showError("No hay sesión activa");
-        return;
-      }
-      await register(newExpense, session?.access_token);
+      await register(newFunds);
+      await refreshAccount();
+      await getHistoryFunds();
       setChangeValue();
       navigationTo("historyIncomes");
     } catch (error: unknown) {

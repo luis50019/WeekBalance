@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useAuthStore } from "../../auth/store";
-import { createWeeklyGoalService, registerSavingService } from "../api/savings.service";
+import { registerSavingService } from "../api/savings.service";
 import { useNavigate } from "../../shared/hooks/useNavigate";
+import { BalanceContext } from "../../core/context/BalanceProvider";
 
 export const useNewSaving = () => {
   const { navigationTo } = useNavigate();
-  const { session, profile } = useAuthStore();
+  const { account } = useAuthStore();
+  const { setChangeValue } = useContext(BalanceContext);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -21,7 +23,7 @@ export const useNewSaving = () => {
   };
 
   const onSubmit = async (data: { amount: number; description: string }) => {
-    if (!session?.access_token) {
+    if (!account) {
       showError("No hay sesión activa");
       return;
     }
@@ -31,34 +33,10 @@ export const useNewSaving = () => {
       return;
     }
 
-    const weekDates = getWeekDates();
-
     try {
       setIsSubmitting(true);
-
-      try {
-        await createWeeklyGoalService(
-          profile?.account_id!,
-          data.amount,
-          weekDates.weekStart,
-          weekDates.weekEnd,
-          session?.access_token
-        );
-      } catch (error: unknown) {
-        const err = error as { response?: { data?: { message?: string } } };
-        if (err?.response?.data?.message?.includes("ya existe")) {
-          await registerSavingService(
-            profile?.account_id!,
-            data.amount,
-            weekDates.weekStart,
-            weekDates.weekEnd,
-            session?.access_token
-          );
-        } else {
-          throw error;
-        }
-      }
-
+      await registerSavingService(data.amount, data.description);
+      setChangeValue();
       navigationTo("Saving");
     } catch (error: unknown) {
       const errorMsg =
