@@ -1,35 +1,24 @@
 import { useState } from "react";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { RegisterForm } from "../types/Form";
-import { registerWithEmail } from "../api/auth.service";
 import { useAuthStore } from "../store";
-import { URL } from "../../core/constants/Url";
-import { register } from "../api/api.service";
 
-const mapBackendError = (error: unknown): string => {
+const mapError = (error: unknown): string => {
   const errorMessage =
     error instanceof Error ? error.message.toLowerCase() : "";
 
   if (
-    errorMessage.includes("user already registered") ||
-    errorMessage.includes("already exists") ||
-    errorMessage.includes("already been registered") ||
-    errorMessage.includes("email already")
+    errorMessage.includes("ya está registrado") ||
+    errorMessage.includes("already") ||
+    errorMessage.includes("exists")
   ) {
     return "Este correo ya se encuentra registrado.";
   }
 
   if (
-    errorMessage.includes("network") ||
-    errorMessage.includes("fetch") ||
-    errorMessage.includes("connection")
-  ) {
-    return "Error de conexión. Verifica tu conexión a internet.";
-  }
-
-  if (
-    errorMessage.includes("weak password") ||
-    errorMessage.includes("password too short")
+    errorMessage.includes("weak") ||
+    errorMessage.includes("short") ||
+    errorMessage.includes("mínimo")
   ) {
     return "La contraseña es muy débil. Usa al menos 6 caracteres.";
   }
@@ -39,7 +28,7 @@ const mapBackendError = (error: unknown): string => {
 
 export const useRegister = () => {
   const { control, formState, handleSubmit } = useForm<RegisterForm>();
-  const { setSession, setProfile } = useAuthStore();
+  const { register } = useAuthStore();
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const clearError = () => {
@@ -55,24 +44,9 @@ export const useRegister = () => {
     }
 
     try {
-      const response = await registerWithEmail(data.email, data.password);
-      const resApi = await register(
-        {
-          avatar_url: URL.url_avatar,
-          full_name: data.name!,
-          id: response.user?.id!,
-        },
-        response.session?.access_token!,
-      );
-      setProfile({
-        avatar_url: URL.url_avatar,
-        full_name: data.name,
-        id: response.user?.id!,
-        account_id: resApi.account_id,
-      });
-      setSession(response.session!, response.user!);
+      await register(data.email, data.password, data.name);
     } catch (error: unknown) {
-      const mappedError = mapBackendError(error);
+      const mappedError = mapError(error);
       setErrorMessage(mappedError);
     }
   };

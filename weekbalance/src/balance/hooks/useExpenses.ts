@@ -1,11 +1,11 @@
-import { useContext, useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { CreateExpense } from "../types/Request/CreateExpense";
 import { useAuthStore } from "../../auth/store";
-import { getHistory, register } from "../api/expenses.service";
-import { BalanceContext } from "../../core/context/ContextBalance";
+import { getHistory, register as registerExpense } from "../api/expenses.service";
 import { useNavigate } from "../../shared/hooks/useNavigate";
 import { ResponseIncomeDto } from "../types/Response/ResponseIncomeDto";
+import { BalanceContext } from "../../core/context/BalanceProvider";
 
 type Expense = {
   amount: number;
@@ -13,10 +13,10 @@ type Expense = {
 };
 
 export const useExpenses = () => {
-  const { setChangeValue, financialSummary } = useContext(BalanceContext);
   const { navigationTo } = useNavigate();
   const { control, formState, handleSubmit } = useForm<Expense>({});
-  const { session, profile } = useAuthStore();
+  const { account, refreshAccount } = useAuthStore();
+  const { setChangeValue } = useContext(BalanceContext);
   const [category, setCategory] = useState<string>("");
   const [historyExpenses, setHistoryExpenses] = useState<ResponseIncomeDto[]>([]);
   const [dataFilter, setDataFilter] = useState<ResponseIncomeDto[]>([]);
@@ -31,8 +31,6 @@ export const useExpenses = () => {
     expenseAmount: number;
   } | null>(null);
 
-  const currentBalance = financialSummary?.balance.balance ?? 0;
-
   const handlerFilter = (cate: string) => {
     if (cate == "All") {
       setDataFilter(historyExpenses);
@@ -44,22 +42,26 @@ export const useExpenses = () => {
 
   const getHistoryExpenses = async () => {
     try {
-      if (!profile?.account_id || !session?.access_token)
-        throw new Error("No has iniciado sesion");
-      const response = await getHistory(
-        profile?.account_id,
-        session?.access_token,
-      );
-      setDataFilter(response);
-      setHistoryExpenses(response);
+      if (!account) return;
+      const response = await getHistory(account.id);
+      const mapped = response.map(exp => ({
+        id: exp.id,
+        account_id: exp.account_id,
+        amount: exp.amount,
+        category: exp.category,
+        description: exp.description,
+        created_at: exp.created_at,
+      }));
+      setDataFilter(mapped);
+      setHistoryExpenses(mapped);
     } catch (error) {
-      // Error silencioso
+      console.log(error);
     }
   };
 
   useEffect(() => {
     getHistoryExpenses();
-  }, []);
+  }, [account]);
 
   const showError = (message: string) => {
     setErrorMessage(message);
@@ -70,53 +72,6 @@ export const useExpenses = () => {
     setShowErrorModal(false);
     setErrorMessage("");
   };
-
-  const getWeekDates = useCallback(() => {
-    const now = new Date();
-    const dayOfWeek = now.getDay();
-    const diffToSunday = dayOfWeek;
-
-    const weekStart = new Date(now);
-    weekStart.setDate(now.getDate() - diffToSunday);
-    weekStart.setHours(0, 0, 0, 0);
-
-    const weekEnd = new Date(weekStart);
-    weekEnd.setDate(weekStart.getDate() + 6);
-    weekEnd.setHours(23, 59, 59, 999);
-
-    return {
-      weekStart: weekStart.toISOString().split("T")[0],
-      weekEnd: weekEnd.toISOString().split("T")[0],
-    };
-  }, []);
-
-  const calculateWeeklySavings = useCallback(() => {
-    const { weekStart } = getWeekDates();
-    const weekStartDate = new Date(weekStart);
-
-    const weeklyIncomes = (financialSummary?.recentIncomes || [])
-      .filter((income) => {
-        const incomeDate = new Date(income.created_at);
-        return incomeDate >= weekStartDate;
-      })
-      .reduce((sum, inc) => sum + inc.amount, 0);
-
-    const weeklyExpenseTotal = (historyExpenses || [])
-      .filter((exp) => new Date(exp.created_at) >= weekStartDate)
-      .reduce((sum, exp) => sum + exp.amount, 0);
-
-    const weeklyNet = weeklyIncomes - weeklyExpenseTotal;
-    const targetWeeklySavings = 500;
-    const remainingToGoal = Math.max(targetWeeklySavings - weeklyNet, 0);
-
-    return {
-      weeklyIncomeTotal: weeklyIncomes,
-      weeklyExpenseTotal,
-      weeklyNet,
-      targetWeeklySavings,
-      remainingToGoal,
-    };
-  }, [financialSummary, historyExpenses, getWeekDates]);
 
   const onSubmit = async (data: Expense) => {
     if (!category) {
@@ -129,42 +84,17 @@ export const useExpenses = () => {
       return;
     }
 
-    if (data.amount > currentBalance) {
-      showError(
-        `No puedes registrar este gasto. El monto ($${data.amount.toLocaleString("es-MX", { minimumFractionDigits: 2 })}) excede tu saldo disponible ($${currentBalance.toLocaleString("es-MX", { minimumFractionDigits: 2 })}).`
-      );
-      return;
-    }
-
-    const { remainingToGoal } = calculateWeeklySavings();
-
-    if (data.amount > remainingToGoal && remainingToGoal > 0) {
-      setPendingExpense(data);
-      setGoalWarningData({
-        remainingToGoal,
-        expenseAmount: data.amount,
-      });
-      setShowGoalWarning(true);
-      return;
-    }
-
-    await executeExpenseSubmission(data);
-  };
-
-  const executeExpenseSubmission = async (data: Expense) => {
     try {
       setIsSubmitting(true);
       const newExpense: CreateExpense = {
-        account_id: profile?.account_id!,
+        account_id: account?.id!,
         amount: data.amount,
         description: data.description,
         category: category,
       };
-      if (!session?.access_token) {
-        showError("No hay sesión activa");
-        return;
-      }
-      await register(newExpense, session?.access_token);
+      await registerExpense(newExpense);
+      await refreshAccount();
+      await getHistoryExpenses();
       setChangeValue();
       navigationTo("historySavings");
     } catch (error: unknown) {
@@ -177,9 +107,6 @@ export const useExpenses = () => {
 
   const handleConfirmGoalWarning = () => {
     setShowGoalWarning(false);
-    if (pendingExpense) {
-      executeExpenseSubmission(pendingExpense);
-    }
     setPendingExpense(null);
     setGoalWarningData(null);
   };
@@ -208,7 +135,6 @@ export const useExpenses = () => {
     showErrorModal,
     closeErrorModal,
     isSubmitting,
-    currentBalance,
     showGoalWarning,
     goalWarningData,
     handleConfirmGoalWarning,
