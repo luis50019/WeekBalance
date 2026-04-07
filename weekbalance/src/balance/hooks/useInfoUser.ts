@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { FinancialSummaryDto } from "../types/Response/UserInfo.dto";
 import { useAuthStore } from "../../auth/store";
 import { getFinancialSummary } from "../api/user.service";
@@ -8,51 +8,53 @@ import { COLORSGRAPIC } from "../../core/constants/Color";
 export const useInfoUser = () => {
   const [financialSummary, setFinancialSummary] =
     useState<FinancialSummaryDto | null>(null);
-  const [totalIncomes, setTotalIncomes] = useState<number | null>(null);
-  const [totalExpenses, setTotalExpenses] = useState<number | null>(null);
+  const [totalIncomes, setTotalIncomes] = useState<number>(0);
+  const [totalExpenses, setTotalExpenses] = useState<number>(0);
   const [expenseAnalysis, setExpenseAnalysis] = useState<
-    IExpensesAnalisys[] | null
-  >(null);
-  const { profile, session } = useAuthStore();
+    IExpensesAnalisys[]
+  >([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const { account } = useAuthStore();
 
-  const getDataFinancial = async () => {
-    try {
-      if (!profile?.account_id || !session?.access_token) return;
-      const response = await getFinancialSummary(
-        profile?.account_id,
-        session?.access_token,
-      );
-      console.log(response.data.recentIncomes);
-      console.log(response.data.expensesByCategory);
-      setFinancialSummary(response.data);
-    } catch (error) {
-      console.log(error);
+  const getDataFinancial = useCallback(async () => {
+    if (!account) {
+      setIsLoading(false);
+      return;
     }
-  };
+
+    try {
+      setIsLoading(true);
+      const response = await getFinancialSummary();
+      setFinancialSummary({
+        balance: response.balance,
+        recentIncomes: response.recentIncomes,
+        expensesByCategory: response.expensesByCategory,
+      });
+
+      setTotalIncomes(response.totalIncome);
+      setTotalExpenses(response.totalExpense);
+
+      const expenseAnalysisData = (response.expensesByCategory || []).map(
+        (expense) => {
+          return {
+            value: expense.percentage,
+            color: COLORSGRAPIC[expense.category!] || "#888",
+            text: expense.category,
+          };
+        },
+      );
+
+      setExpenseAnalysis(expenseAnalysisData);
+    } catch (error) {
+      console.log("[useInfoUser] Error:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [account?.id]);
 
   useEffect(() => {
-    if (!financialSummary) return;
-
-    const incomes = (financialSummary.recentIncomes || [])
-      .map((income) => income.amount)
-      .reduce((a, b) => a + b, 0);
-    const expenses = (financialSummary.expensesByCategory || [])
-      .map((expense) => expense.total_spent)
-      .reduce((a, b) => a + b, 0);
-    const expenseAnalysis = (financialSummary.expensesByCategory || []).map(
-      (expense) => {
-        return {
-          value: expense.percentage,
-          color: COLORSGRAPIC[expense.category!],
-          text: expense.category,
-        };
-      },
-    );
-    setExpenseAnalysis(expenseAnalysis || []);
-
-    setTotalIncomes(incomes || 0);
-    setTotalExpenses(expenses || 0);
-  }, [financialSummary]);
+    getDataFinancial();
+  }, [getDataFinancial]);
 
   return {
     expenseAnalysis,
@@ -60,6 +62,6 @@ export const useInfoUser = () => {
     totalIncomes,
     financialSummary,
     getDataFinancial,
+    isLoading,
   };
 };
-

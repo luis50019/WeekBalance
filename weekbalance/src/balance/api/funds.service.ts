@@ -1,27 +1,34 @@
-import { getHistoryFunds, registerFunds } from "../../core/api/funds.axios";
+import { incomeRepository, CreateIncomeDTO, IncomeRecord } from "../../core/database";
 import { CreateFunds } from "../types/Request/CreateFunds";
+import { useAuthStore } from "../../auth/store";
 import { ResponseIncomeDto } from "../types/Response/ResponseIncomeDto";
 
-export const register = async (newExpense: CreateFunds, token: string) => {
-  try {
-    const { data } = await registerFunds(newExpense, token);
-    if (!data) throw new Error("Error al registrar el perfil");
-    return data;
-  } catch (error) {
-    console.log(error);
-    throw new Error("Error del servidor");
+export const register = async (newFunds: CreateFunds) => {
+  const { account } = useAuthStore.getState();
+  if (!account) {
+    throw new Error("No hay sesión activa");
   }
+
+  const dto: CreateIncomeDTO = {
+    account_id: account.id,
+    amount: parseFloat(newFunds.amount),
+    category: newFunds.category,
+    description: newFunds.description,
+    source: newFunds.source ? String(newFunds.source) : undefined,
+  };
+
+  return await incomeRepository.create(dto);
 };
 
-export const getHistory = async (
-  id: string,
-  token: string,
-): Promise<ResponseIncomeDto[]> => {
-  try {
-    const { data } = await getHistoryFunds(id, token);
-    if (!data) throw new Error("Error al obtener la informacion del perfil");
-    return data.data;
-  } catch (error) {
-    throw new Error("Error del servidor");
-  }
+export const getHistory = async (accountId: string): Promise<ResponseIncomeDto[]> => {
+  const incomes = await incomeRepository.getByAccountId(accountId);
+  return incomes.map((income: IncomeRecord) => ({
+    id: income.id,
+    account_id: income.account_id,
+    amount: income.amount,
+    category: income.category,
+    description: income.description,
+    source: income.source,
+    created_at: income.created_at,
+  }));
 };

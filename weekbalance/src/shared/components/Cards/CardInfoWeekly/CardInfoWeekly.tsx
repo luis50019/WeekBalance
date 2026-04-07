@@ -34,4 +34,3 @@ function CardInfoWeekly() {
 }
 
 export default CardInfoWeekly;
-

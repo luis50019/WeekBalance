@@ -1,28 +1,31 @@
-import {
-  getHistoryExpenses,
-  registerExpenses,
-} from "../../core/api/expenses.axios";
+import { expenseRepository, CreateExpenseDTO } from "../../core/database";
 import { CreateExpense } from "../types/Request/CreateExpense";
+import { useAuthStore } from "../../auth/store";
 
-export const register = async (newExpense: CreateExpense, token: string) => {
-  try {
-    console.log("informacion: " + newExpense);
-    console.log("toen: " + token);
-    const { data } = await registerExpenses(newExpense, token);
-    if (!data) throw new Error("Error al registrar el perfil");
-    return data;
-  } catch (error) {
-    throw new Error("Error del servidor");
+export const register = async (newExpense: CreateExpense) => {
+  const { account } = useAuthStore.getState();
+  if (!account) {
+    throw new Error("No hay sesión activa");
   }
+
+  const dto: CreateExpenseDTO = {
+    account_id: account.id,
+    amount: newExpense.amount,
+    category: newExpense.category,
+    description: newExpense.description,
+  };
+
+  return await expenseRepository.create(dto);
 };
 
-export const getHistory = async (id: string, token: string) => {
-  try {
-    const { data } = await getHistoryExpenses(id, token);
-    if (!data) throw new Error("Error al obtener la informacion del perfil");
-    return data.data;
-  } catch (error) {
-    console.log(error);
-    throw new Error("Error del servidor");
-  }
+export const getHistory = async (accountId: string) => {
+  return await expenseRepository.getByAccountId(accountId);
+};
+
+export const getRecent = async (accountId: string, limit: number = 5) => {
+  return await expenseRepository.getRecentByAccountId(accountId, limit);
+};
+
+export const getByCategory = async (accountId: string) => {
+  return await expenseRepository.getTotalByCategory(accountId);
 };

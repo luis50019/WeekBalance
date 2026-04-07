@@ -3,14 +3,13 @@ import CardHistory from "../../../shared/components/Cards/CardInfoHistory/CardIn
 import FloatingButton from "../../../shared/components/buttons/FloattingButton/FloattingButton";
 import { styleExpensesScreen } from "./ExpensesScreen.style";
 import TransactionCard from "../../../shared/components/Cards/CardTransaction/CardTransaction";
-import { useDriverContext } from "../../../core/context/ContextBalance";
+import { useBalanceContext } from "../../../core/context/BalanceProvider";
 import EmptyData from "../../../shared/components/UI/emptyData/EmptyData";
 import { useExpenses } from "../../hooks/useExpenses";
 import { Slider } from "../../../shared/components/layout/Sliders/Slider";
 import { getDataExpenses } from "../../../core/constants/Categories";
 import { WeekHeader } from "../../components/WeekHeader";
 import { ResponseIncomeDto } from "../../types/Response/ResponseIncomeDto";
-import { COLORS } from "../../../core/constants/Color";
 
 interface WeekGroup {
   weekKey: string;
@@ -82,7 +81,7 @@ type ListItem =
   | { type: "expense"; data: ResponseIncomeDto };
 
 function ExpensesScreen() {
-  const { totalExpenses } = useDriverContext();
+  const { totalExpenses } = useBalanceContext();
   const { dataFilter, handlerFilter } = useExpenses();
 
   const listData: ListItem[] = [];
