@@ -16,7 +16,6 @@ function InputNote({ control, name, rules, titleInput }: PropsInputNote) {
       <Controller
         control={control}
         name={name}
-        rules={noteValidations}
         render={({
           field: { onChange, onBlur, value },
           fieldState: { error },

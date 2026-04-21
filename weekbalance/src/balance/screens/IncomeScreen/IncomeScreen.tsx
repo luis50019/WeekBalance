@@ -82,7 +82,7 @@ type ListItem =
 
 function IncomeScreen() {
   const { totalIncomes } = useBalanceContext();
-  const { dataFilter, handlerFilter } = useFunds();
+  const { dataFilter, handlerFilter, weeklyTotal } = useFunds();
 
   const listData: ListItem[] = [];
 
@@ -158,7 +158,7 @@ function IncomeScreen() {
           <View>
             <CardHistory
               title="TOTAL DE INGRESO SEMANAL"
-              amount={totalIncomes || 0}
+              amount={weeklyTotal}
               mouth={getCurrentMonthName()}
               year={getCurrentYear()}
             />

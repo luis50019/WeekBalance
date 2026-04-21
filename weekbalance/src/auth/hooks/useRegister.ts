@@ -27,7 +27,9 @@ const mapError = (error: unknown): string => {
 };
 
 export const useRegister = () => {
-  const { control, formState, handleSubmit } = useForm<RegisterForm>();
+  const { control, formState, handleSubmit } = useForm<RegisterForm>({
+    mode: "onChange",
+  });
   const { register } = useAuthStore();
   const [errorMessage, setErrorMessage] = useState<string>("");
 

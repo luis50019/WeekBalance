@@ -3,6 +3,38 @@ import { AuthService } from "./auth.service";
 
 const service = new AuthService();
 
+export const login = async (req: Request, res: Response) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({ message: "Email y contraseña son requeridos" });
+    }
+
+    const data = await service.login(email, password);
+    res.status(200).json({ message: "Login exitoso", data });
+  } catch (e: any) {
+    console.log(e);
+    res.status(401).json({ message: e.message || "Credenciales inválidas" });
+  }
+};
+
+export const register = async (req: Request, res: Response) => {
+  try {
+    const { email, password, full_name } = req.body;
+
+    if (!email || !password || !full_name) {
+      return res.status(400).json({ message: "Todos los campos son requeridos" });
+    }
+
+    const data = await service.register(email, password, full_name);
+    res.status(201).json({ message: "Usuario creado", data });
+  } catch (e: any) {
+    console.log(e);
+    res.status(400).json({ message: e.message || "Error al crear usuario" });
+  }
+};
+
 export const createProfile = async (req: Request, res: Response) => {
   try {
     const data = await service.createProfile(req.body);
@@ -32,5 +64,16 @@ export const getInfoUser = async (req: Request, res: Response) => {
   } catch (e: any) {
     console.log(e);
     res.status(400).json({ message: "Error al encontrar el perfil" });
+  }
+};
+
+export const getAccountByUserId = async (req: Request, res: Response) => {
+  try {
+    const userId = req.params.userId as string;
+    const data = await service.getAccountByUserId(userId);
+    res.status(200).json({ message: "Cuenta encontrada", data });
+  } catch (e: any) {
+    console.log(e);
+    res.status(400).json({ message: e.message || "Error al obtener la cuenta" });
   }
 };

@@ -19,7 +19,9 @@ const mapError = (error: unknown): string => {
 };
 
 export const useLogin = () => {
-  const { control, formState, handleSubmit } = useForm<LoginForm>({});
+  const { control, formState, handleSubmit } = useForm<LoginForm>({
+    mode: "onChange",
+  });
   const { login } = useAuthStore();
   const [errorMessage, setErrorMessage] = useState<string>("");
 

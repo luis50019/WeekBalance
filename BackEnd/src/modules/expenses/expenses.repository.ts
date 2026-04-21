@@ -20,4 +20,32 @@ export class ExpensesRepository extends SupabaseDataSource {
     if (error) throw new Error(error.message);
     return data;
   }
+
+  async getExpensesByCategory(accountId: string) {
+    const { data, error } = await this.client.rpc(
+      "get_expense_percentage_by_category",
+      {
+        p_account_id: accountId,
+      }
+    );
+
+    if (error) throw new Error(error.message);
+    return data;
+  }
+
+  async getWeeklyTotal(accountId: string, weekStart: string, weekEnd: string) {
+    const { data, error } = await this.client
+      .from("expense_history")
+      .select("amount")
+      .eq("account_id", accountId)
+      .gte("created_at", weekStart)
+      .lte("created_at", weekEnd);
+
+    if (error) {
+      throw new Error("Error al obtener gastos semanales");
+    }
+
+    const total = data.reduce((sum, item) => sum + Number(item.amount), 0);
+    return total;
+  }
 }

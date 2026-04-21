@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { CreateExpense } from "../types/Request/CreateExpense";
 import { useAuthStore } from "../../auth/store";
-import { getHistory, register as registerExpense } from "../api/expenses.service";
+import { getHistory, register as registerExpense, getWeeklyTotal } from "../api/expenses.service";
 import { useNavigate } from "../../shared/hooks/useNavigate";
 import { ResponseIncomeDto } from "../types/Response/ResponseIncomeDto";
 import { BalanceContext } from "../../core/context/BalanceProvider";
@@ -23,6 +23,7 @@ export const useExpenses = () => {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [weeklyTotal, setWeeklyTotal] = useState<number>(0);
 
   const [pendingExpense, setPendingExpense] = useState<Expense | null>(null);
   const [showGoalWarning, setShowGoalWarning] = useState(false);
@@ -59,8 +60,19 @@ export const useExpenses = () => {
     }
   };
 
+  const getWeeklyTotalExpenses = async () => {
+    try {
+      if (!account) return;
+      const total = await getWeeklyTotal(account.id);
+      setWeeklyTotal(total);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getHistoryExpenses();
+    getWeeklyTotalExpenses();
   }, [account]);
 
   const showError = (message: string) => {
@@ -75,12 +87,13 @@ export const useExpenses = () => {
 
   const onSubmit = async (data: Expense) => {
     if (!category) {
-      showError("Debes seleccionar una categoría");
+      showError("Selecciona una categoria para el gasto");
       return;
     }
 
-    if (!data.description || data.description.trim() === "") {
-      showError("Debes escribir una descripción");
+    // Validar que el monto no supere el saldo actual
+    if (account && data.amount > account.balance) {
+      showError(`Saldo insuficiente. Disponible: $${account.balance.toFixed(2)}`);
       return;
     }
 
@@ -91,15 +104,16 @@ export const useExpenses = () => {
         amount: data.amount,
         description: data.description,
         category: category,
+        created_at: new Date().toISOString(),
       };
       await registerExpense(newExpense);
       await refreshAccount();
       await getHistoryExpenses();
+      await getWeeklyTotalExpenses();
       setChangeValue();
       navigationTo("historySavings");
     } catch (error: unknown) {
-      const errorMsg = error instanceof Error ? error.message : "Error al registrar el gasto";
-      showError(errorMsg);
+      showError("No se pudo registrar el gasto. Intenta nuevamente");
     } finally {
       setIsSubmitting(false);
     }
@@ -139,5 +153,7 @@ export const useExpenses = () => {
     goalWarningData,
     handleConfirmGoalWarning,
     handleCancelGoalWarning,
+    weeklyTotal,
+    getWeeklyTotalExpenses,
   };
 };

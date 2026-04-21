@@ -27,3 +27,24 @@ export const getHistoryExpensesById = async (req: Request, res: Response) => {
   }
 };
 
+export const getExpensesByCategory = async (req: Request, res: Response) => {
+  try {
+    const accountId = req.params.accountId as string;
+    const data = await service.getExpensesByCategory(accountId);
+    res.status(200).json({ message: "Gastos por categoría obtenidos", data });
+  } catch (e: any) {
+    console.error("Error getting expenses by category:", e);
+    res.status(400).json({ error: e.message || "Error al obtener gastos por categoría" });
+  }
+};
+
+export const getWeeklyExpenseTotal = async (req: Request, res: Response) => {
+  try {
+    const accountId = req.params.accountId as string;
+    const total = await service.getWeeklyExpenseTotal(accountId);
+    res.status(200).json({ message: "Total de gastos semanales", data: { total } });
+  } catch (error) {
+    res.status(500).send({ message: error });
+  }
+};
+

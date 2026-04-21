@@ -1,31 +1,58 @@
-import { expenseRepository, CreateExpenseDTO } from "../../core/database";
+import { apiClient } from "../../core/api/client";
 import { CreateExpense } from "../types/Request/CreateExpense";
-import { useAuthStore } from "../../auth/store";
 
-export const register = async (newExpense: CreateExpense) => {
-  const { account } = useAuthStore.getState();
-  if (!account) {
-    throw new Error("No hay sesión activa");
-  }
+interface CreateExpenseRequest {
+  account_id: string;
+  amount: number;
+  category: string;
+  description?: string;
+}
 
-  const dto: CreateExpenseDTO = {
-    account_id: account.id,
+interface ApiResponse<T> {
+  message: string;
+  data: T;
+}
+
+export interface ExpenseByCategory {
+  category: string;
+  description: string;
+  total_spent: number;
+  percentage: number;
+}
+
+export const register = async (newExpense: CreateExpense): Promise<void> => {
+  const dto: CreateExpenseRequest = {
+    account_id: newExpense.account_id,
     amount: newExpense.amount,
     category: newExpense.category,
     description: newExpense.description,
   };
 
-  return await expenseRepository.create(dto);
+  await apiClient.post("/expenses/register/", dto);
 };
 
 export const getHistory = async (accountId: string) => {
-  return await expenseRepository.getByAccountId(accountId);
+  const response = await apiClient.get<ApiResponse<any[]>>(
+    `/expenses/history/${accountId}`
+  );
+  return response.data.data;
 };
 
 export const getRecent = async (accountId: string, limit: number = 5) => {
-  return await expenseRepository.getRecentByAccountId(accountId, limit);
+  const history = await getHistory(accountId);
+  return history.slice(0, limit);
 };
 
-export const getByCategory = async (accountId: string) => {
-  return await expenseRepository.getTotalByCategory(accountId);
+export const getByCategory = async (accountId: string): Promise<ExpenseByCategory[]> => {
+  const response = await apiClient.get<ApiResponse<ExpenseByCategory[]>>(
+    `/expenses/by-category/${accountId}`
+  );
+  return response.data.data;
+};
+
+export const getWeeklyTotal = async (accountId: string): Promise<number> => {
+  const response = await apiClient.get<ApiResponse<{ total: number }>>(
+    `/expenses/weekly-total/${accountId}`
+  );
+  return response.data.data.total;
 };

@@ -3,4 +3,5 @@ export type CreateExpense = {
   amount: number;
   description: string;
   category: string;
+  created_at?: string;
 }

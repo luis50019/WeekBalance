@@ -1,12 +1,11 @@
 import { create } from "zustand";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Profile, Account, authRepository, getDatabase } from "../core/database";
-import { User } from "../core/database/auth.repository";
+import { authApi, AuthUser, AuthProfile, AuthAccount } from "../core/api/auth-api";
 
 interface AuthState {
-  user: User | null;
-  profile: Profile | null;
-  account: Account | null;
+  user: AuthUser | null;
+  profile: AuthProfile | null;
+  account: AuthAccount | null;
   isLoading: boolean;
   isInitialized: boolean;
 
@@ -17,8 +16,6 @@ interface AuthState {
   refreshAccount: () => Promise<void>;
 }
 
-const USER_ID_KEY = "@weekbalance_user_id";
-
 export const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
   profile: null,
@@ -28,25 +25,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   initialize: async () => {
     try {
-      const userId = await AsyncStorage.getItem(USER_ID_KEY);
-      if (userId) {
-        const user = await authRepository.findUserById(userId);
-        if (user) {
-          const db = await getDatabase();
-          const profile = await db.getFirstAsync<Profile>(
-            "SELECT * FROM profiles WHERE user_id = ?",
-            [userId]
-          );
-          const account = await db.getFirstAsync<Account>(
-            "SELECT * FROM accounts WHERE user_id = ?",
-            [userId]
-          );
-          
-          if (profile && account) {
-            set({ user, profile, account, isInitialized: true });
-            return;
-          }
-        }
+      const hasToken = await authApi.getStoredToken();
+      if (hasToken) {
+        // Hay sesión guardada - marcar para re-autenticación
+        console.log("[Auth] Token found, session exists");
       }
     } catch (error) {
       console.log("[Auth] Initialize error:", error);
@@ -57,16 +39,18 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   login: async (email: string, password: string) => {
     set({ isLoading: true });
     try {
-      const result = await authRepository.validateCredentials(email, password);
-      if (!result) {
-        throw new Error("Credenciales inválidas");
-      }
+      const result = await authApi.login(email, password);
 
-      await AsyncStorage.setItem(USER_ID_KEY, result.user.id);
+      // Guardar session token
+      await authApi.saveSession(result.data.session.access_token, result.data.user.id);
+
+      // Obtener account
+      const accountResponse = await authApi.getAccount(result.data.user.id);
+
       set({
-        user: result.user,
-        profile: result.profile,
-        account: result.account,
+        user: result.data.user,
+        profile: result.data.profile,
+        account: accountResponse.data,
         isLoading: false,
       });
     } catch (error) {
@@ -78,27 +62,20 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   register: async (email: string, password: string, fullName: string) => {
     set({ isLoading: true });
     try {
-      const existingUser = await authRepository.findUserByEmail(email);
-      if (existingUser) {
-        throw new Error("El correo ya está registrado");
-      }
+      await authApi.register(email, password, fullName);
 
-      await authRepository.createUser({
-        email,
-        password,
-        full_name: fullName,
-      });
+      // Después de registrar, automáticamente iniciamos sesión
+      const result = await authApi.login(email, password);
 
-      const result = await authRepository.validateCredentials(email, password);
-      if (!result) {
-        throw new Error("Error al crear la cuenta");
-      }
+      await authApi.saveSession(result.data.session.access_token, result.data.user.id);
 
-      await AsyncStorage.setItem(USER_ID_KEY, result.user.id);
+      // Obtener account
+      const accountResponse = await authApi.getAccount(result.data.user.id);
+
       set({
-        user: result.user,
-        profile: result.profile,
-        account: result.account,
+        user: result.data.user,
+        profile: result.data.profile,
+        account: accountResponse.data,
         isLoading: false,
       });
     } catch (error) {
@@ -108,7 +85,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 
   logout: async () => {
-    await AsyncStorage.removeItem(USER_ID_KEY);
+    await authApi.clearSession();
     set({
       user: null,
       profile: null,
@@ -121,16 +98,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     if (!user) return;
 
     try {
-      const db = await getDatabase();
-      const account = await db.getFirstAsync<Account>(
-        "SELECT * FROM accounts WHERE user_id = ?",
-        [user.id]
-      );
-      if (account) {
-        set({ account });
-      }
+      const accountResponse = await authApi.getAccount(user.id);
+      set({ account: accountResponse.data });
     } catch (error) {
-      console.log("[Auth] Refresh account error:", error);
+      console.error("[Auth] Error refreshing account:", error);
     }
   },
 }));
