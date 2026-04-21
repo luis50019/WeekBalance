@@ -1,57 +1,26 @@
 import { useState, useEffect, useCallback, useContext } from "react";
 import { useAuthStore } from "../../auth/store";
 import {
-  getCurrentWeekGoalsService,
   getWeeklyGoalsService,
   createWeeklyGoalService,
-  deleteWeeklyGoalService,
+  getCurrentWeekDates,
 } from "../api/savings.service";
+import { getWeeklyTotal as getIncomesWeeklyTotal } from "../api/funds.service";
+import { getWeeklyTotal as getExpensesWeeklyTotal } from "../api/expenses.service";
 import { BalanceContext } from "../../core/context/BalanceProvider";
 
 export interface WeeklyGoalWithProgress {
   id: string;
   account_id: string;
-  amount: number;
-  category: string;
+  target_amount: number;
   week_start: string;
   week_end: string;
   created_at: string;
   weekIncomes: number;
   weekExpenses: number;
   weeklySaving: number;
-  weekSavings: number;
   progress: number;
   remaining: number;
-  isCompleted: boolean;
-  isWeekFinished: boolean;
-  weekStatus: "active" | "completed" | "future";
-}
-
-interface CurrentWeekGoals {
-  weekStart: string;
-  weekEnd: string;
-  weekIncomes: number;
-  weekExpenses: number;
-  weeklySaving: number;
-  weekSavings: number;
-  goals: WeeklyGoalWithProgress[];
-  totalGoalAmount: number;
-  totalSaved: number;
-  totalProgress: number;
-}
-
-export interface HistoricalGoal {
-  id: string;
-  account_id: string;
-  amount: number;
-  category: string;
-  week_start: string;
-  week_end: string;
-  created_at: string;
-  weekIncomes: number;
-  weekExpenses: number;
-  weeklySaving: number;
-  progress: number;
   isCompleted: boolean;
   isWeekFinished: boolean;
   weekStatus: "active" | "completed" | "future";
@@ -60,8 +29,18 @@ export interface HistoricalGoal {
 export const useWeeklyGoals = () => {
   const { account } = useAuthStore();
   const { setChangeValue: triggerBalanceChange } = useContext(BalanceContext);
-  const [data, setData] = useState<CurrentWeekGoals | null>(null);
-  const [history, setHistory] = useState<HistoricalGoal[]>([]);
+  const [data, setData] = useState<{
+    weekStart: string;
+    weekEnd: string;
+    weekIncomes: number;
+    weekExpenses: number;
+    weeklySaving: number;
+    goals: WeeklyGoalWithProgress[];
+    totalGoalAmount: number;
+    totalSaved: number;
+    totalProgress: number;
+  } | null>(null);
+  const [history, setHistory] = useState<WeeklyGoalWithProgress[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
@@ -75,86 +54,101 @@ export const useWeeklyGoals = () => {
     try {
       setLoading(true);
       setError(null);
-      const result = await getCurrentWeekGoalsService();
-      setData(result);
 
-      const allGoals = await getWeeklyGoalsService(account.id);
-      const historyWithProgress = await Promise.all(
-        allGoals.map(async (goal) => {
-          const isWeekFinished = new Date(goal.week_end + "T23:59:59.999") < new Date();
-          const weekStart = new Date(goal.week_start);
-          const weekEnd = new Date(goal.week_end);
-          
-          const { incomeRepository, expenseRepository } = await import("../../core/database");
-          const incomes = await incomeRepository.getByAccountId(account.id);
-          const expenses = await expenseRepository.getByAccountId(account.id);
-          
-          const weekIncomesList = incomes.filter((inc) => {
-            const incDate = new Date(inc.created_at);
-            return incDate >= weekStart && incDate <= weekEnd;
-          });
-          const weekExpensesList = expenses.filter((exp) => {
-            const expDate = new Date(exp.created_at);
-            return expDate >= weekStart && expDate <= weekEnd;
-          });
-          
-          const totalWeekIncomes = weekIncomesList.reduce((sum, i) => sum + i.amount, 0);
-          const totalWeekExpenses = weekExpensesList.reduce((sum, e) => sum + e.amount, 0);
-          const weeklySaving = totalWeekIncomes - totalWeekExpenses;
-          
-          const progress = goal.amount > 0 
-            ? Math.min((weeklySaving / goal.amount) * 100, 100)
-            : 0;
-          
-          return {
-            ...goal,
-            weekIncomes: totalWeekIncomes,
-            weekExpenses: totalWeekExpenses,
-            weeklySaving,
-            progress,
-            isCompleted: weeklySaving >= goal.amount,
-            isWeekFinished,
-            weekStatus: isWeekFinished ? "completed" : "active" as const,
-          };
-        })
+      const { weekStart, weekEnd } = getCurrentWeekDates();
+
+      // Obtener ingresos y gastos semanales
+      const weeklyIncomes = await getIncomesWeeklyTotal(account.id);
+      const weeklyExpenses = await getExpensesWeeklyTotal(account.id);
+      const weeklySaving = weeklyIncomes - weeklyExpenses;
+
+      // Obtener metas semanales del backend
+      const goalsFromBackend = await getWeeklyGoalsService(account.id);
+
+      const goalsWithProgress: WeeklyGoalWithProgress[] = (goalsFromBackend || []).map((goal) => {
+        const isCurrentWeek =
+          goal.week_start === weekStart && goal.week_end === weekEnd;
+        const isWeekFinished = new Date(goal.week_end + "T23:59:59.999") < new Date();
+
+        const progress = goal.target_amount > 0
+          ? Math.min((weeklySaving / goal.target_amount) * 100, 100)
+          : 0;
+
+        return {
+          id: goal.id,
+          account_id: goal.account_id,
+          target_amount: goal.target_amount,
+          week_start: goal.week_start,
+          week_end: goal.week_end,
+          created_at: goal.created_at,
+          weekIncomes: weeklyIncomes,
+          weekExpenses: weeklyExpenses,
+          weeklySaving,
+          progress,
+          remaining: Math.max(goal.target_amount - weeklySaving, 0),
+          isCompleted: weeklySaving >= goal.target_amount,
+          isWeekFinished,
+          weekStatus: isWeekFinished ? ("completed" as const) : ("active" as const),
+        };
+      });
+
+      // Meta actual (si existe para esta semana)
+      const currentGoal = goalsWithProgress.find(
+        (g) => g.week_start === weekStart && g.week_end === weekEnd
       );
-      
-      const sortedHistory = historyWithProgress
-        .filter(g => g.isWeekFinished)
-        .sort((a, b) => new Date(b.week_start).getTime() - new Date(a.week_start).getTime());
-      setHistory(sortedHistory);
+
+      const totalGoalAmount = currentGoal?.target_amount || 0;
+      const totalSaved = weeklySaving;
+      const totalProgress = totalGoalAmount > 0
+        ? Math.min((totalSaved / totalGoalAmount) * 100, 100)
+        : 0;
+
+      setData({
+        weekStart,
+        weekEnd,
+        weekIncomes: weeklyIncomes,
+        weekExpenses: weeklyExpenses,
+        weeklySaving,
+        goals: currentGoal ? [currentGoal] : [],
+        totalGoalAmount,
+        totalSaved,
+        totalProgress,
+      });
+
+      // Historial: semanas pasadas
+      const historyGoals = goalsWithProgress
+        .filter((g) => g.isWeekFinished)
+        .sort(
+          (a, b) =>
+            new Date(b.week_start).getTime() - new Date(a.week_start).getTime()
+        );
+      setHistory(historyGoals);
     } catch (err) {
+      console.error("[useWeeklyGoals] Error:", err);
       setError(err instanceof Error ? err.message : "Error al cargar las metas");
-      setData(null);
     } finally {
       setLoading(false);
     }
-  }, [account?.id]);
+  }, [account?.id, refreshKey]);
 
   useEffect(() => {
     fetchWeeklyGoals();
   }, [fetchWeeklyGoals, refreshKey]);
 
   const createGoal = async (amount: number): Promise<void> => {
-    if (!data) {
-      throw new Error("No hay datos de la semana");
+    if (!account) {
+      throw new Error("No hay sesión activa");
     }
 
-    await createWeeklyGoalService(
-      amount,
-      data.weekStart,
-      data.weekEnd
-    );
-    await fetchWeeklyGoals();
-  };
+    const { weekStart, weekEnd } = getCurrentWeekDates();
 
-  const deleteGoal = async (goalId: string): Promise<void> => {
-    await deleteWeeklyGoalService(goalId);
+    await createWeeklyGoalService(account.id, amount, weekStart, weekEnd);
     await fetchWeeklyGoals();
+    await triggerBalanceChange();
   };
 
   const refresh = useCallback(() => {
-    setRefreshKey(prev => prev + 1);
+    setRefreshKey((prev) => prev + 1);
     triggerBalanceChange();
   }, [triggerBalanceChange]);
 
@@ -166,7 +160,6 @@ export const useWeeklyGoals = () => {
     refetch: fetchWeeklyGoals,
     refresh,
     createGoal,
-    deleteGoal,
     totalGoalAmount: data?.totalGoalAmount || 0,
     totalSaved: data?.totalSaved || 0,
     totalProgress: data?.totalProgress || 0,

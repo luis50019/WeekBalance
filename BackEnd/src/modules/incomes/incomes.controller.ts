@@ -23,3 +23,13 @@ export const getHistoryIncomesAccount = async (req: Request, res: Response) => {
     res.status(500).send({ message: error });
   }
 };
+
+export const getWeeklyIncomeTotal = async (req: Request, res: Response) => {
+  try {
+    const accountId = req.params.accountId as string;
+    const total = await service.getWeeklyIncomeTotal(accountId);
+    res.status(200).json({ message: "Total de ingresos semanales", data: { total } });
+  } catch (error) {
+    res.status(500).send({ message: error });
+  }
+};

@@ -18,6 +18,7 @@ import { CardWeek } from "../../components/CardWeek";
 import FloatingButton from "../../../shared/components/buttons/FloattingButton/FloattingButton";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { COLORS } from "../../../core/constants/Color";
+import { sanitizeNumericInput } from "../../../shared/utils/validation";
 
 function SavingScreen() {
   const {
@@ -41,6 +42,31 @@ function SavingScreen() {
     if (!data?.goals || data.goals.length === 0) return null;
     return data.goals[0];
   }, [data]);
+
+  // Obtener semana actual
+  const getCurrentWeekDates = () => {
+    const now = new Date();
+    const dayOfWeek = now.getDay();
+    const weekStart = new Date(now);
+    weekStart.setDate(now.getDate() - dayOfWeek);
+    weekStart.setHours(0, 0, 0, 0);
+    const weekEnd = new Date(weekStart);
+    weekEnd.setDate(weekStart.getDate() + 6);
+    return {
+      weekStart: weekStart.toISOString().split("T")[0],
+      weekEnd: weekEnd.toISOString().split("T")[0],
+    };
+  };
+
+  const { weekStart, weekEnd } = getCurrentWeekDates();
+
+  // Verificar si ya existe meta para esta semana
+  const hasActiveGoal = useMemo(() => {
+    if (!data?.goals) return false;
+    return data.goals.some(
+      (g) => g.week_start === weekStart && g.week_end === weekEnd
+    );
+  }, [data, weekStart, weekEnd]);
 
   const progressPercentage = useMemo(() => {
     if (!currentGoal) return 0;
@@ -92,6 +118,13 @@ function SavingScreen() {
   const handleCreateGoal = async () => {
     if (!goalAmount || parseFloat(goalAmount) <= 0) {
       Alert.alert("Error", "Ingresa un monto válido");
+      return;
+    }
+
+    if (hasActiveGoal) {
+      Alert.alert("Info", "Ya tienes una meta activa para esta semana");
+      setShowForm(false);
+      setGoalAmount("");
       return;
     }
 
@@ -224,7 +257,7 @@ function SavingScreen() {
             >
               <MaterialCommunityIcons name="plus" size={20} color="#FFF" />
               <Text style={SavingScreenStyle.createGoalButtonText}>
-                Nueva meta semanal
+                {hasActiveGoal ? "Nueva meta semanal" : "Crear meta semanal"}
               </Text>
             </TouchableOpacity>
 
@@ -298,9 +331,9 @@ function SavingScreen() {
               style={SavingScreenStyle.input}
               placeholder="0.00"
               placeholderTextColor="#6B7280"
-              keyboardType="numeric"
+              keyboardType="decimal-pad"
               value={goalAmount}
-              onChangeText={setGoalAmount}
+              onChangeText={(text) => setGoalAmount(sanitizeNumericInput(text))}
             />
             <View style={SavingScreenStyle.formButtons}>
               <TouchableOpacity
@@ -388,7 +421,7 @@ function SavingScreen() {
                       Meta
                     </Text>
                     <Text style={SavingScreenStyle.historyDetailValue}>
-                      ${goal.amount.toFixed(2)}
+                      ${goal.target_amount.toFixed(2)}
                     </Text>
                   </View>
                 </View>
@@ -416,8 +449,6 @@ function SavingScreen() {
           </View>
         )}
       </ScrollView>
-
-      <FloatingButton to="AddSaving" label="Agregar" />
     </View>
   );
 }

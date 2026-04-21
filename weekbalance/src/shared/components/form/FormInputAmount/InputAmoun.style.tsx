@@ -16,22 +16,30 @@ export const styleInputAmount = StyleSheet.create({
     alignItems: "center",
   },
   inputNumeric: {
-    color: COLORS.textPrimary,
     display: "flex",
     flexDirection: "column",
-    justifyContent: "center",
     alignItems: "center",
     width: wp(90),
+  },
+  inputContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
   input: {
     color: COLORS.textPrimary,
     fontSize: fs(70),
   },
+  prefix: {
+    color: COLORS.textPrimary,
+    fontSize: fs(70),
+    fontWeight: "300",
+  },
   error: {
     width: "100%",
-    paddingLeft: 25,
-    textAlign: "left",
+    textAlign: "center",
     color: COLORS.error,
+    marginTop: 8,
   },
 });
-

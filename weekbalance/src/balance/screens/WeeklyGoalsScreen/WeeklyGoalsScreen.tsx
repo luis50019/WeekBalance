@@ -4,6 +4,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useWeeklyGoals } from "../../hooks/useWeeklyGoals";
 import { COLORS } from "../../../core/constants/Color";
+import { sanitizeNumericInput } from "../../../shared/utils/validation";
 
 function WeeklyGoalsScreen() {
   const { data, loading, createGoal, deleteGoal, totalGoalAmount, totalSaved, totalProgress, refetch } = useWeeklyGoals();
@@ -179,9 +180,9 @@ function WeeklyGoalsScreen() {
             style={styles.input}
             placeholder="0.00"
             placeholderTextColor="#6B7280"
-            keyboardType="numeric"
+            keyboardType="decimal-pad"
             value={goalAmount}
-            onChangeText={setGoalAmount}
+            onChangeText={(text) => setGoalAmount(sanitizeNumericInput(text))}
           />
 
           <View style={styles.formButtons}>

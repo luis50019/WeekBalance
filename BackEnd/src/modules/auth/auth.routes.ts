@@ -1,9 +1,15 @@
 import { Router } from "express";
 import { authMiddleware } from "../../middlewares/auth.middleware";
-import { createProfile, getInfoUser, getProfileById } from "./auth.controller";
+import { createProfile, getInfoUser, getProfileById, login, register, getAccountByUserId } from "./auth.controller";
 
 export const authRouter = Router();
 
-authRouter.post("/register/", authMiddleware, createProfile);
+// Rutas públicas (sin autenticación)
+authRouter.post("/login", login);
+authRouter.post("/register", register);
+
+// Rutas privadas (con autenticación)
+authRouter.post("/profile/", authMiddleware, createProfile);
 authRouter.get("/profile/:id", authMiddleware, getProfileById);
 authRouter.get("/info/:id", authMiddleware, getInfoUser);
+authRouter.get("/account/:userId", authMiddleware, getAccountByUserId);

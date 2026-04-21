@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { useAuthStore } from "../../auth/store";
-import { getHistory, register } from "../api/funds.service";
+import { getHistory, register, getWeeklyTotal } from "../api/funds.service";
 import { CreateFunds } from "../types/Request/CreateFunds";
 import { useNavigate } from "../../shared/hooks/useNavigate";
 import { ResponseIncomeDto } from "../types/Response/ResponseIncomeDto";
@@ -23,6 +23,7 @@ export const useFunds = () => {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [weeklyTotal, setWeeklyTotal] = useState<number>(0);
 
   const handlerFilter = (cate: string) => {
     if (cate == "All") {
@@ -44,8 +45,19 @@ export const useFunds = () => {
     }
   };
 
+  const getWeeklyTotalIncome = async () => {
+    try {
+      if (!account) return;
+      const total = await getWeeklyTotal(account.id);
+      setWeeklyTotal(total);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getHistoryFunds();
+    getWeeklyTotalIncome();
   }, [account]);
 
   const showError = (message: string) => {
@@ -64,11 +76,6 @@ export const useFunds = () => {
       return;
     }
 
-    if (!data.description || data.description.trim() === "") {
-      showError("Debes escribir una descripción");
-      return;
-    }
-
     try {
       setIsSubmitting(true);
       const newFunds: CreateFunds = {
@@ -81,13 +88,14 @@ export const useFunds = () => {
       await register(newFunds);
       await refreshAccount();
       await getHistoryFunds();
+      await getWeeklyTotalIncome();
       setChangeValue();
       navigationTo("historyIncomes");
     } catch (error: unknown) {
       const errorMsg =
         error instanceof Error
           ? error.message
-          : "Error al registrar el ingreso";
+          : "Los datos del ingreso no son válidos. Verifica los campos e intenta nuevamente";
       showError(errorMsg);
     } finally {
       setIsSubmitting(false);
@@ -112,5 +120,7 @@ export const useFunds = () => {
     showErrorModal,
     closeErrorModal,
     isSubmitting,
+    weeklyTotal,
+    getWeeklyTotalIncome,
   };
 };

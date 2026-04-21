@@ -27,12 +27,18 @@ function NewSavingScreen() {
     setAmountString((prev) => {
       if (key === "." && prev.includes(".")) return prev;
       if (prev === "0" && key !== ".") return key;
-      if (prev.length >= 10) return prev;
 
       const decimalIndex = prev.indexOf(".");
       if (decimalIndex !== -1 && prev.length - decimalIndex > 2) return prev;
 
-      return prev + key;
+      const newValue = prev + key;
+      const numericValue = parseFloat(newValue);
+
+      if (numericValue > 900000) return prev;
+
+      if (prev.length >= 10) return prev;
+
+      return newValue;
     });
   }, []);
 
@@ -62,7 +68,7 @@ function NewSavingScreen() {
         <Text style={NewSavingScreenStyle.amountLabel}>
           Ingresa el monto a ahorrar
         </Text>
-        <Text style={NewSavingScreenStyle.amountValue}>{formattedAmount}</Text>
+        <Text style={NewSavingScreenStyle.amountValue}>${formattedAmount}</Text>
       </View>
 
       <Pressable

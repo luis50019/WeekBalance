@@ -28,4 +28,20 @@ export class IncomeRespository extends SupabaseDataSource {
     console.log(data);
     return data;
   }
+
+  async getWeeklyTotal(accountId: string, weekStart: string, weekEnd: string) {
+    const { data, error } = await this.client
+      .from("income_history")
+      .select("amount")
+      .eq("account_id", accountId)
+      .gte("created_at", weekStart)
+      .lte("created_at", weekEnd);
+
+    if (error) {
+      throw new Error("Error al obtener ingresos semanales");
+    }
+
+    const total = data.reduce((sum, item) => sum + Number(item.amount), 0);
+    return total;
+  }
 }

@@ -52,4 +52,16 @@ export class ExpensesService {
     }
     return this.repo.findByAccount(account_id);
   }
+
+  getExpensesByCategory(accountId: string) {
+    if (!accountId) {
+      throw new Error("ID de cuenta requerido");
+    }
+    return this.repo.getExpensesByCategory(accountId);
+  }
+
+  async getWeeklyExpenseTotal(accountId: string) {
+    const { weekStart, weekEnd } = this.getWeekDates();
+    return await this.repo.getWeeklyTotal(accountId, weekStart, weekEnd);
+  }
 }

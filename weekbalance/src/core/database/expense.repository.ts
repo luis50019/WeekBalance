@@ -15,17 +15,19 @@ export interface CreateExpenseDTO {
   amount: number;
   category: string;
   description?: string;
+  created_at?: string;
 }
 
 export class ExpenseRepository {
   async create(dto: CreateExpenseDTO): Promise<ExpenseRecord> {
     const db = await getDatabase();
     const id = generateUUID();
+    const createdAt = dto.created_at || new Date().toISOString();
 
     await db.runAsync(
-      `INSERT INTO expense_history (id, account_id, amount, category, description)
-       VALUES (?, ?, ?, ?, ?)`,
-      [id, dto.account_id, dto.amount, dto.category, dto.description || null]
+      `INSERT INTO expense_history (id, account_id, amount, category, description, created_at)
+       VALUES (?, ?, ?, ?, ?, ?)`,
+      [id, dto.account_id, dto.amount, dto.category, dto.description || null, createdAt]
     );
 
     await db.runAsync(

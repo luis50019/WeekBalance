@@ -29,7 +29,12 @@ export const useNewSaving = () => {
     }
 
     if (data.amount <= 0) {
-      showError("El monto debe ser mayor a 0");
+      showError("El monto debe ser un número positivo");
+      return;
+    }
+
+    if (data.amount > 900000) {
+      showError("El monto no puede exceder $900,000.00");
       return;
     }
 

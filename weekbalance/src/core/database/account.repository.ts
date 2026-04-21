@@ -6,7 +6,7 @@ export class AccountRepository {
     const db = await getDatabase();
     const result = await db.getFirstAsync<Account>(
       "SELECT * FROM accounts WHERE user_id = ?",
-      [userId]
+      [userId],
     );
     return result || null;
   }
@@ -15,7 +15,7 @@ export class AccountRepository {
     const db = await getDatabase();
     const result = await db.getFirstAsync<Account>(
       "SELECT * FROM accounts WHERE id = ?",
-      [id]
+      [id],
     );
     return result || null;
   }
@@ -24,16 +24,16 @@ export class AccountRepository {
     const db = await getDatabase();
     await db.runAsync(
       "UPDATE accounts SET balance = balance + ? WHERE id = ?",
-      [amount, accountId]
+      [amount, accountId],
     );
   }
 
   async setBalance(accountId: string, balance: number): Promise<void> {
     const db = await getDatabase();
-    await db.runAsync(
-      "UPDATE accounts SET balance = ? WHERE id = ?",
-      [balance, accountId]
-    );
+    await db.runAsync("UPDATE accounts SET balance = ? WHERE id = ?", [
+      balance,
+      accountId,
+    ]);
   }
 }
 

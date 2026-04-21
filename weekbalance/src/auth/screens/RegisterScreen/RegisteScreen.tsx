@@ -57,9 +57,9 @@ function RegisterScreen() {
         <Text style={StyleAuth.error}>{errorMessage ? errorMessage : ""}</Text>
       </View>
       <View style={StyleAuth.container_foot}>
-        <Text style={StyleAuth.messageLink}>¿ Tienes un cuenta?</Text>
+        <Text style={StyleAuth.messageLink}>¿Ya tienes una cuenta?</Text>
         <Link to="Login" style={StyleAuth.link}>
-          inciar sesion
+          Inicia sesión
         </Link>
       </View>
     </View>

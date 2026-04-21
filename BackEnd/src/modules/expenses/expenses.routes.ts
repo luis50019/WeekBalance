@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createExpense, getHistoryExpensesById } from "./expenses.controller";
+import { createExpense, getHistoryExpensesById, getExpensesByCategory, getWeeklyExpenseTotal } from "./expenses.controller";
 import { authMiddleware } from "../../middlewares/auth.middleware";
 
 export const expensesRouter = Router();
@@ -9,4 +9,14 @@ expensesRouter.get(
   "/history/:accountId",
   authMiddleware,
   getHistoryExpensesById,
+);
+expensesRouter.get(
+  "/by-category/:accountId",
+  authMiddleware,
+  getExpensesByCategory,
+);
+expensesRouter.get(
+  "/weekly-total/:accountId",
+  authMiddleware,
+  getWeeklyExpenseTotal,
 );
