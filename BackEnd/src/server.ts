@@ -5,6 +5,6 @@ import { startWeeklyBalanceCron } from "./modules/balance/balance.cron";
 const PORT = Number(env.port);
 
 app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+  // Server running
   startWeeklyBalanceCron();
 });

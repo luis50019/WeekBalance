@@ -45,7 +45,6 @@ export class SavingsRespository extends SupabaseDataSource {
       .single();
 
     if (error) {
-      console.error("Error creating weekly goal:", error);
       throw new Error("Error al crear la meta semanal");
     }
 
@@ -62,7 +61,6 @@ export class SavingsRespository extends SupabaseDataSource {
       .eq("account_id", account_id)
       .order("created_at", { ascending: false });
     if (error) throw new Error("No se logro obtener el historial");
-    console.log(data);
     return (data || []) as SavingHistoryResponse[];
   }
 
@@ -97,7 +95,6 @@ export class SavingsRespository extends SupabaseDataSource {
       .single();
 
     if (error) {
-      console.error("Error creating savings movement:", error);
       throw new Error("Error al registrar el ahorro");
     }
 
@@ -114,7 +111,6 @@ export class SavingsRespository extends SupabaseDataSource {
       .order("week_start", { ascending: false });
 
     if (error) {
-      console.error("Error fetching weekly goals:", error);
       throw new Error("Error al obtener las metas semanales");
     }
 
@@ -130,7 +126,6 @@ export class SavingsRespository extends SupabaseDataSource {
       .lte("created_at", week_end);
 
     if (error) {
-      console.error("Error fetching income:", error);
       return 0;
     }
 
@@ -146,7 +141,6 @@ export class SavingsRespository extends SupabaseDataSource {
       .lte("created_at", week_end);
 
     if (error) {
-      console.error("Error fetching expenses:", error);
       return 0;
     }
 
@@ -160,7 +154,6 @@ export class SavingsRespository extends SupabaseDataSource {
       .eq("id", goalId);
 
     if (error) {
-      console.error("Error updating goal status:", error);
       throw new Error("Error al actualizar el estado de la meta");
     }
   }
@@ -172,7 +165,6 @@ export class SavingsRespository extends SupabaseDataSource {
       .eq("id", goalId);
 
     if (error) {
-      console.error("Error updating goal amount:", error);
       throw new Error("Error al actualizar el monto de la meta");
     }
   }
@@ -187,7 +179,6 @@ export class SavingsRespository extends SupabaseDataSource {
       .single();
 
     if (error && error.code !== "PGRST116") {
-      console.error("Error finding weekly goal:", error);
       throw new Error("Error al buscar meta semanal");
     }
 

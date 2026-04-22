@@ -30,9 +30,6 @@ export class BalanceService {
     const weeklyIncome = await this.repo.getWeeklyIncome(accountId);
 
     if (weeklyIncome === 0) {
-      console.log(
-        `No weekly income found for account ${accountId}, skipping...`,
-      );
       return null;
     }
 
@@ -60,49 +57,24 @@ export class BalanceService {
   }
 
   async processAllUsers(): Promise<void> {
-    console.log("[BalanceService] Starting weekly balance calculation...");
     const accounts = await this.repo.getAllAccounts();
-    console.log(
-      `[BalanceService] Found ${accounts.length} accounts to process`,
-    );
 
     for (const account of accounts) {
       try {
         const result = await this.calculateUserBalance(account.id);
 
         if (result) {
-          console.log(`[BalanceService] Account ${account.id}:`, {
-            budget: result.budget,
-            totalExpenses: result.totalExpenses,
-            remaining: result.remaining,
-            daysRemaining: result.daysRemaining,
-            dailyAvailable: result.dailyAvailable.toFixed(2),
-            weeklySaving: result.weeklySaving,
-          });
-
           if (result.weeklySaving > 0) {
             await this.repo.insertSaving(
               account.id,
               result.weeklySaving,
               result.weekStart,
             );
-            console.log(
-              `[BalanceService] Inserted saving of ${result.weeklySaving} for account ${account.id}`,
-            );
-          } else {
-            console.log(
-              `[BalanceService] No saving to insert for account ${account.id} (remaining: ${result.remaining})`,
-            );
           }
         }
       } catch (error) {
-        console.error(
-          `[BalanceService] Error processing account ${account.id}:`,
-          error,
-        );
+        // Silent fail for account processing
       }
     }
-
-    console.log("[BalanceService] Weekly balance calculation completed");
   }
 }

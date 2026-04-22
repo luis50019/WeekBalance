@@ -20,7 +20,6 @@ export const getMonthlyTrend = async (req: Request, res: Response) => {
       data 
     });
   } catch (error) {
-    console.error("Error getting monthly trend:", error);
     res.status(500).json({ message: "Error al obtener la tendencia mensual" });
   }
 };
@@ -42,7 +41,6 @@ export const getWeeklyTrend = async (req: Request, res: Response) => {
       data 
     });
   } catch (error) {
-    console.error("Error getting weekly trend:", error);
     res.status(500).json({ message: "Error al obtener la tendencia semanal" });
   }
 };
