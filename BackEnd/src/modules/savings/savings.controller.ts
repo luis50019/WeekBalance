@@ -41,7 +41,6 @@ export const createWeeklyGoal = async (req: Request, res: Response) => {
       data 
     });
   } catch (error: unknown) {
-    console.error("Error creating weekly goal:", error);
     const errorMessage = error instanceof Error ? error.message : "Error al crear la meta semanal";
     res.status(500).json({ message: errorMessage });
   }
@@ -72,7 +71,6 @@ export const registerSaving = async (req: Request, res: Response) => {
       data 
     });
   } catch (error: unknown) {
-    console.error("Error registering saving:", error);
     const errorMessage = error instanceof Error ? error.message : "Error al registrar el ahorro";
     res.status(500).json({ message: errorMessage });
   }
@@ -81,11 +79,9 @@ export const registerSaving = async (req: Request, res: Response) => {
 export const getHistorySavingAccount = async (req: Request, res: Response) => {
   try {
     const id = req.params.id as string;
-    console.log("ide ---" + id);
     const data = await service.getsSavingHistory(id);
     res.status(201).json({ message: "Historial encontrado", data: data });
   } catch (error) {
-    console.log(error);
     res.status(500).send({ message: error });
   }
 };
@@ -106,7 +102,6 @@ export const getWeeklyGoals = async (req: Request, res: Response) => {
       data 
     });
   } catch (error: unknown) {
-    console.error("Error getting weekly goals:", error);
     const errorMessage = error instanceof Error ? error.message : "Error al obtener las metas semanales";
     res.status(500).json({ message: errorMessage });
   }
@@ -135,7 +130,6 @@ export const recalculateWeeklyGoal = async (req: Request, res: Response) => {
       currentAmount: result.currentAmount,
     });
   } catch (error: unknown) {
-    console.error("Error recalculating weekly goal:", error);
     const errorMessage = error instanceof Error ? error.message : "Error al recalcular la meta semanal";
     res.status(500).json({ message: errorMessage });
   }

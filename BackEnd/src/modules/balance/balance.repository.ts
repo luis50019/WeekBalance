@@ -41,7 +41,6 @@ export class BalanceRepository extends SupabaseDataSource {
     const startOfWeek = new Date(now);
     startOfWeek.setDate(now.getDate() - now.getDay());
     startOfWeek.setHours(0, 0, 0, 0);
-    console.log(accountId);
     const { data, error } = await this.client
       .from("income_history")
       .select("amount")
@@ -51,7 +50,6 @@ export class BalanceRepository extends SupabaseDataSource {
     if (error) {
       throw new Error(`Error fetching weekly income: ${error.message}`);
     }
-    console.log(data);
 
     const incomeHistory = (data || []) as IncomeHistory[];
     return incomeHistory.reduce((sum, inc) => sum + inc.amount, 0);

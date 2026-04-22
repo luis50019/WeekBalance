@@ -9,10 +9,8 @@ export class AuthRepository extends SupabaseDataSource {
     });
 
     if (error) {
-      console.log("Error en el repositorio", error.message);
       throw new Error(error.message);
     }
-    console.log("data", data);
     return data[0]; // { user_id, account_id }
   }
   //Encontrar la informacion de perfil del usuario
@@ -54,6 +52,23 @@ export class AuthRepository extends SupabaseDataSource {
     if (error) throw new Error(error.message);
     if (!data) throw new Error("Cuenta no encontrada");
 
+    return {
+      ...data,
+      balance: Number(data.balance),
+    };
+  }
+
+  async updateProfile(userId: string, fullName: string) {
+    const { data, error } = await this.client
+      .from("profiles")
+      .update({ full_name: fullName })
+      .eq("id", userId)
+      .select("id, full_name, avatar_url, created_at")
+      .single();
+
+    if (error) throw new Error(error.message);
+    if (!data) throw new Error("No se pudo actualizar el perfil");
+
     return data;
   }
 
@@ -81,7 +96,6 @@ export class AuthRepository extends SupabaseDataSource {
       .maybeSingle();
 
     if (balanceError) throw new Error(balanceError.message);
-    console.log("balance", balance);
 
     return {
       balance: balance,

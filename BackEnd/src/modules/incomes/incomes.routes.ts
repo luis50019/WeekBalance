@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createIncome, getHistoryIncomesAccount, getWeeklyIncomeTotal } from "./incomes.controller";
+import { createIncome, getHistoryIncomesAccount, getWeeklyIncomeTotal, updateIncome, getIncomeById } from "./incomes.controller";
 import { authMiddleware } from "../../middlewares/auth.middleware";
 
 export const incomesRouter = Router();
@@ -14,4 +14,10 @@ incomesRouter.get(
   "/weekly-total/:accountId",
   authMiddleware,
   getWeeklyIncomeTotal,
+);
+incomesRouter.put("/update/", authMiddleware, updateIncome);
+incomesRouter.get(
+  "/:id",
+  authMiddleware,
+  getIncomeById,
 );
