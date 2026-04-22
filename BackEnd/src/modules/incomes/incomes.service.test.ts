@@ -6,6 +6,10 @@ jest.mock("./incomer.repository", () => ({
   IncomeRespository: jest.fn().mockImplementation(() => ({
     create: jest.fn(),
     findByAccountIncomeHistory: jest.fn(),
+    getWeeklyTotal: jest.fn(),
+    update: jest.fn(),
+    findById: jest.fn(),
+    adjustAccountBalance: jest.fn(),
   })),
 }));
 
@@ -100,15 +104,21 @@ describe("IncomesService", () => {
   describe("getIncomeHistory", () => {
     const mockHistoryData: ResponseIncomeDto[] = [
       {
+        id: "inc-001",
         amount: 5000,
         source: "Employer",
         account_id: "acc-123",
+        category: "salary",
+        description: "Pago mensual",
         created_at: "2024-01-01T00:00:00.000Z",
       },
       {
+        id: "inc-002",
         amount: 1000,
         source: "Freelance",
         account_id: "acc-123",
+        category: "freelance",
+        description: "Proyecto puntual",
         created_at: "2024-01-02T00:00:00.000Z",
       },
     ];
@@ -147,6 +157,7 @@ describe("IncomesService", () => {
       expect(result[0]).toHaveProperty("amount");
       expect(result[0]).toHaveProperty("source");
       expect(result[0]).toHaveProperty("account_id");
+      expect(result[0]).toHaveProperty("category");
       expect(result[0]).toHaveProperty("created_at");
     });
 

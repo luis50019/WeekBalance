@@ -1,14 +1,12 @@
 import { SupabaseDataSource } from "../../infrastructure/database/supabase.datasource";
 import { CreateIncomeDto } from "./dto/create-income.dto";
+import { UpdateIncomeDto } from "./dto/update-income.dto";
 import { ResponseIncomeDto } from "./dto/response-income.dto";
 
 export class IncomeRespository extends SupabaseDataSource {
   async create(data: CreateIncomeDto) {
-    console.log("Informacion recivida: ");
-    console.log(data);
     const { error } = await this.client.from("income_history").insert(data);
     if (error) {
-      console.log(error);
       throw new Error("Error la informacion no esta completada");
     }
   }
@@ -25,8 +23,15 @@ export class IncomeRespository extends SupabaseDataSource {
     if (error) {
       throw new Error("No se logro obtener el historial");
     }
-    console.log(data);
-    return data;
+    return (data ?? []).map((item) => ({
+      id: item.id,
+      account_id: item.account_id,
+      amount: Number(item.amount),
+      category: item.category,
+      description: item.description ?? undefined,
+      source: item.source ?? undefined,
+      created_at: item.created_at,
+    }));
   }
 
   async getWeeklyTotal(accountId: string, weekStart: string, weekEnd: string) {
@@ -43,5 +48,77 @@ export class IncomeRespository extends SupabaseDataSource {
 
     const total = data.reduce((sum, item) => sum + Number(item.amount), 0);
     return total;
+  }
+
+  async update(data: UpdateIncomeDto) {
+    if (!data.id) {
+      throw new Error("El ID del ingreso es requerido");
+    }
+
+    const updateData: Partial<CreateIncomeDto> = {};
+    if (data.description !== undefined) updateData.description = data.description;
+    if (data.category !== undefined) updateData.category = data.category;
+    if (data.amount !== undefined) updateData.amount = data.amount;
+    if (data.source !== undefined) updateData.source = data.source;
+
+    const { error } = await this.client
+      .from("income_history")
+      .update(updateData)
+      .eq("id", data.id)
+      .eq("account_id", data.account_id);
+
+    if (error) {
+      throw new Error("Error al actualizar el ingreso");
+    }
+  }
+
+  async findById(id: string): Promise<ResponseIncomeDto | null> {
+    const { data, error } = await this.client
+      .from("income_history")
+      .select("*")
+      .eq("id", id)
+      .single();
+
+    if (error) {
+      return null;
+    }
+
+    if (!data) {
+      return null;
+    }
+
+    return {
+      id: data.id,
+      account_id: data.account_id,
+      amount: Number(data.amount),
+      category: data.category,
+      description: data.description ?? undefined,
+      source: data.source ?? undefined,
+      created_at: data.created_at,
+    };
+  }
+
+  async adjustAccountBalance(accountId: string, delta: number): Promise<void> {
+    const { data, error } = await this.client
+      .from("accounts")
+      .select("balance")
+      .eq("id", accountId)
+      .single();
+
+    if (error || !data) {
+      throw new Error("Error al obtener el saldo de la cuenta");
+    }
+
+    const currentBalance = Number(data.balance);
+    const updatedBalance = Number((currentBalance + delta).toFixed(2));
+
+    const { error: updateError } = await this.client
+      .from("accounts")
+      .update({ balance: updatedBalance })
+      .eq("id", accountId);
+
+    if (updateError) {
+      throw new Error("Error al actualizar el saldo de la cuenta");
+    }
   }
 }
