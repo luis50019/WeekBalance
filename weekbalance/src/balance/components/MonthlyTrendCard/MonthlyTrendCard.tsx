@@ -3,6 +3,9 @@ import { MonthlyTrendCardStyle } from "./MonthlyTrendCard.style";
 import { LineChart } from "react-native-gifted-charts";
 import { memo, useMemo } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Dimensions } from "react-native";
+
+const { width: screenWidth } = Dimensions.get("window");
 
 interface WeeklyTrendData {
   week: string;
@@ -16,57 +19,62 @@ interface WeeklyTrendData {
   balance: number;
 }
 
-interface MonthlyTrendCardProps {
-  data: WeeklyTrendData[] | null;
-  loading?: boolean;
+interface DailyExpenseItem {
+  day: string;
+  total: number;
+  value: number;
 }
 
-function formatDateRange(startDate: string, endDate: string): string {
-  const start = new Date(startDate);
-  const end = new Date(endDate);
-  const months = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
-  return `${start.getDate()} ${months[start.getMonth()]} - ${end.getDate()} ${months[end.getMonth()]}`;
+interface MonthlyTrendCardProps {
+  data: WeeklyTrendData[] | DailyExpenseItem[] | null;
+  loading?: boolean;
+  isDailyData?: boolean;
 }
 
 function MonthlyTrendCardComponent({
   data,
   loading = false,
+  isDailyData = false,
 }: MonthlyTrendCardProps) {
-  const currentWeekRange = useMemo(() => {
-    if (!data || data.length === 0) return "";
-    const currentWeek = data.find(d => d.isCurrentWeek);
-    if (currentWeek) {
-      return formatDateRange(currentWeek.startDate, currentWeek.endDate);
-    }
-    return formatDateRange(data[0].startDate, data[0].endDate);
-  }, [data]);
-
-  const lastDayExpenses = useMemo(() => {
-    if (!data || data.length === 0) return 0;
-    const currentDay = data.find(d => d.isCurrentWeek);
-    return currentDay?.expenses ?? 0;
-  }, [data]);
-
+  // Calcular totales para datos diarios
   const totalExpenses = useMemo(() => {
     if (!data || data.length === 0) return 0;
-    return data.reduce((sum, day) => sum + day.expenses, 0);
-  }, [data]);
+    if (isDailyData) {
+      return (data as DailyExpenseItem[]).reduce((sum, item) => sum + (item.total || item.value || 0), 0);
+    }
+    return (data as WeeklyTrendData[]).reduce((sum, item) => sum + item.expenses, 0);
+  }, [data, isDailyData]);
 
+  // Configurar datos para la gráfica
   const chartData = useMemo(() => {
     if (!data || data.length === 0) return [];
-    return data.map((item) => ({
-      value: Number(item.expenses) || 0,
-      label: item.week,
-      dataPointText: item.isCurrentWeek ? "$" + item.expenses.toFixed(0) : undefined,
-    }));
-  }, [data]);
 
+    if (isDailyData) {
+      // Datos diarios (días de la semana)
+      return (data as DailyExpenseItem[]).map((item) => ({
+        value: Number(item.total || item.value) || 0,
+        label: String(item.day || ""),
+      }));
+    } else {
+      // Datos semanales (original)
+      return (data as WeeklyTrendData[]).map((item) => ({
+        value: Number(item.expenses) || 0,
+        label: item.week,
+        dataPointText: item.isCurrentWeek ? "$" + item.expenses.toFixed(0) : undefined,
+      }));
+    }
+  }, [data, isDailyData]);
+
+  // Calcular maxValue dinámicamente
   const maxValue = useMemo(() => {
     if (chartData.length === 0) return 100;
-    const max = Math.max(...chartData.map(d => d.value));
-    return max > 0 ? Math.ceil(max * 1.3 / 50) * 50 : 100;
+    const max = Math.max(...chartData.map((d) => d.value));
+    if (max === 0) return 100;
+    const adjusted = max * 1.4;
+    return Math.ceil(adjusted / 100) * 100 || 100;
   }, [chartData]);
 
+  // Generar etiquetas del eje Y
   const yAxisLabels = useMemo(() => {
     const step = maxValue / 4;
     return [
@@ -77,6 +85,9 @@ function MonthlyTrendCardComponent({
       `$${Math.round(maxValue)}`,
     ];
   }, [maxValue]);
+
+  // Calcular spacing dinámico
+  const spacing = Math.max(35, (screenWidth - 100) / chartData.length);
 
   if (loading) {
     return (
@@ -101,7 +112,9 @@ function MonthlyTrendCardComponent({
   return (
     <View style={MonthlyTrendCardStyle.container}>
       <View style={MonthlyTrendCardStyle.header}>
-        <Text style={MonthlyTrendCardStyle.headerTitle}>GASTOS SEMANALES</Text>
+        <Text style={MonthlyTrendCardStyle.headerTitle}>
+          {isDailyData ? "GASTOS DIARIOS" : "GASTOS SEMANALES"}
+        </Text>
         <View style={MonthlyTrendCardStyle.headerIcon}>
           <MaterialCommunityIcons name="chart-line" size={18} color="#4E54C8" />
         </View>
@@ -116,24 +129,24 @@ function MonthlyTrendCardComponent({
             })}
           </Text>
           <Text style={{ color: "#6B7280", fontSize: 12, marginTop: 2 }}>
-            Total gastado
+            {isDailyData ? "Total gastado esta semana" : "Total gastado"}
           </Text>
         </View>
         <View style={{ alignItems: "flex-end" }}>
           <Text style={{ color: "#9CA3AF", fontSize: 11 }}>
-            Período actual
+            {isDailyData ? "Semana actual" : "Período actual"}
           </Text>
           <Text style={{ color: "#EF4444", fontSize: 14, fontWeight: "600" }}>
-            {currentWeekRange}
+            {isDailyData ? "Esta semana" : "Últimas semanas"}
           </Text>
         </View>
       </View>
 
       <View style={MonthlyTrendCardStyle.chartContainer}>
         <LineChart
-          width={280}
+          width={screenWidth - 80}
           height={160}
-          spacing={35}
+          spacing={spacing}
           initialSpacing={10}
           noOfSections={4}
           maxValue={maxValue}
@@ -142,9 +155,9 @@ function MonthlyTrendCardComponent({
           xAxisThickness={1}
           xAxisColor="#3D4460"
           yAxisTextStyle={{ color: "#6B7280", fontSize: 10 }}
-          yAxisLabelWidth={45}
+          yAxisLabelWidth={40}
           yAxisLabelTexts={yAxisLabels}
-          xAxisLabelTextStyle={{ color: "#9CA3AF", fontSize: 10, fontWeight: "600" }}
+          xAxisLabelTextStyle={{ color: "#9CA3AF", fontSize: 9, fontWeight: "600" }}
           data={chartData}
           color="#EF4444"
           thickness={2.5}
@@ -160,7 +173,9 @@ function MonthlyTrendCardComponent({
       <View style={MonthlyTrendCardStyle.chartLegend}>
         <View style={MonthlyTrendCardStyle.legendItem}>
           <View style={[MonthlyTrendCardStyle.legendDot, { backgroundColor: "#EF4444" }]} />
-          <Text style={MonthlyTrendCardStyle.legendLabel}>Gastos por día</Text>
+          <Text style={MonthlyTrendCardStyle.legendLabel}>
+            {isDailyData ? "Gastos por día" : "Gastos por semana"}
+          </Text>
         </View>
       </View>
     </View>

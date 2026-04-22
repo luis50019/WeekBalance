@@ -2,6 +2,7 @@ export interface ChartDataPoint {
   value: number;
   color: string;
   text: string;
+  day?: string;
   isCurrentWeek?: boolean;
 }
 

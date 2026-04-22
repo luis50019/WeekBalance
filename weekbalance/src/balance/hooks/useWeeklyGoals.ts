@@ -124,7 +124,6 @@ export const useWeeklyGoals = () => {
         );
       setHistory(historyGoals);
     } catch (err) {
-      console.error("[useWeeklyGoals] Error:", err);
       setError(err instanceof Error ? err.message : "Error al cargar las metas");
     } finally {
       setLoading(false);

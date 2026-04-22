@@ -40,3 +40,23 @@ export const getWeeklyTotal = async (accountId: string): Promise<number> => {
   );
   return response.data.data.total;
 };
+
+interface UpdateIncomeRequest {
+  id: string;
+  account_id: string;
+  amount?: number;
+  category?: string;
+  description?: string;
+  source?: string;
+}
+
+export const updateIncome = async (data: UpdateIncomeRequest): Promise<void> => {
+  await apiClient.put("/incomes/update/", data);
+};
+
+export const getIncomeById = async (id: string): Promise<ResponseIncomeDto> => {
+  const response = await apiClient.get<ApiResponse<ResponseIncomeDto>>(
+    `/incomes/${id}`
+  );
+  return response.data.data;
+};

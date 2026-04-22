@@ -1,11 +1,21 @@
 import { create } from "zustand";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { authApi, AuthUser, AuthProfile, AuthAccount } from "../core/api/auth-api";
+import { getWeeklyTotal as getIncomesWeeklyTotal } from "../balance/api/funds.service";
+import { getWeeklyTotal as getExpensesWeeklyTotal, getWeeklyByCategory, getWeeklyByDay, ExpenseByCategoryWeekly, ExpenseByDay } from "../balance/api/expenses.service";
+
+interface WeeklyData {
+  weeklyIncomes: number;
+  weeklyExpenses: number;
+  expensesByCategory: ExpenseByCategoryWeekly[];
+  expensesByDay: ExpenseByDay[];
+}
 
 interface AuthState {
   user: AuthUser | null;
   profile: AuthProfile | null;
   account: AuthAccount | null;
+  weeklyData: WeeklyData;
   isLoading: boolean;
   isInitialized: boolean;
 
@@ -14,12 +24,21 @@ interface AuthState {
   register: (email: string, password: string, fullName: string) => Promise<void>;
   logout: () => Promise<void>;
   refreshAccount: () => Promise<void>;
+  refreshWeeklyData: () => Promise<void>;
 }
+
+const initialWeeklyData: WeeklyData = {
+  weeklyIncomes: 0,
+  weeklyExpenses: 0,
+  expensesByCategory: [],
+  expensesByDay: [],
+};
 
 export const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
   profile: null,
   account: null,
+  weeklyData: initialWeeklyData,
   isLoading: false,
   isInitialized: false,
 
@@ -27,11 +46,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     try {
       const hasToken = await authApi.getStoredToken();
       if (hasToken) {
-        // Hay sesión guardada - marcar para re-autenticación
-        console.log("[Auth] Token found, session exists");
+        // Token found, session exists
       }
     } catch (error) {
-      console.log("[Auth] Initialize error:", error);
+      // Silent fail on initialize
     }
     set({ isInitialized: true });
   },
@@ -44,15 +62,15 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       // Guardar session token
       await authApi.saveSession(result.data.session.access_token, result.data.user.id);
 
-      // Obtener account
-      const accountResponse = await authApi.getAccount(result.data.user.id);
-
       set({
         user: result.data.user,
         profile: result.data.profile,
-        account: accountResponse.data,
+        account: result.data.account,
         isLoading: false,
       });
+
+      // Obtener datos semanales
+      await get().refreshWeeklyData();
     } catch (error) {
       set({ isLoading: false });
       throw error;
@@ -69,15 +87,15 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
       await authApi.saveSession(result.data.session.access_token, result.data.user.id);
 
-      // Obtener account
-      const accountResponse = await authApi.getAccount(result.data.user.id);
-
       set({
         user: result.data.user,
         profile: result.data.profile,
-        account: accountResponse.data,
+        account: result.data.account,
         isLoading: false,
       });
+
+      // Obtener datos semanales
+      await get().refreshWeeklyData();
     } catch (error) {
       set({ isLoading: false });
       throw error;
@@ -90,6 +108,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       user: null,
       profile: null,
       account: null,
+      weeklyData: initialWeeklyData,
     });
   },
 
@@ -98,10 +117,46 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     if (!user) return;
 
     try {
-      const accountResponse = await authApi.getAccount(user.id);
-      set({ account: accountResponse.data });
+      const [accountResponse, profileResponse] = await Promise.all([
+        authApi.getAccount(user.id),
+        authApi.getProfile(user.id),
+      ]);
+      set({ 
+        account: accountResponse.data,
+        profile: profileResponse.data,
+      });
     } catch (error) {
-      console.error("[Auth] Error refreshing account:", error);
+      // Silent fail on refresh account
+    }
+  },
+
+  refreshWeeklyData: async () => {
+    const { account } = get();
+    if (!account) return;
+
+    try {
+      // Refreshing weekly data
+      const [weeklyIncomes, weeklyExpenses, expensesByCategory, expensesByDay] = await Promise.all([
+        getIncomesWeeklyTotal(account.id),
+        getExpensesWeeklyTotal(account.id),
+        getWeeklyByCategory(account.id),
+        getWeeklyByDay(account.id),
+      ]);
+
+      // Weekly data response received
+
+      set({
+        weeklyData: {
+          weeklyIncomes,
+          weeklyExpenses,
+          expensesByCategory: expensesByCategory.categories || [],
+          expensesByDay: expensesByDay || [],
+        },
+      });
+
+      // Weekly data set
+    } catch (error) {
+      // Silent fail on refresh weekly data
     }
   },
 }));

@@ -10,6 +10,7 @@ import { Slider } from "../../../shared/components/layout/Sliders/Slider";
 import { getDataOptions } from "../../../core/constants/Categories";
 import { WeekHeader } from "../../components/WeekHeader";
 import { ResponseIncomeDto } from "../../types/Response/ResponseIncomeDto";
+import { useNavigate } from "../../../shared/hooks/useNavigate";
 
 interface WeekGroup {
   weekKey: string;
@@ -83,6 +84,7 @@ type ListItem =
 function IncomeScreen() {
   const { totalIncomes } = useBalanceContext();
   const { dataFilter, handlerFilter, weeklyTotal } = useFunds();
+  const { navigationToPath } = useNavigate();
 
   const listData: ListItem[] = [];
 
@@ -108,6 +110,10 @@ function IncomeScreen() {
       );
     }
 
+    const handleEditIncome = (incomeId: string) => {
+      navigationToPath("EditFunds", { incomeId });
+    };
+
     return (
       <View style={styles.incomeItem}>
         <TransactionCard
@@ -115,6 +121,7 @@ function IncomeScreen() {
           amount={item.data.amount}
           category={item.data.category}
           description={item.data.description || "Sin descripcion"}
+          onPress={() => handleEditIncome(item.data.id)}
         />
       </View>
     );
@@ -173,7 +180,7 @@ function IncomeScreen() {
           return (
             <EmptyData
               title="Sin datos disponibles"
-              message="Aun no has registrado algum ingreso"
+              message="Aun no has registrado algun ingreso"
             />
           );
         }}

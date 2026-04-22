@@ -32,7 +32,7 @@ function NavBar() {
           }
         />
       </IconBar>
-      <IconBar click={handleIconPress} to="historySavings" text="Gastos">
+       <IconBar click={handleIconPress} to="historyExpenses" text="Gastos">
         <Ionicons
           name="cash-outline"
           size={25}

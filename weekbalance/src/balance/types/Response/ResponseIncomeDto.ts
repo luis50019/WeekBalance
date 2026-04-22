@@ -3,7 +3,7 @@ export type ResponseIncomeDto = {
   account_id: string;
   amount: number;
   category: string;
-  description: string | null;
+  description?: string | null;
   source?: string | null;
   created_at: string;
 };

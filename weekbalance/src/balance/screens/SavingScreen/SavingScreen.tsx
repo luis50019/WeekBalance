@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import {
   Text,
   View,
@@ -35,6 +35,44 @@ function SavingScreen() {
   const [showForm, setShowForm] = useState(false);
   const [goalAmount, setGoalAmount] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [hasActiveGoal, setHasActiveGoal] = useState(false);
+
+  // Validar si hay meta activa cada vez que entra a la screen
+  useEffect(() => {
+    const validateGoal = () => {
+      if (!data?.goals) {
+        setHasActiveGoal(false);
+        return;
+      }
+      
+      const goal = data.goals.find(
+        (g) => g.week_start === weekStart && g.week_end === weekEnd
+      );
+      
+      if (!goal) {
+        setHasActiveGoal(false);
+        return;
+      }
+      
+      // Si la meta está completa (100% o más), no mostrar botón
+      if (goal.progress >= 100) {
+        setHasActiveGoal(false);
+        return;
+      }
+      
+      // Si la semana ya terminó, no mostrar botón
+      const weekEndDate = new Date(goal.week_end);
+      const now = new Date();
+      if (weekEndDate < now) {
+        setHasActiveGoal(false);
+        return;
+      }
+      
+      setHasActiveGoal(true);
+    };
+    
+    validateGoal();
+  }, [data, weekStart, weekEnd]);
 
   const currentYear = new Date().getFullYear();
 
@@ -59,14 +97,6 @@ function SavingScreen() {
   };
 
   const { weekStart, weekEnd } = getCurrentWeekDates();
-
-  // Verificar si ya existe meta para esta semana
-  const hasActiveGoal = useMemo(() => {
-    if (!data?.goals) return false;
-    return data.goals.some(
-      (g) => g.week_start === weekStart && g.week_end === weekEnd
-    );
-  }, [data, weekStart, weekEnd]);
 
   const progressPercentage = useMemo(() => {
     if (!currentGoal) return 0;
@@ -251,15 +281,17 @@ function SavingScreen() {
               </Text>
             </View>
 
-            <TouchableOpacity
-              style={SavingScreenStyle.createGoalButton}
-              onPress={() => setShowForm(true)}
-            >
-              <MaterialCommunityIcons name="plus" size={20} color="#FFF" />
-              <Text style={SavingScreenStyle.createGoalButtonText}>
-                {hasActiveGoal ? "Nueva meta semanal" : "Crear meta semanal"}
-              </Text>
-            </TouchableOpacity>
+            {!hasActiveGoal && (
+              <TouchableOpacity
+                style={SavingScreenStyle.createGoalButton}
+                onPress={() => setShowForm(true)}
+              >
+                <MaterialCommunityIcons name="plus" size={20} color="#FFF" />
+                <Text style={SavingScreenStyle.createGoalButtonText}>
+                  Crear meta semanal
+                </Text>
+              </TouchableOpacity>
+            )}
 
             <View style={SavingScreenStyle.metricsContainer}>
               <View style={SavingScreenStyle.metricCard}>
