@@ -3,28 +3,26 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useEffect, useState } from "react";
 import AppNavigation from "./src/app/navigations/AppNavigation";
 import { COLORS } from "./src/core/constants/Color";
-import { initializeDatabase } from "./src/core/database";
 import { useAuthStore } from "./src/auth/store";
 
 function AppContent() {
-  const [isDbReady, setIsDbReady] = useState(false);
+  const [isReady, setIsReady] = useState(false);
   const { initialize, isInitialized } = useAuthStore();
 
   useEffect(() => {
     const setup = async () => {
       try {
-        await initializeDatabase();
         await initialize();
-      } catch (error) {
-        console.error("[App] Setup error:", error);
+      } catch {
+        // Silent fail
       } finally {
-        setIsDbReady(true);
+        setIsReady(true);
       }
     };
     setup();
   }, []);
 
-  if (!isDbReady || !isInitialized) {
+  if (!isReady || !isInitialized) {
     return (
       <View style={styles.loading}>
         <ActivityIndicator size="large" color={COLORS.primary} />

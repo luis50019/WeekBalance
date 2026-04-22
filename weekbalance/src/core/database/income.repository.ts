@@ -39,7 +39,7 @@ export class IncomeRepository {
       "SELECT * FROM income_history WHERE id = ?",
       [id]
     );
-    if (!income) throw new Error("Error al crear ingreso");
+    if (!income) throw new Error("No se puede completar la operación debido a un problema interno");
 
     return income;
   }

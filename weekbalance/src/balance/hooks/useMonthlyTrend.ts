@@ -1,16 +1,20 @@
 import { useState, useEffect, useCallback } from "react";
 import { getWeeklyTrend, WeeklyTrendData } from "../api/trend.service";
+import { useAuthStore } from "../../auth/store";
 
 export const useWeeklyTrend = () => {
+  const { account } = useAuthStore();
   const [data, setData] = useState<WeeklyTrendData[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const fetchTrend = useCallback(async () => {
+    if (!account) return;
+    
     try {
       setLoading(true);
       setError(null);
-      const response = await getWeeklyTrend();
+      const response = await getMonthlyTrend(account.id, isDailyData);
       setData(response);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Error al cargar la tendencia");
@@ -18,7 +22,7 @@ export const useWeeklyTrend = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [account?.id]);
 
   useEffect(() => {
     fetchTrend();

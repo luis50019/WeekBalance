@@ -3,13 +3,13 @@ import CardHistory from "../../../shared/components/Cards/CardInfoHistory/CardIn
 import FloatingButton from "../../../shared/components/buttons/FloattingButton/FloattingButton";
 import { styleExpensesScreen } from "./ExpensesScreen.style";
 import TransactionCard from "../../../shared/components/Cards/CardTransaction/CardTransaction";
-import { useBalanceContext } from "../../../core/context/BalanceProvider";
 import EmptyData from "../../../shared/components/UI/emptyData/EmptyData";
 import { useExpenses } from "../../hooks/useExpenses";
 import { Slider } from "../../../shared/components/layout/Sliders/Slider";
 import { getDataExpenses } from "../../../core/constants/Categories";
 import { WeekHeader } from "../../components/WeekHeader";
 import { ResponseIncomeDto } from "../../types/Response/ResponseIncomeDto";
+import { useNavigate } from "../../../shared/hooks/useNavigate";
 
 interface WeekGroup {
   weekKey: string;
@@ -81,8 +81,8 @@ type ListItem =
   | { type: "expense"; data: ResponseIncomeDto };
 
 function ExpensesScreen() {
-  const { totalExpenses } = useBalanceContext();
-  const { dataFilter, handlerFilter } = useExpenses();
+  const { dataFilter, handlerFilter, weeklyTotal } = useExpenses();
+  const { navigationToPath } = useNavigate();
 
   const listData: ListItem[] = [];
 
@@ -108,6 +108,10 @@ function ExpensesScreen() {
       );
     }
 
+    const handleEditExpense = (expenseId: string) => {
+      navigationToPath("EditExpense", { expenseId });
+    };
+
     return (
       <View style={styles.expenseItem}>
         <TransactionCard
@@ -115,6 +119,7 @@ function ExpensesScreen() {
           amount={item.data.amount || 0}
           category={item.data.category}
           description={item.data.description || "Sin descripcion"}
+          onPress={() => handleEditExpense(item.data.id)}
         />
       </View>
     );
@@ -158,7 +163,7 @@ function ExpensesScreen() {
           <View>
             <CardHistory
               title="TOTAL DE GASTOS SEMANAL"
-              amount={totalExpenses || 0}
+              amount={weeklyTotal}
               mouth={getCurrentMonthName()}
               year={getCurrentYear()}
             />
@@ -173,7 +178,7 @@ function ExpensesScreen() {
           return (
             <EmptyData
               title="Sin datos disponibles"
-              message="Aun no has registrado ningun gasto"
+              message="Aun no has registrado algun gasto"
             />
           );
         }}

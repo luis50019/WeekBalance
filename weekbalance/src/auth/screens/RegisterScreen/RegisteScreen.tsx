@@ -20,7 +20,7 @@ function RegisterScreen() {
     <View style={StyleAuth.container}>
       <IconWallet />
       <H1 message="WeekBalance" />
-      <Messages message="Unete a la élite de las" textImportant="finanzas" />
+      <Messages message="Únete a la élite de las" textImportant="finanzas" />
       <View style={StyleAuth.container_form}>
         <FormInput
           rules={usernameValidations}
@@ -57,9 +57,9 @@ function RegisterScreen() {
         <Text style={StyleAuth.error}>{errorMessage ? errorMessage : ""}</Text>
       </View>
       <View style={StyleAuth.container_foot}>
-        <Text style={StyleAuth.messageLink}>¿ Tienes un cuenta?</Text>
+        <Text style={StyleAuth.messageLink}>¿Ya tienes una cuenta?</Text>
         <Link to="Login" style={StyleAuth.link}>
-          inciar sesion
+          Inicia sesión
         </Link>
       </View>
     </View>

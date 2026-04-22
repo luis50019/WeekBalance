@@ -44,5 +44,10 @@ export class IncomesService {
     if (!account_id) throw new Error("El id de cuenta no es correcto");
     return this.repo.findByAccountIncomeHistory(account_id);
   }
+
+  async getWeeklyIncomeTotal(accountId: string) {
+    const { weekStart, weekEnd } = this.getWeekDates();
+    return await this.repo.getWeeklyTotal(accountId, weekStart, weekEnd);
+  }
 }
 

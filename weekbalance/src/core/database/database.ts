@@ -19,8 +19,6 @@ export const initializeDatabase = async (): Promise<void> => {
   for (const tableQuery of ALL_TABLES) {
     await database.execAsync(tableQuery);
   }
-
-  console.log("[Database] Initialized successfully");
 };
 
 export const closeDatabase = async (): Promise<void> => {

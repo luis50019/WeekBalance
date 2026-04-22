@@ -1,88 +1,12 @@
-import { View, Dimensions } from "react-native";
+import { View } from "react-native";
 import { CircleGrapicStyle } from "./CircleGrapic.style";
 import { LineChart } from "react-native-gifted-charts";
-import { memo, useMemo } from "react";
-
-const { width: screenWidth } = Dimensions.get("window");
-
-interface ChartDataPoint {
-  value: number;
-  color: string;
-  text: string;
-  isCurrentWeek?: boolean;
-}
-
-interface PropsGrapic {
-  info: ChartDataPoint[] | null;
-  totalExpense: number | null;
-}
+import { memo } from "react";
+import { PropsGrapic } from "../../interfaces/CircleGrapic";
+import { useCircleGrapic } from "../../hooks/useCircleGrapic";
 
 function CircleGrapicComponent({ info, totalExpense = 0 }: PropsGrapic) {
-  const lineData = useMemo(() => {
-    if (!info || info.length === 0) return [];
-    return info.map((item, index) => ({
-      value: Math.max(0, Number(item.value) || 0),
-      label: String(item.text),
-      dataPointText: item.isCurrentWeek ? "●" : undefined,
-      customDataPoint: item.isCurrentWeek
-        ? () => (
-            <View
-              style={{
-                width: 10,
-                height: 10,
-                borderRadius: 5,
-                backgroundColor: "#F97316",
-                borderWidth: 2,
-                borderColor: "#FFFFFF",
-              }}
-            />
-          )
-        : undefined,
-    }));
-  }, [info]);
-
-  const chartConfig = useMemo(() => {
-    if (lineData.length === 0) {
-      return { width: screenWidth * 0.8, maxValue: 100, spacing: 40, minValue: 0 };
-    }
-
-    const values = lineData.map((d) => d.value);
-    const maxDataValue = Math.max(...values, 0);
-    const minDataValue = Math.min(...values, 0);
-
-    const range = maxDataValue - minDataValue;
-    let adjustedMax: number;
-
-    if (maxDataValue === 0 && minDataValue === 0) {
-      adjustedMax = 100;
-    } else if (range === 0) {
-      adjustedMax = Math.max(maxDataValue * 2, 100);
-    } else {
-      adjustedMax = maxDataValue * 1.3;
-    }
-
-    const containerWidth = screenWidth * 0.85;
-    const totalSpacing = lineData.length * 50;
-    const width = Math.max(containerWidth, totalSpacing);
-
-    const finalMax = Math.ceil(adjustedMax / 100) * 100 || 100;
-    const step = finalMax / 4;
-    const yAxisLabels = [
-      "$0",
-      `$${Math.round(step).toLocaleString()}`,
-      `$${Math.round(step * 2).toLocaleString()}`,
-      `$${Math.round(step * 3).toLocaleString()}`,
-      `$${Math.round(finalMax).toLocaleString()}`,
-    ];
-
-    return {
-      width,
-      maxValue: finalMax,
-      minValue: 0,
-      spacing: 50,
-      yAxisLabels,
-    };
-  }, [lineData]);
+  const { lineData, chartConfig } = useCircleGrapic(info);
 
   if (!info || info.length === 0 || !totalExpense) {
     return null;
@@ -92,54 +16,52 @@ function CircleGrapicComponent({ info, totalExpense = 0 }: PropsGrapic) {
     <View style={CircleGrapicStyle.container}>
       <LineChart
         width={chartConfig.width}
-        height={150}
+        height={160}
         spacing={chartConfig.spacing}
-        initialSpacing={15}
+        initialSpacing={chartConfig.initialSpacing}
         noOfSections={4}
         maxValue={chartConfig.maxValue}
-        minValue={chartConfig.minValue}
-        yAxisThickness={0}
-        yAxisColor="transparent"
-        xAxisThickness={1}
-        xAxisColor="#3D4460"
+        minValue={0}
+        yAxisThickness={1}
+        yAxisColor="#3D4460"
+        yAxisLabelWidth={38}
         yAxisTextStyle={{
           color: "#6B7280",
-          fontSize: 10,
+          fontSize: 9,
           fontWeight: "400",
         }}
-        yAxisLabelWidth={40}
-        yAxisLabelTexts={chartConfig.yAxisLabels}
+        xAxisThickness={1}
+        xAxisColor="#3D4460"
         xAxisLabelTextStyle={{
           color: "#9CA3AF",
           fontSize: 9,
           fontWeight: "500",
         }}
         data={lineData}
-        color="#4E54C8"
-        thickness={2.5}
-        startFillColor="#4E54C8"
-        endFillColor="#8B5CF6"
-        startOpacity={0.5}
-        endOpacity={0.1}
+        dataPointsColor="#EF4444"
+        dataPointsRadius={5}
+        color="#EF4444"
+        thickness={3}
         areaChart
         curved
         hideRules={false}
-        rulesColor="rgba(61, 68, 96, 0.5)"
+        rulesColor="#2A2E3F"
         rulesType="dashed"
-        showVerticalLines={false}
-        showDataPointOnFocus
-        showStripOnFocus
-        showScrollIndicator
-        disableScroll={false}
+        startFillColor="#EF4444"
+        endFillColor="#EF4444"
+        startOpacity={0.3}
+        endOpacity={0.02}
         isAnimated
-        animationDuration={800}
-        dataPointsColor="#4E54C8"
-        dataPointsRadius={4}
+        animationDuration={500}
+        showVerticalLines={false}
         hideDataPoints={false}
-        spacing={chartConfig.spacing}
+        showDataPointOnFocus
+        showScrollIndicator={false}
+        disableScroll
       />
     </View>
   );
 }
 
 export const CircleGrapic = memo(CircleGrapicComponent);
+

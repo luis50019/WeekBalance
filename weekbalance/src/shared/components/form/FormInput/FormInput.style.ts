@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
-import { fs, hp, wp } from "../../../utils/responsive";
 import { COLORS } from "../../../../core/constants/Color";
+import { fs, hp, wp } from "../../../utils/responsive";
 
 export const styleFormInput = StyleSheet.create({
   container: {
@@ -32,4 +32,3 @@ export const styleFormInput = StyleSheet.create({
     marginBottom: 5,
   },
 });
-

@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import {
   Text,
   View,
@@ -18,6 +18,7 @@ import { CardWeek } from "../../components/CardWeek";
 import FloatingButton from "../../../shared/components/buttons/FloattingButton/FloattingButton";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { COLORS } from "../../../core/constants/Color";
+import { sanitizeNumericInput } from "../../../shared/utils/validation";
 
 function SavingScreen() {
   const {
@@ -34,6 +35,44 @@ function SavingScreen() {
   const [showForm, setShowForm] = useState(false);
   const [goalAmount, setGoalAmount] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [hasActiveGoal, setHasActiveGoal] = useState(false);
+
+  // Validar si hay meta activa cada vez que entra a la screen
+  useEffect(() => {
+    const validateGoal = () => {
+      if (!data?.goals) {
+        setHasActiveGoal(false);
+        return;
+      }
+      
+      const goal = data.goals.find(
+        (g) => g.week_start === weekStart && g.week_end === weekEnd
+      );
+      
+      if (!goal) {
+        setHasActiveGoal(false);
+        return;
+      }
+      
+      // Si la meta está completa (100% o más), no mostrar botón
+      if (goal.progress >= 100) {
+        setHasActiveGoal(false);
+        return;
+      }
+      
+      // Si la semana ya terminó, no mostrar botón
+      const weekEndDate = new Date(goal.week_end);
+      const now = new Date();
+      if (weekEndDate < now) {
+        setHasActiveGoal(false);
+        return;
+      }
+      
+      setHasActiveGoal(true);
+    };
+    
+    validateGoal();
+  }, [data, weekStart, weekEnd]);
 
   const currentYear = new Date().getFullYear();
 
@@ -41,6 +80,23 @@ function SavingScreen() {
     if (!data?.goals || data.goals.length === 0) return null;
     return data.goals[0];
   }, [data]);
+
+  // Obtener semana actual
+  const getCurrentWeekDates = () => {
+    const now = new Date();
+    const dayOfWeek = now.getDay();
+    const weekStart = new Date(now);
+    weekStart.setDate(now.getDate() - dayOfWeek);
+    weekStart.setHours(0, 0, 0, 0);
+    const weekEnd = new Date(weekStart);
+    weekEnd.setDate(weekStart.getDate() + 6);
+    return {
+      weekStart: weekStart.toISOString().split("T")[0],
+      weekEnd: weekEnd.toISOString().split("T")[0],
+    };
+  };
+
+  const { weekStart, weekEnd } = getCurrentWeekDates();
 
   const progressPercentage = useMemo(() => {
     if (!currentGoal) return 0;
@@ -92,6 +148,13 @@ function SavingScreen() {
   const handleCreateGoal = async () => {
     if (!goalAmount || parseFloat(goalAmount) <= 0) {
       Alert.alert("Error", "Ingresa un monto válido");
+      return;
+    }
+
+    if (hasActiveGoal) {
+      Alert.alert("Info", "Ya tienes una meta activa para esta semana");
+      setShowForm(false);
+      setGoalAmount("");
       return;
     }
 
@@ -218,15 +281,17 @@ function SavingScreen() {
               </Text>
             </View>
 
-            <TouchableOpacity
-              style={SavingScreenStyle.createGoalButton}
-              onPress={() => setShowForm(true)}
-            >
-              <MaterialCommunityIcons name="plus" size={20} color="#FFF" />
-              <Text style={SavingScreenStyle.createGoalButtonText}>
-                Nueva meta semanal
-              </Text>
-            </TouchableOpacity>
+            {!hasActiveGoal && (
+              <TouchableOpacity
+                style={SavingScreenStyle.createGoalButton}
+                onPress={() => setShowForm(true)}
+              >
+                <MaterialCommunityIcons name="plus" size={20} color="#FFF" />
+                <Text style={SavingScreenStyle.createGoalButtonText}>
+                  Crear meta semanal
+                </Text>
+              </TouchableOpacity>
+            )}
 
             <View style={SavingScreenStyle.metricsContainer}>
               <View style={SavingScreenStyle.metricCard}>
@@ -298,9 +363,9 @@ function SavingScreen() {
               style={SavingScreenStyle.input}
               placeholder="0.00"
               placeholderTextColor="#6B7280"
-              keyboardType="numeric"
+              keyboardType="decimal-pad"
               value={goalAmount}
-              onChangeText={setGoalAmount}
+              onChangeText={(text) => setGoalAmount(sanitizeNumericInput(text))}
             />
             <View style={SavingScreenStyle.formButtons}>
               <TouchableOpacity
@@ -388,7 +453,7 @@ function SavingScreen() {
                       Meta
                     </Text>
                     <Text style={SavingScreenStyle.historyDetailValue}>
-                      ${goal.amount.toFixed(2)}
+                      ${goal.target_amount.toFixed(2)}
                     </Text>
                   </View>
                 </View>
@@ -416,8 +481,6 @@ function SavingScreen() {
           </View>
         )}
       </ScrollView>
-
-      <FloatingButton to="AddSaving" label="Agregar" />
     </View>
   );
 }

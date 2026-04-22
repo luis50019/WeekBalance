@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 import { memo, useMemo } from "react";
 import { styleCardTransaction } from "./CardTransaction.style";
 import { Ionicons } from "@expo/vector-icons";
@@ -9,6 +9,7 @@ interface PropsTransactionsCard {
   category: string;
   description: string;
   date: string;
+  onPress?: () => void;
 }
 
 interface typeDate {
@@ -22,6 +23,7 @@ function TransactionCardComponent({
   category,
   description,
   date = "lunes",
+  onPress,
 }: PropsTransactionsCard) {
   const dateInfo = useMemo<typeDate>(() => {
     const DATE = new Date(date);
@@ -37,8 +39,13 @@ function TransactionCardComponent({
 
   const categoryName = useMemo(() => categories[category] || category, [category]);
 
+  const CardWrapper = onPress ? Pressable : View;
+
   return (
-    <View style={styleCardTransaction.card}>
+    <CardWrapper
+      style={styleCardTransaction.card}
+      onPress={onPress}
+    >
       <View style={styleCardTransaction.left}>
         <View style={styleCardTransaction.iconContainer}>
           <Ionicons name={category} size={22} color="#f97316" />
@@ -56,7 +63,7 @@ function TransactionCardComponent({
       </View>
 
       <Text style={styleCardTransaction.amount}>${amount.toFixed(2)}</Text>
-    </View>
+    </CardWrapper>
   );
 }
 

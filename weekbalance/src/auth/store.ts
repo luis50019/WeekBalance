@@ -1,12 +1,21 @@
 import { create } from "zustand";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Profile, Account, authRepository, getDatabase } from "../core/database";
-import { User } from "../core/database/auth.repository";
+import { authApi, AuthUser, AuthProfile, AuthAccount } from "../core/api/auth-api";
+import { getWeeklyTotal as getIncomesWeeklyTotal } from "../balance/api/funds.service";
+import { getWeeklyTotal as getExpensesWeeklyTotal, getWeeklyByCategory, getWeeklyByDay, ExpenseByCategoryWeekly, ExpenseByDay } from "../balance/api/expenses.service";
+
+interface WeeklyData {
+  weeklyIncomes: number;
+  weeklyExpenses: number;
+  expensesByCategory: ExpenseByCategoryWeekly[];
+  expensesByDay: ExpenseByDay[];
+}
 
 interface AuthState {
-  user: User | null;
-  profile: Profile | null;
-  account: Account | null;
+  user: AuthUser | null;
+  profile: AuthProfile | null;
+  account: AuthAccount | null;
+  weeklyData: WeeklyData;
   isLoading: boolean;
   isInitialized: boolean;
 
@@ -15,41 +24,32 @@ interface AuthState {
   register: (email: string, password: string, fullName: string) => Promise<void>;
   logout: () => Promise<void>;
   refreshAccount: () => Promise<void>;
+  refreshWeeklyData: () => Promise<void>;
 }
 
-const USER_ID_KEY = "@weekbalance_user_id";
+const initialWeeklyData: WeeklyData = {
+  weeklyIncomes: 0,
+  weeklyExpenses: 0,
+  expensesByCategory: [],
+  expensesByDay: [],
+};
 
 export const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
   profile: null,
   account: null,
+  weeklyData: initialWeeklyData,
   isLoading: false,
   isInitialized: false,
 
   initialize: async () => {
     try {
-      const userId = await AsyncStorage.getItem(USER_ID_KEY);
-      if (userId) {
-        const user = await authRepository.findUserById(userId);
-        if (user) {
-          const db = await getDatabase();
-          const profile = await db.getFirstAsync<Profile>(
-            "SELECT * FROM profiles WHERE user_id = ?",
-            [userId]
-          );
-          const account = await db.getFirstAsync<Account>(
-            "SELECT * FROM accounts WHERE user_id = ?",
-            [userId]
-          );
-          
-          if (profile && account) {
-            set({ user, profile, account, isInitialized: true });
-            return;
-          }
-        }
+      const hasToken = await authApi.getStoredToken();
+      if (hasToken) {
+        // Token found, session exists
       }
     } catch (error) {
-      console.log("[Auth] Initialize error:", error);
+      // Silent fail on initialize
     }
     set({ isInitialized: true });
   },
@@ -57,18 +57,20 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   login: async (email: string, password: string) => {
     set({ isLoading: true });
     try {
-      const result = await authRepository.validateCredentials(email, password);
-      if (!result) {
-        throw new Error("Credenciales inválidas");
-      }
+      const result = await authApi.login(email, password);
 
-      await AsyncStorage.setItem(USER_ID_KEY, result.user.id);
+      // Guardar session token
+      await authApi.saveSession(result.data.session.access_token, result.data.user.id);
+
       set({
-        user: result.user,
-        profile: result.profile,
-        account: result.account,
+        user: result.data.user,
+        profile: result.data.profile,
+        account: result.data.account,
         isLoading: false,
       });
+
+      // Obtener datos semanales
+      await get().refreshWeeklyData();
     } catch (error) {
       set({ isLoading: false });
       throw error;
@@ -78,29 +80,22 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   register: async (email: string, password: string, fullName: string) => {
     set({ isLoading: true });
     try {
-      const existingUser = await authRepository.findUserByEmail(email);
-      if (existingUser) {
-        throw new Error("El correo ya está registrado");
-      }
+      await authApi.register(email, password, fullName);
 
-      await authRepository.createUser({
-        email,
-        password,
-        full_name: fullName,
-      });
+      // Después de registrar, automáticamente iniciamos sesión
+      const result = await authApi.login(email, password);
 
-      const result = await authRepository.validateCredentials(email, password);
-      if (!result) {
-        throw new Error("Error al crear la cuenta");
-      }
+      await authApi.saveSession(result.data.session.access_token, result.data.user.id);
 
-      await AsyncStorage.setItem(USER_ID_KEY, result.user.id);
       set({
-        user: result.user,
-        profile: result.profile,
-        account: result.account,
+        user: result.data.user,
+        profile: result.data.profile,
+        account: result.data.account,
         isLoading: false,
       });
+
+      // Obtener datos semanales
+      await get().refreshWeeklyData();
     } catch (error) {
       set({ isLoading: false });
       throw error;
@@ -108,11 +103,12 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 
   logout: async () => {
-    await AsyncStorage.removeItem(USER_ID_KEY);
+    await authApi.clearSession();
     set({
       user: null,
       profile: null,
       account: null,
+      weeklyData: initialWeeklyData,
     });
   },
 
@@ -121,16 +117,46 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     if (!user) return;
 
     try {
-      const db = await getDatabase();
-      const account = await db.getFirstAsync<Account>(
-        "SELECT * FROM accounts WHERE user_id = ?",
-        [user.id]
-      );
-      if (account) {
-        set({ account });
-      }
+      const [accountResponse, profileResponse] = await Promise.all([
+        authApi.getAccount(user.id),
+        authApi.getProfile(user.id),
+      ]);
+      set({ 
+        account: accountResponse.data,
+        profile: profileResponse.data,
+      });
     } catch (error) {
-      console.log("[Auth] Refresh account error:", error);
+      // Silent fail on refresh account
+    }
+  },
+
+  refreshWeeklyData: async () => {
+    const { account } = get();
+    if (!account) return;
+
+    try {
+      // Refreshing weekly data
+      const [weeklyIncomes, weeklyExpenses, expensesByCategory, expensesByDay] = await Promise.all([
+        getIncomesWeeklyTotal(account.id),
+        getExpensesWeeklyTotal(account.id),
+        getWeeklyByCategory(account.id),
+        getWeeklyByDay(account.id),
+      ]);
+
+      // Weekly data response received
+
+      set({
+        weeklyData: {
+          weeklyIncomes,
+          weeklyExpenses,
+          expensesByCategory: expensesByCategory.categories || [],
+          expensesByDay: expensesByDay || [],
+        },
+      });
+
+      // Weekly data set
+    } catch (error) {
+      // Silent fail on refresh weekly data
     }
   },
 }));

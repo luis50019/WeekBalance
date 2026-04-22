@@ -4,14 +4,14 @@ const MAXVALUE = 9999;
 const MINVALUE = 1;
 
 export const amountValidations = {
-  required: "El monto es obligatorio",
+  required: "Ingresa un monto",
   min: {
     value: MINVALUE,
-    message: "EL monto minimo es $" + MINVALUE,
+    message: "El monto debe ser mayor a $" + MINVALUE,
   },
   max: {
     value: MAXVALUE,
-    message: "El monto minimo es $" + MAXVALUE,
+    message: "El monto no puede ser mayor a $9,999",
   },
 };
 
@@ -19,10 +19,10 @@ export const noteValidations = {
   required: "La nota es obligatoria",
   maxLength: {
     value: MAXlENGTH,
-    message: "maximo " + MAXlENGTH + " caracteres",
+    message: "Máximo " + MAXlENGTH + " caracteres",
   },
   minLength: {
     value: MINLENGTH,
-    message: "mnimo " + MINLENGTH + " caracteres",
+    message: "Mínimo " + MINLENGTH + " caracteres",
   },
 };

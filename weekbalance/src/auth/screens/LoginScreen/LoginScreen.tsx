@@ -59,7 +59,7 @@ function LoginScreen() {
         ) : null}
       </View>
       <View style={StyleAuth.container_foot}>
-        <Text style={StyleAuth.messageLink}>¿No tienes cuenta?</Text>
+        <Text style={StyleAuth.messageLink}>¿No tenés cuenta?</Text>
         <Link to="Register" style={StyleAuth.link}>
           Registrate
         </Link>

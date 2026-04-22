@@ -44,6 +44,19 @@ export class AuthRepository extends SupabaseDataSource {
     };
   }
 
+  async getAccountByUserId(userId: string) {
+    const { data, error } = await this.client
+      .from("accounts")
+      .select("id, user_id, balance, created_at")
+      .eq("user_id", userId)
+      .maybeSingle();
+
+    if (error) throw new Error(error.message);
+    if (!data) throw new Error("Cuenta no encontrada");
+
+    return data;
+  }
+
   async getInfoUserByID(userId: string) {
     const { data: incomes, error: incomeError } = await this.client.rpc(
       "get_recent_incomes",

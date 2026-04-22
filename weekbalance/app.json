@@ -13,7 +13,11 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anonymous.weekbalance",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -29,11 +33,13 @@
     },
     "extra": {
       "eas": {
-        "projectId": "e7556105-4d9f-4b40-8dd9-0c90ac6b2ec0"
+        "projectId": "0c45889d-837c-4390-98e9-97617d1eeb8f"
       }
     },
     "plugins": [
-      "expo-sqlite"
-    ]
+      "expo-sqlite",
+      "expo-font"
+    ],
+    "owner": "89luisdiaz"
   }
 }
