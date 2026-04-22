@@ -8,10 +8,12 @@ import { MonthlyTrendCard } from "../../components/MonthlyTrendCard";
 import { RecentExpenses } from "../../components/RecentExpenses";
 import { useWeeklyTrend } from "../../hooks/useMonthlyTrend";
 import { useRecentExpenses } from "../../hooks/useRecentExpenses";
+import { CircleGrapic } from "../../../shared/components/Grapics/CircleGrapic";
 
 function HomeScreen() {
   const { setChangeValue: setBalanceChange } = useContext(BalanceContext);
-  const { financialSummary, totalExpenses, totalIncomes } = useContext(BalanceContext);
+  const { balance, totalExpenses, totalIncomes, dailyExpenseAnalysis } =
+    useContext(BalanceContext);
   const { data: trendData, loading: trendLoading } = useWeeklyTrend();
   const { data: recentExpenses, loading: recentLoading } = useRecentExpenses(5);
 
@@ -26,10 +28,10 @@ function HomeScreen() {
         <CardCurrentFound
           expenses={totalExpenses || 0}
           incomes={totalIncomes || 0}
-          balance={financialSummary?.balance.balance || 0}
+          balance={balance || 0}
         />
         <CardInfoWeekly />
-        <MonthlyTrendCard data={trendData} loading={trendLoading} />
+        <MonthlyTrendCard data={dailyExpenseAnalysis} loading={trendLoading} isDailyData />
         <RecentExpenses data={recentExpenses} loading={recentLoading} />
       </ScrollView>
     </View>

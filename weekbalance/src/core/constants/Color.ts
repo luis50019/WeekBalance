@@ -13,6 +13,11 @@ export const COLORS = {
   // color of the card transactions
   cardTransactions: "#25293D",
   error: "#FF4040",
+  success: "#10B981",
+  danger: "#EF4444",
+  primary: "#6366F1",
+  secondary: "#2D3142",
+  gray: "#6B7280",
 };
 
 export const COLORSGRAPIC: Record<string, string> = {

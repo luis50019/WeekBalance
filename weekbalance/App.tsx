@@ -13,8 +13,8 @@ function AppContent() {
     const setup = async () => {
       try {
         await initialize();
-      } catch (error) {
-        console.error("[App] Setup error:", error);
+      } catch {
+        // Silent fail
       } finally {
         setIsReady(true);
       }

@@ -26,6 +26,7 @@ export interface LoginResponse {
   data: {
     user: AuthUser;
     profile: AuthProfile;
+    account: AuthAccount;
     session: {
       access_token: string;
       token_type: string;
@@ -74,6 +75,11 @@ export const authApi = {
 
   async getAccount(userId: string): Promise<{ data: AuthAccount }> {
     const response = await apiClient.get(`/auth/account/${userId}`);
+    return response.data;
+  },
+
+  async getProfile(userId: string): Promise<{ data: AuthProfile }> {
+    const response = await apiClient.get(`/auth/profile/${userId}`);
     return response.data;
   },
 

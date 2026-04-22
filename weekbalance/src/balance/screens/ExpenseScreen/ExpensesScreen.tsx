@@ -9,6 +9,7 @@ import { Slider } from "../../../shared/components/layout/Sliders/Slider";
 import { getDataExpenses } from "../../../core/constants/Categories";
 import { WeekHeader } from "../../components/WeekHeader";
 import { ResponseIncomeDto } from "../../types/Response/ResponseIncomeDto";
+import { useNavigate } from "../../../shared/hooks/useNavigate";
 
 interface WeekGroup {
   weekKey: string;
@@ -81,6 +82,7 @@ type ListItem =
 
 function ExpensesScreen() {
   const { dataFilter, handlerFilter, weeklyTotal } = useExpenses();
+  const { navigationToPath } = useNavigate();
 
   const listData: ListItem[] = [];
 
@@ -106,6 +108,10 @@ function ExpensesScreen() {
       );
     }
 
+    const handleEditExpense = (expenseId: string) => {
+      navigationToPath("EditExpense", { expenseId });
+    };
+
     return (
       <View style={styles.expenseItem}>
         <TransactionCard
@@ -113,6 +119,7 @@ function ExpensesScreen() {
           amount={item.data.amount || 0}
           category={item.data.category}
           description={item.data.description || "Sin descripcion"}
+          onPress={() => handleEditExpense(item.data.id)}
         />
       </View>
     );
@@ -171,7 +178,7 @@ function ExpensesScreen() {
           return (
             <EmptyData
               title="Sin datos disponibles"
-              message="Aun no has registrado ningun gasto"
+              message="Aun no has registrado algun gasto"
             />
           );
         }}

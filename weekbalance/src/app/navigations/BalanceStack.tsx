@@ -10,6 +10,9 @@ import NewExpenseScreen from "../../balance/screens/NewExpense/NewExpenseScreen"
 import SavingScreen from "../../balance/screens/SavingScreen/SavingScreen";
 import NewSavingScreen from "../../balance/screens/NewSavingScreen/NewSavingScreen";
 import WeeklyGoalsScreen from "../../balance/screens/WeeklyGoalsScreen/WeeklyGoalsScreen";
+import ProfileScreen from "../../balance/screens/ProfileScreen/ProfileScreen";
+import EditFundsScreen from "../../balance/screens/EditFunds/EditFundsScreen";
+import EditExpenseScreen from "../../balance/screens/EditExpense/EditExpenseScreen";
 const Stack = createNativeStackNavigator();
 
 function BalanceStack() {
@@ -25,10 +28,11 @@ function BalanceStack() {
           <Stack.Screen name="AddExpense" component={NewExpenseScreen} />
           <Stack.Screen name="AddFunds" component={FundsScreen} />
           <Stack.Screen name="Saving" component={SavingScreen} />
-          <Stack.Screen name="AddSaving" component={NewSavingScreen} />
-          <Stack.Screen name="WeeklyGoals" component={WeeklyGoalsScreen} />
           <Stack.Screen name="historyIncomes" component={IncomeScreen} />
-          <Stack.Screen name="historySavings" component={ExpensesScreen} />
+          <Stack.Screen name="historyExpenses" component={ExpensesScreen} />
+          <Stack.Screen name="Profile" component={ProfileScreen} />
+          <Stack.Screen name="EditFunds" component={EditFundsScreen} />
+          <Stack.Screen name="EditExpense" component={EditExpenseScreen} />
         </Stack.Navigator>
       </MainLayout>
     </BalanceProvider>

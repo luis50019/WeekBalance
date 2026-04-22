@@ -10,6 +10,7 @@ interface CustomButtonProps {
   sizeIcon?: number;
   backgroundColor?: string;
   handleClick?: () => void;
+  variant?: "primary" | "secondary";
 }
 
 function CustomButton({
@@ -19,10 +20,13 @@ function CustomButton({
   color,
   handleClick,
   sizeIcon,
+  variant = "primary",
 }: CustomButtonProps) {
+  const isSecondary = variant === "secondary";
   const stylesButton = getStylesButton(
-    color || "#000",
-    backgroundColor || "#fff",
+    color || (isSecondary ? "#666" : "#000"),
+    backgroundColor || (isSecondary ? "transparent" : "#fff"),
+    isSecondary,
   );
 
   return (

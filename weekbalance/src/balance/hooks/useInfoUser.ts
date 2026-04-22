@@ -46,7 +46,7 @@ export const useInfoUser = () => {
 
       setExpenseAnalysis(expenseAnalysisData);
     } catch (error) {
-      console.log("[useInfoUser] Error:", error);
+      // Silent fail on expense analysis
     } finally {
       setIsLoading(false);
     }

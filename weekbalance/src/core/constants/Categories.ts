@@ -41,7 +41,6 @@ export function getDataOptions(): optionsCategories[] {
     return { nameIcon: item.nameIcon, title: categories[item.nameIcon] };
   });
   data.unshift({ nameIcon: "All", title: "Todo" });
-  console.log(data);
   return data;
 }
 
@@ -50,6 +49,5 @@ export function getDataExpenses(): optionsCategories[] {
     return { nameIcon: item.nameIcon, title: categories[item.nameIcon] };
   });
   data.unshift({ nameIcon: "All", title: "Todo" });
-  console.log(data);
   return data;
 }

@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { CreateExpense } from "../types/Request/CreateExpense";
 import { useAuthStore } from "../../auth/store";
-import { getHistory, register as registerExpense, getWeeklyTotal } from "../api/expenses.service";
+import { getHistory, register as registerExpense, getWeeklyTotal, updateExpense as updateExpenseApi, getExpenseById } from "../api/expenses.service";
 import { useNavigate } from "../../shared/hooks/useNavigate";
 import { ResponseIncomeDto } from "../types/Response/ResponseIncomeDto";
 import { BalanceContext } from "../../core/context/BalanceProvider";
@@ -12,10 +12,17 @@ type Expense = {
   description: string;
 };
 
+type UpdateExpense = {
+  amount: number;
+  description: string;
+  id: string;
+  category: string;
+};
+
 export const useExpenses = () => {
   const { navigationTo } = useNavigate();
-  const { control, formState, handleSubmit } = useForm<Expense>({});
-  const { account, refreshAccount } = useAuthStore();
+  const { control, formState, handleSubmit, reset, setValue } = useForm<Expense>({});
+  const { account, refreshAccount, refreshWeeklyData } = useAuthStore();
   const { setChangeValue } = useContext(BalanceContext);
   const [category, setCategory] = useState<string>("");
   const [historyExpenses, setHistoryExpenses] = useState<ResponseIncomeDto[]>([]);
@@ -31,6 +38,8 @@ export const useExpenses = () => {
     remainingToGoal: number;
     expenseAmount: number;
   } | null>(null);
+
+  const [selectedExpense, setSelectedExpense] = useState<ResponseIncomeDto | null>(null);
 
   const handlerFilter = (cate: string) => {
     if (cate == "All") {
@@ -56,7 +65,7 @@ export const useExpenses = () => {
       setDataFilter(mapped);
       setHistoryExpenses(mapped);
     } catch (error) {
-      console.log(error);
+      // Silent fail on get expenses history
     }
   };
 
@@ -66,7 +75,7 @@ export const useExpenses = () => {
       const total = await getWeeklyTotal(account.id);
       setWeeklyTotal(total);
     } catch (error) {
-      console.log(error);
+      // Silent fail on get weekly expenses total
     }
   };
 
@@ -108,10 +117,12 @@ export const useExpenses = () => {
       };
       await registerExpense(newExpense);
       await refreshAccount();
+      await refreshWeeklyData();
       await getHistoryExpenses();
       await getWeeklyTotalExpenses();
       setChangeValue();
-      navigationTo("historySavings");
+      
+      navigationTo("historyExpenses");
     } catch (error: unknown) {
       showError("No se pudo registrar el gasto. Intenta nuevamente");
     } finally {
@@ -135,6 +146,68 @@ export const useExpenses = () => {
     setCategory(category);
   };
 
+  const getExpenseForEdit = async (id: string) => {
+    try {
+      const expense = await getExpenseById(id);
+      if (!expense) {
+        showError("No se encontró el gasto solicitado");
+        return null;
+      }
+      setSelectedExpense(expense);
+      setCategory(expense.category || "");
+      // Usar setValue en lugar de reset para establecer valores individuales
+      setValue("amount", expense.amount);
+      setValue("description", expense.description || "");
+      return expense;
+    } catch (error: any) {
+      console.error("Error loading expense:", error);
+      const errorMsg = error?.response?.data?.error || error?.message || "Error al cargar el gasto";
+      showError(errorMsg);
+      return null;
+    }
+  };
+
+  const onUpdate = async (data: UpdateExpense) => {
+    if (!selectedExpense) {
+      showError("No hay gasto seleccionado para actualizar");
+      return;
+    }
+
+    if (!account) {
+      showError("Error de sesión. Inicia sesión nuevamente");
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+      await updateExpenseApi({
+        id: selectedExpense.id,
+        account_id: account.id,
+        amount: data.amount,
+        category: data.category,
+        description: data.description,
+      });
+      await refreshAccount();
+      await refreshWeeklyData();
+      await getHistoryExpenses();
+      await getWeeklyTotalExpenses();
+      setChangeValue();
+      setSelectedExpense(null);
+      reset({ amount: 0, description: "" });
+      navigationTo("historyExpenses");
+    } catch (error: unknown) {
+      showError("Error al actualizar el gasto");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const cancelEdit = () => {
+    setSelectedExpense(null);
+    setCategory("");
+    reset({ amount: 0, description: "" });
+  };
+
   return {
     getHistoryExpenses,
     dataFilter,
@@ -155,5 +228,11 @@ export const useExpenses = () => {
     handleCancelGoalWarning,
     weeklyTotal,
     getWeeklyTotalExpenses,
+    selectedExpense,
+    getExpenseForEdit,
+    onUpdate,
+    cancelEdit,
+    reset,
+    setValue,
   };
 };

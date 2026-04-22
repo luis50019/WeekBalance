@@ -56,3 +56,54 @@ export const getWeeklyTotal = async (accountId: string): Promise<number> => {
   );
   return response.data.data.total;
 };
+
+export interface ExpenseByCategoryWeekly {
+  category: string;
+  total: number;
+  percentage: number;
+}
+
+export const getWeeklyByCategory = async (accountId: string): Promise<{
+  categories: ExpenseByCategoryWeekly[];
+  total: number;
+}> => {
+  const response = await apiClient.get<ApiResponse<{
+    categories: ExpenseByCategoryWeekly[];
+    total: number;
+  }>>(`/expenses/weekly-by-category/${accountId}`);
+  return response.data.data;
+};
+
+export interface ExpenseByDay {
+  day: string;
+  total: number;
+}
+
+export const getWeeklyByDay = async (accountId: string): Promise<ExpenseByDay[]> => {
+  const response = await apiClient.get(`/expenses/weekly-by-day/${accountId}`);
+  return response.data.data;
+};
+
+interface UpdateExpenseRequest {
+  id: string;
+  account_id: string;
+  amount?: number;
+  category?: string;
+  description?: string;
+}
+
+export const updateExpense = async (data: UpdateExpenseRequest): Promise<void> => {
+  await apiClient.put("/expenses/update/", data);
+};
+
+export const getExpenseById = async (id: string) => {
+  try {
+    const response = await apiClient.get<ApiResponse<any>>(
+      `/expenses/${id}`
+    );
+    return response.data.data;
+  } catch (error: any) {
+    console.error("Error fetching expense by ID:", error?.response?.data || error);
+    throw error;
+  }
+};

@@ -80,8 +80,8 @@ export const getCurrentWeekGoalsService = async (accountId: string) => {
   return goals;
 };
 
-export const deleteWeeklyGoalService = async (goalId: string) => {
-  console.log("Delete goal not implemented in backend");
+export const deleteWeeklyGoalService = async (_goalId: string) => {
+  throw new Error("Delete goal not implemented");
 };
 
 // Helper para obtener fechas de la semana actual

@@ -37,7 +37,8 @@
       }
     },
     "plugins": [
-      "expo-sqlite"
+      "expo-sqlite",
+      "expo-font"
     ],
     "owner": "89luisdiaz"
   }

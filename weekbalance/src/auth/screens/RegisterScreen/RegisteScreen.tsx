@@ -20,7 +20,7 @@ function RegisterScreen() {
     <View style={StyleAuth.container}>
       <IconWallet />
       <H1 message="WeekBalance" />
-      <Messages message="Unete a la élite de las" textImportant="finanzas" />
+      <Messages message="Únete a la élite de las" textImportant="finanzas" />
       <View style={StyleAuth.container_form}>
         <FormInput
           rules={usernameValidations}

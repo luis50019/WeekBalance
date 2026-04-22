@@ -19,10 +19,10 @@ export const noteValidations = {
   required: "La nota es obligatoria",
   maxLength: {
     value: MAXlENGTH,
-    message: "maximo " + MAXlENGTH + " caracteres",
+    message: "Máximo " + MAXlENGTH + " caracteres",
   },
   minLength: {
     value: MINLENGTH,
-    message: "mnimo " + MINLENGTH + " caracteres",
+    message: "Mínimo " + MINLENGTH + " caracteres",
   },
 };
