@@ -1,8 +1,19 @@
 import { create } from "zustand";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { authApi, AuthUser, AuthProfile, AuthAccount } from "../core/api/auth-api";
+import {
+  authApi,
+  AuthUser,
+  AuthProfile,
+  AuthAccount,
+} from "../core/api/auth-api";
 import { getWeeklyTotal as getIncomesWeeklyTotal } from "../balance/api/funds.service";
-import { getWeeklyTotal as getExpensesWeeklyTotal, getWeeklyByCategory, getWeeklyByDay, ExpenseByCategoryWeekly, ExpenseByDay } from "../balance/api/expenses.service";
+import {
+  getWeeklyTotal as getExpensesWeeklyTotal,
+  getWeeklyByCategory,
+  getWeeklyByDay,
+  ExpenseByCategoryWeekly,
+  ExpenseByDay,
+} from "../balance/api/expenses.service";
 
 interface WeeklyData {
   weeklyIncomes: number;
@@ -21,7 +32,11 @@ interface AuthState {
 
   initialize: () => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
-  register: (email: string, password: string, fullName: string) => Promise<void>;
+  register: (
+    email: string,
+    password: string,
+    fullName: string,
+  ) => Promise<void>;
   logout: () => Promise<void>;
   refreshAccount: () => Promise<void>;
   refreshWeeklyData: () => Promise<void>;
@@ -46,11 +61,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     try {
       const hasToken = await authApi.getStoredToken();
       if (hasToken) {
-        // Token found, session exists
+        // eliminamos la logica de navegacion
       }
-    } catch (error) {
-      // Silent fail on initialize
-    }
+    } catch (error) {}
     set({ isInitialized: true });
   },
 
@@ -60,7 +73,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       const result = await authApi.login(email, password);
 
       // Guardar session token
-      await authApi.saveSession(result.data.session.access_token, result.data.user.id);
+      await authApi.saveSession(
+        result.data.session.access_token,
+        result.data.user.id,
+      );
 
       set({
         user: result.data.user,
@@ -85,7 +101,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       // Después de registrar, automáticamente iniciamos sesión
       const result = await authApi.login(email, password);
 
-      await authApi.saveSession(result.data.session.access_token, result.data.user.id);
+      await authApi.saveSession(
+        result.data.session.access_token,
+        result.data.user.id,
+      );
 
       set({
         user: result.data.user,
@@ -121,13 +140,11 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         authApi.getAccount(user.id),
         authApi.getProfile(user.id),
       ]);
-      set({ 
+      set({
         account: accountResponse.data,
         profile: profileResponse.data,
       });
-    } catch (error) {
-      // Silent fail on refresh account
-    }
+    } catch (error) {}
   },
 
   refreshWeeklyData: async () => {
@@ -136,12 +153,13 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
     try {
       // Refreshing weekly data
-      const [weeklyIncomes, weeklyExpenses, expensesByCategory, expensesByDay] = await Promise.all([
-        getIncomesWeeklyTotal(account.id),
-        getExpensesWeeklyTotal(account.id),
-        getWeeklyByCategory(account.id),
-        getWeeklyByDay(account.id),
-      ]);
+      const [weeklyIncomes, weeklyExpenses, expensesByCategory, expensesByDay] =
+        await Promise.all([
+          getIncomesWeeklyTotal(account.id),
+          getExpensesWeeklyTotal(account.id),
+          getWeeklyByCategory(account.id),
+          getWeeklyByDay(account.id),
+        ]);
 
       // Weekly data response received
 
