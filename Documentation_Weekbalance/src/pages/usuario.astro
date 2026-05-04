@@ -13,33 +13,11 @@ import SubAccordion from '../components/SubAccordion.astro';
       <div class="flex items-center gap-8">
         <span class="text-lg font-bold text-slate-50">WeekBalance Docs</span>
         <nav class="hidden md:flex gap-6">
-          <a class="text-blue-500 font-semibold transition-all" href="#">Documentation</a>
-          <a class="text-slate-400 hover:text-slate-200 transition-colors transition-all" href="#"
-            >Guides</a
-          >
-          <a class="text-slate-400 hover:text-slate-200 transition-colors transition-all" href="#"
-            >API</a
-          >
+          <a class="text-blue-500 font-semibold transition-all" href="#">Documentación</a>
+
         </nav>
       </div>
-      <div class="flex items-center gap-4">
-        <div class="relative hidden sm:block">
-          <span
-            class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-sm"
-            >search</span
-          >
-          <input
-            class="bg-slate-800/50 border border-[#334155] rounded-md pl-9 pr-4 py-1.5 text-sm w-64 focus:outline-none focus:ring-1 focus:ring-blue-500 text-slate-200"
-            placeholder="Search documentation..."
-            type="text"
-          />
-        </div>
-        <button
-          class="p-2 hover:bg-slate-800/50 rounded-md transition-all text-slate-400 hover:text-slate-200"
-        >
-          <span class="material-symbols-outlined">terminal</span>
-        </button>
-      </div>
+      
     </div>
   </header>
 
@@ -51,20 +29,9 @@ import SubAccordion from '../components/SubAccordion.astro';
       <div class="flex flex-col gap-1 py-8 font-manrope text-sm font-medium">
         <div class="px-6 mb-6">
           <h2 class="text-xl font-black text-slate-50 uppercase tracking-tighter">WeekBalance</h2>
-          <p class="text-xs text-slate-500 uppercase tracking-widest mt-1">Documentation</p>
+          <p class="text-xs text-slate-500 uppercase tracking-widest mt-1">Documentación</p>
         </div>
-        <div class="mb-4">
-          <div class="px-6 py-2 text-[11px] font-bold text-slate-500 uppercase tracking-widest">
-            General
-          </div>
-          <a
-            class="flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800/30 transition-all duration-200"
-            href="/"
-          >
-            <span class="material-symbols-outlined">home</span>
-            Inicio
-          </a>
-        </div>
+
         <div class="mb-4">
           <div class="px-6 py-2 text-[11px] font-bold text-slate-500 uppercase tracking-widest">
             Manuales
@@ -217,7 +184,6 @@ import SubAccordion from '../components/SubAccordion.astro';
           </div>
         </section>
 
-
         <!-- Navegación -->
         <section class="mb-section-gap" id="navegacion">
           <h2 class="font-h2 text-h2 text-slate-50 mb-6">Navegación</h2>
@@ -282,25 +248,40 @@ import SubAccordion from '../components/SubAccordion.astro';
                   <div class="flex flex-col space-y-3 text-on-surface-variant text-sm">
                     <p class="text-slate-300">Seguí estos pasos para crear tu cuenta:</p>
                     <ol class="list-decimal pl-4 space-y-3">
-                      <li>
-                        Pulsá <strong>"Regístrate"</strong> en la pantalla principal.<div
-                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                      <li class="leading-tight">
+                        Pulsá <strong>"Regístrate"</strong> en la pantalla principal.
+                        <div
+                          class="w-full h-auto max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
                         >
-                          Imagen del paso
+                          <img
+                            src="/images/register/imagen_1.jpeg"
+                            class="block w-1/2 h-auto mt-2 rounded-md"
+                            alt="Pantalla de registro"
+                          />
                         </div>
                       </li>
                       <li>
-                        Cargá tu nombre completo, correo electrónico y contraseña.<div
-                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        Cargá tu nombre completo, correo electrónico y contraseña.
+                        <div
+                          class="w-full h-auto max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
                         >
-                          Imagen del paso
+                          <img
+                            src="/images/register/imagen_3.png"
+                            class="block w-1/2 h-auto mt-2 rounded-md"
+                            alt="Pantalla de registro"
+                          />
                         </div>
                       </li>
                       <li>
-                        Confirmá con <strong>"Crear cuenta"</strong>.<div
-                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        Confirmá con <strong>"Crear cuenta"</strong>.
+                        <div
+                          class="w-full h-auto max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
                         >
-                          Imagen del paso
+                          <img
+                            src="/images/register/imagen_6.png"
+                            class="block w-1/2 h-auto mt-2 rounded-md"
+                            alt="Pantalla de registro"
+                          />
                         </div>
                       </li>
                     </ol>
@@ -314,32 +295,52 @@ import SubAccordion from '../components/SubAccordion.astro';
                   <div class="flex flex-col space-y-3 text-on-surface-variant text-sm">
                     <ol class="list-decimal pl-4 space-y-3">
                       <li>
-                        Introducí tu correo electrónico.<div
-                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        Introducí tu correo electrónico.
+                        <div
+                          class="w-full h-auto max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
                         >
-                          Imagen del paso
+                          <img
+                            src="/images/register/imagen_4.png"
+                            class="block w-1/2 h-auto mt-2 rounded-md"
+                            alt="Pantalla de registro"
+                          />
                         </div>
                       </li>
                       <li>
-                        Ingresá tu contraseña.<div
-                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        Ingresá tu contraseña.
+                        <div
+                          class="w-full h-auto max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
                         >
-                          Imagen del paso
+                          <img
+                            src="/images/register/imagen_5.png"
+                            class="block w-1/2 h-auto mt-2 rounded-md"
+                            alt="Pantalla de registro"
+                          />
                         </div>
                       </li>
                       <li>
-                        Tocá <strong>"Iniciar sesión"</strong>.<div
-                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        Tocá <strong>"Iniciar sesión"</strong>.
+                        <div
+                          class="w-full h-auto max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
                         >
-                          Imagen del paso
+                          <img
+                            src="/images/register/imagen_5_.png"
+                            class="block w-1/2 h-auto mt-2 rounded-md"
+                            alt="Pantalla de registro"
+                          />
                         </div>
                       </li>
                       <li>
                         Esperá la sincronización inicial (balance y movimientos se cargan desde la
-                        nube).<div
-                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        nube).
+                        <div
+                          class="w-full h-auto max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
                         >
-                          Imagen del paso
+                          <img
+                            src="/images/register/imagen_6.png"
+                            class="block w-1/2 h-auto mt-2 rounded-md"
+                            alt="Pantalla de registro"
+                          />
                         </div>
                       </li>
                     </ol>
@@ -350,24 +351,28 @@ import SubAccordion from '../components/SubAccordion.astro';
                   <div class="flex flex-col space-y-3 text-on-surface-variant text-sm">
                     <ol class="list-decimal pl-4 space-y-3">
                       <li>
-                        Desde cualquier pantalla, tocá tu avatar en la esquina superior izquierda.<div
-                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        Desde cualquier pantalla, tocá tu el icono de salir en la esquina superior
+                        derecha.
+                        <div
+                          class="w-full h-auto max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
                         >
-                          Imagen del paso
+                          <img
+                            src="/images/register/imagen_6_.png"
+                            class="block w-1/2 h-auto mt-2 rounded-md"
+                            alt="Pantalla de registro"
+                          />
                         </div>
                       </li>
                       <li>
-                        Seleccioná <strong>Cerrar sesión</strong> del menú.<div
-                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        Confirmá la acción.
+                        <div
+                          class="w-full h-auto max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
                         >
-                          Imagen del paso
-                        </div>
-                      </li>
-                      <li>
-                        Confirmá la acción.<div
-                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
-                        >
-                          Imagen del paso
+                          <img
+                            src="/images/register/imagen_7.jpeg"
+                            class="block w-1/2 h-auto mt-2 rounded-md"
+                            alt="Pantalla de registro"
+                          />
                         </div>
                       </li>
                     </ol>
@@ -396,24 +401,15 @@ import SubAccordion from '../components/SubAccordion.astro';
                   <div class="flex flex-col space-y-3 text-on-surface-variant text-sm">
                     <ol class="list-decimal pl-4 space-y-3">
                       <li>
-                        Abrí la sección <strong>Ingresos</strong> desde la barra de navegación.<div
-                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        Abrí la sección <strong>Ingresos</strong> desde la barra de navegación.
+                        <div
+                          class="w-full h-auto max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
                         >
-                          Imagen del paso
-                        </div>
-                      </li>
-                      <li>
-                        Deslizá para ver grupos semanales (la app agrupa del domingo al sábados).<div
-                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
-                        >
-                          Imagen del paso
-                        </div>
-                      </li>
-                      <li>
-                        Tocá un registro para abrirlo en modo edición.<div
-                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
-                        >
-                          Imagen del paso
+                          <img
+                            src="/images/ingresos/imagen_1.png"
+                            class="block w-1/2 h-auto mt-2 rounded-md"
+                            alt="Pantalla de registro"
+                          />
                         </div>
                       </li>
                     </ol>
@@ -424,38 +420,63 @@ import SubAccordion from '../components/SubAccordion.astro';
                   <div class="flex flex-col space-y-3 text-on-surface-variant text-sm">
                     <ol class="list-decimal pl-4 space-y-3">
                       <li>
-                        Botón flotante <strong>Agregar</strong> en la parte inferior.<div
-                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        Botón flotante <strong>Agregar</strong> en la parte inferior.+
+                        <div
+                          class="w-full h-auto max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
                         >
-                          Imagen del paso
+                          <img
+                            src="/images/ingresos/imagen_1_.png"
+                            class="block w-1/2 h-auto mt-2 rounded-md"
+                            alt="Pantalla de registro"
+                          />
                         </div>
                       </li>
                       <li>
-                        Seleccioná una categoría (ej. "Trabajo", "Regalo").<div
-                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        Seleccioná una categoría (ej. "Trabajo", "Regalo").
+                        <div
+                          class="w-full h-auto max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
                         >
-                          Imagen del paso
+                          <img
+                            src="/images/ingresos/imagen_3.png"
+                            class="block w-1/2 h-auto mt-2 rounded-md"
+                            alt="Pantalla de registro"
+                          />
                         </div>
                       </li>
                       <li>
-                        Escribí una descripción (opcional pero recomendable).<div
-                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        Escribí una descripción (opcional pero recomendable).
+                        <div
+                          class="w-full h-auto max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
                         >
-                          Imagen del paso
+                          <img
+                            src="/images/ingresos/imagen_3.png"
+                            class="block w-1/2 h-auto mt-2 rounded-md"
+                            alt="Pantalla de registro"
+                          />
                         </div>
                       </li>
                       <li>
-                        Ingresá el monto positivo con dos decimales.<div
-                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        Ingresá el monto positivo con dos decimales.
+                        <div
+                          class="w-full h-auto max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
                         >
-                          Imagen del paso
+                          <img
+                            src="/images/ingresos/imagen_3.png"
+                            class="block w-1/2 h-auto mt-2 rounded-md"
+                            alt="Pantalla de registro"
+                          />
                         </div>
                       </li>
                       <li>
-                        Guardá. El backend ajusta tu saldo y las metas automáticamente.<div
-                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        Guardá. El backend ajusta tu saldo y las metas automáticamente.
+                        <div
+                          class="w-full h-auto max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
                         >
-                          Imagen del paso
+                          <img
+                            src="/images/ingresos/imagen_3.png"
+                            class="block w-1/2 h-auto mt-2 rounded-md"
+                            alt="Pantalla de registro"
+                          />
                         </div>
                       </li>
                     </ol>
@@ -466,24 +487,39 @@ import SubAccordion from '../components/SubAccordion.astro';
                   <div class="flex flex-col space-y-3 text-on-surface-variant text-sm">
                     <ol class="list-decimal pl-4 space-y-3">
                       <li>
-                        Desde la lista, tocá el movimiento que deseás modificar.<div
-                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        Desde la lista, tocá el movimiento que deseás modificar.
+                        <div
+                          class="w-full h-auto max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
                         >
-                          Imagen del paso
+                          <img
+                            src="/images/ingresos/imagen_5.png"
+                            class="block w-1/2 h-auto mt-2 rounded-md"
+                            alt="Pantalla de registro"
+                          />
                         </div>
                       </li>
                       <li>
-                        Modificá el monto, categoría o descripción.<div
-                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        Modificá el monto, categoría o descripción.
+                        <div
+                          class="w-full h-auto max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
                         >
-                          Imagen del paso
+                          <img
+                            src="/images/ingresos/imagen_4.png"
+                            class="block w-1/2 h-auto mt-2 rounded-md"
+                            alt="Pantalla de registro"
+                          />
                         </div>
                       </li>
                       <li>
-                        Confirmá con <strong>Actualizar ingreso</strong>.<div
-                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        Confirmá con <strong>Actualizar ingreso</strong>.
+                        <div
+                          class="w-full h-auto max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
                         >
-                          Imagen del paso
+                          <img
+                            src="/images/ingresos/imagen_5.png"
+                            class="block w-1/2 h-auto mt-2 rounded-md"
+                            alt="Pantalla de registro"
+                          />
                         </div>
                       </li>
                     </ol>
@@ -509,28 +545,43 @@ import SubAccordion from '../components/SubAccordion.astro';
               </p>
 
               <div class="flex flex-col space-y-4">
-                <SubAccordion title="Ver historial">
+                <SubAccordion title="Ver historiall">
                   <div class="flex flex-col space-y-3 text-on-surface-variant text-sm">
                     <ol class="list-decimal pl-4 space-y-3">
                       <li>
-                        Abrí la sección <strong>Gastos</strong> desde la barra de navegación.<div
-                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        Abrí la sección <strong>Gastos</strong> desde la barra de navegación.
+                        <div
+                          class="w-full h-auto max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
                         >
-                          Imagen del paso
+                          <img
+                            src="/images/gastos/imagen_10_.png"
+                            class="block w-1/2 h-auto mt-2 rounded-md"
+                            alt="Pantalla de registro"
+                          />
                         </div>
                       </li>
                       <li>
-                        Revisá los bloques semanales con totales y fechas.<div
-                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        Revisá los bloques semanales con totales y fechas.
+                        <div
+                          class="w-full h-auto max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
                         >
-                          Imagen del paso
+                          <img
+                            src="/images/gastos/imagen_0.png"
+                            class="block w-1/2 h-auto mt-2 rounded-md"
+                            alt="Pantalla de registro"
+                          />
                         </div>
                       </li>
                       <li>
-                        Cada tarjeta se puede presionar para editar.<div
-                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        Cada tarjeta se puede presionar para editar.
+                        <div
+                          class="w-full h-auto max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
                         >
-                          Imagen del paso
+                          <img
+                            src="/images/gastos/imagen_1.png"
+                            class="block w-1/2 h-auto mt-2 rounded-md"
+                            alt="Pantalla de registro"
+                          />
                         </div>
                       </li>
                     </ol>
@@ -541,32 +592,52 @@ import SubAccordion from '../components/SubAccordion.astro';
                   <div class="flex flex-col space-y-3 text-on-surface-variant text-sm">
                     <ol class="list-decimal pl-4 space-y-3">
                       <li>
-                        Botón flotante <strong>Agregar</strong> en la parte inferior.<div
-                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        Botón flotante <strong>Agregar</strong> en la parte inferior.
+                        <div
+                          class="w-full h-auto max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
                         >
-                          Imagen del paso
+                          <img
+                            src="/images/gastos/imagen_0_.png"
+                            class="block w-1/2 h-auto mt-2 rounded-md"
+                            alt="Pantalla de registro"
+                          />
                         </div>
                       </li>
                       <li>
-                        Seleccioná la categoría correspondiente (ej. "Comida", "Viajes").<div
-                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        Seleccioná la categoría correspondiente (ej. "Comida", "Viajes").
+                        <div
+                          class="w-full h-auto max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
                         >
-                          Imagen del paso
+                          <img
+                            src="/images/gastos/imagen_2.png"
+                            class="block w-1/2 h-auto mt-2 rounded-md"
+                            alt="Pantalla de registro"
+                          />
                         </div>
                       </li>
                       <li>
-                        Ingresá descripción y monto.<div
-                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        Ingresá descripción y monto.
+                        <div
+                          class="w-full h-auto max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
                         >
-                          Imagen del paso
+                          <img
+                            src="/images/gastos/imagen_2.png"
+                            class="block w-1/2 h-auto mt-2 rounded-md"
+                            alt="Pantalla de registro"
+                          />
                         </div>
                       </li>
                       <li>
                         Guardá. Si el monto supera tu saldo disponible, la app te avisa antes de
-                        enviar.<div
-                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        enviar.
+                        <div
+                          class="w-full h-auto max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
                         >
-                          Imagen del paso
+                          <img
+                            src="/images/gastos/imagen_1.png"
+                            class="block w-1/2 h-auto mt-2 rounded-md"
+                            alt="Pantalla de registro"
+                          />
                         </div>
                       </li>
                     </ol>
@@ -577,24 +648,39 @@ import SubAccordion from '../components/SubAccordion.astro';
                   <div class="flex flex-col space-y-3 text-on-surface-variant text-sm">
                     <ol class="list-decimal pl-4 space-y-3">
                       <li>
-                        Desde el historial, tocá la transacción.<div
-                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        Desde el historial, tocá la transacción.
+                        <div
+                          class="w-full h-auto max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
                         >
-                          Imagen del paso
+                          <img
+                            src="/images/gastos/imagen_1.png"
+                            class="block w-1/2 h-auto mt-2 rounded-md"
+                            alt="Pantalla de registro"
+                          />
                         </div>
                       </li>
                       <li>
-                        Ajustá categoría, descripción o monto.<div
-                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        Ajustá categoría, descripción o monto.
+                        <div
+                          class="w-full h-auto max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
                         >
-                          Imagen del paso
+                          <img
+                            src="/images/gastos/imagen_3.png"
+                            class="block w-1/2 h-auto mt-2 rounded-md"
+                            alt="Pantalla de registro"
+                          />
                         </div>
                       </li>
                       <li>
-                        Confirmá con <strong>Actualizar gasto</strong>.<div
-                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        Confirmá con <strong>Actualizar gasto</strong>.
+                        <div
+                          class="w-full h-auto max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
                         >
-                          Imagen del paso
+                          <img
+                            src="/images/gastos/imagen_4.png"
+                            class="block w-1/2 h-auto mt-2 rounded-md"
+                            alt="Pantalla de registro"
+                          />
                         </div>
                       </li>
                     </ol>
@@ -630,9 +716,13 @@ import SubAccordion from '../components/SubAccordion.astro';
                       </li>
                     </ul>
                     <div
-                      class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                      class="w-full h-auto max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
                     >
-                      Imagen del paso
+                      <img
+                        src="/images/ahorros/Imagen_1.png"
+                        class="block w-1/2 h-auto mt-2 rounded-md"
+                        alt="Pantalla de registro"
+                      />
                     </div>
                   </div>
                 </SubAccordion>
@@ -643,24 +733,39 @@ import SubAccordion from '../components/SubAccordion.astro';
                       <li>
                         En la sección <strong>Ahorros</strong>, tocá <strong
                           >Crear meta semanal</strong
-                        >.<div
-                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        >.
+                        <div
+                          class="w-full h-auto max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
                         >
-                          Imagen del paso
+                          <img
+                            src="/images/ahorros/Imagen_1_.png"
+                            class="block w-1/2 h-auto mt-2 rounded-md"
+                            alt="Pantalla de registro"
+                          />
                         </div>
                       </li>
                       <li>
-                        Ingresá el monto objetivo para la semana.<div
-                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        Ingresá el monto objetivo para la semana.
+                        <div
+                          class="w-full h-auto max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
                         >
-                          Imagen del paso
+                          <img
+                            src="/images/ahorros/imagen_3.png"
+                            class="block w-1/2 h-auto mt-2 rounded-md"
+                            alt="Pantalla de registro"
+                          />
                         </div>
                       </li>
                       <li>
-                        Guardá. Si ya existe una meta activa para la semana, la app te lo informará.<div
-                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        Guardá. Si ya existe una meta activa para la semana, la app te lo informará.
+                        <div
+                          class="w-full h-auto max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
                         >
-                          Imagen del paso
+                          <img
+                            src="/images/ahorros/imagen_4.png"
+                            class="block w-1/2 h-auto mt-2 rounded-md"
+                            alt="Pantalla de registro"
+                          />
                         </div>
                       </li>
                     </ol>
@@ -681,9 +786,13 @@ import SubAccordion from '../components/SubAccordion.astro';
                       <li>No hay eliminación retroactiva de metas ya cerradas.</li>
                     </ul>
                     <div
-                      class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                      class="w-full h-auto max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
                     >
-                      Imagen del paso
+                      <img
+                        src="/images/ahorros/imagen_4.png"
+                        class="block w-1/2 h-auto mt-2 rounded-md"
+                        alt="Pantalla de registro"
+                      />
                     </div>
                   </div>
                 </SubAccordion>
@@ -710,20 +819,13 @@ import SubAccordion from '../components/SubAccordion.astro';
                   <div class="flex flex-col space-y-3 text-on-surface-variant text-sm">
                     <p>Muestra el saldo actual, totales de ingresos y gastos acumulados.</p>
                     <div
-                      class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                      class="w-full h-auto max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
                     >
-                      Imagen del paso
-                    </div>
-                  </div>
-                </SubAccordion>
-
-                <SubAccordion title="Resumen semanal">
-                  <div class="flex flex-col space-y-3 text-on-surface-variant text-sm">
-                    <p>Expone ingresos, gastos y ahorro esperado para la semana vigente.</p>
-                    <div
-                      class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
-                    >
-                      Imagen del paso
+                      <img
+                        src="/images/balance/imagen_1.png"
+                        class="block w-1/2 h-auto mt-2 rounded-md"
+                        alt="Pantalla de registro"
+                      />
                     </div>
                   </div>
                 </SubAccordion>
@@ -734,9 +836,13 @@ import SubAccordion from '../components/SubAccordion.astro';
                       Gráficos de línea con comportamiento por día (tendencias diarias/semanales).
                     </p>
                     <div
-                      class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                      class="w-full h-auto max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
                     >
-                      Imagen del paso
+                      <img
+                        src="/images/balance/imagen_3.jpeg"
+                        class="block w-1/2 h-auto mt-2 rounded-md"
+                        alt="Pantalla de registro"
+                      />
                     </div>
                   </div>
                 </SubAccordion>
@@ -745,175 +851,177 @@ import SubAccordion from '../components/SubAccordion.astro';
                   <div class="flex flex-col space-y-3 text-on-surface-variant text-sm">
                     <p>Últimos movimientos para control rápido.</p>
                     <div
-                      class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                      class="w-full h-auto max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
                     >
-                      Imagen del paso
+                      <img
+                        src="/images/balance/imagen_2.jpeg"
+                        class="block w-1/2 h-auto mt-2 rounded-md"
+                        alt="Pantalla de registro"
+                      />
                     </div>
                   </div>
                 </SubAccordion>
               </div>
             </div>
-              <section class="mb-section-gap">
-                <div
-                  class="flex gap-4 bg-tertiary-container/10 border-l-4 border-tertiary-container p-6 rounded-r-xl"
-                >
-                  <span class="material-symbols-outlined text-tertiary">warning</span>
-                  <div>
-                    <h4 class="font-h3 text-lg text-slate-50 mb-2">Limitaciones Actuales</h4>
-                    <ul class="text-on-surface-variant space-y-1">
-                      <li><strong>Sin eliminación de movimientos</strong>: solo editable.</li>
-                      <li><strong>Sin recuperación de contraseña</strong>: necesitás soporte.</li>
-                      <li><strong>Cambios de correo no soportados</strong>.</li>
-                      <li><strong>Metas históricas bloqueadas</strong>: solo lectura.</li>
-                    </ul>
-                  </div>
+            <section class="mb-section-gap">
+              <div
+                class="flex gap-4 bg-tertiary-container/10 border-l-4 border-tertiary-container p-6 rounded-r-xl"
+              >
+                <span class="material-symbols-outlined text-tertiary">warning</span>
+                <div>
+                  <h4 class="font-h3 text-lg text-slate-50 mb-2">Limitaciones Actuales</h4>
+                  <ul class="text-on-surface-variant space-y-1">
+                    <li><strong>Sin eliminación de movimientos</strong>: solo editable.</li>
+                    <li><strong>Sin recuperación de contraseña</strong>: necesitás soporte.</li>
+                    <li><strong>Cambios de correo no soportados</strong>.</li>
+                    <li><strong>Metas históricas bloqueadas</strong>: solo lectura.</li>
+                  </ul>
                 </div>
-              </section>
+              </div>
+            </section>
 
-              <!-- Recomendaciones -->
-              <section class="mb-section-gap" id="recomendaciones">
-                <h2 class="font-h2 text-h2 text-slate-50 mb-6">Recomendaciones de Uso</h2>
-                <ol class="list-decimal pl-5 space-y-3 text-on-surface-variant">
-                  <li><strong>Registrá movimientos al instante</strong>.</li>
-                  <li><strong>Revisá el resumen semanal los domingos</strong>.</li>
-                  <li><strong>Usá categorías consistentes</strong>.</li>
-                  <li><strong>Actualizá tu nombre desde Perfil</strong>.</li>
-                  <li><strong>Verificá tu conexión antes de cerrar la app</strong>.</li>
-                </ol>
-              </section>
+            <!-- Recomendaciones -->
+            <section class="mb-section-gap" id="recomendaciones">
+              <h2 class="font-h2 text-h2 text-slate-50 mb-6">Recomendaciones de Uso</h2>
+              <ol class="list-decimal pl-5 space-y-3 text-on-surface-variant">
+                <li><strong>Registrá movimientos al instante</strong>.</li>
+                <li><strong>Revisá el resumen semanal los domingos</strong>.</li>
+                <li><strong>Usá categorías consistentes</strong>.</li>
+                <li><strong>Actualizá tu nombre desde Perfil</strong>.</li>
+                <li><strong>Verificá tu conexión antes de cerrar la app</strong>.</li>
+              </ol>
+            </section>
 
-              <!-- Problemas Comunes -->
-              <section class="mb-section-gap" id="problemas">
-                <h2 class="font-h2 text-h2 text-slate-50 mb-6">Problemas Comunes</h2>
-                <div class="space-y-4">
-                  <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
-                    <h3 class="font-h3 text-h3 text-slate-50 mb-2">No puedo iniciar sesión</h3>
-                    <ol class="list-decimal pl-5 text-sm text-on-surface-variant space-y-1">
-                      <li>Revisá credenciales.</li>
-                      <li>Verificá conexión estable.</li>
-                      <li>Si olvidaste contraseña, registrate con otro correo.</li>
-                    </ol>
-                  </div>
-                  <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
-                    <h3 class="font-h3 text-h3 text-slate-50 mb-2">
-                      No puedo guardar un ingreso/gasto
-                    </h3>
-                    <ol class="list-decimal pl-5 text-sm text-on-surface-variant space-y-1">
-                      <li>Confirmá categoría.</li>
-                      <li>Verificá monto positivo.</li>
-                      <li>Revisá saldo disponible.</li>
-                      <li>Chequeá conexión.</li>
-                    </ol>
-                  </div>
-                  <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
-                    <h3 class="font-h3 text-h3 text-slate-50 mb-2">No encuentro Ahorros</h3>
-                    <p class="text-sm text-on-surface-variant">
-                      En Inicio, desplazate hasta "Mis Ahorros" y tocá "Ver detalles".
-                    </p>
-                  </div>
-                  <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
-                    <h3 class="font-h3 text-h3 text-slate-50 mb-2">
-                      La app muestra "meta en riesgo"
-                    </h3>
-                    <p class="text-sm text-on-surface-variant">
-                      Tus gastos superan el plan. Ajustá compras o incrementá ingresos.
-                    </p>
-                  </div>
-                  <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
-                    <h3 class="font-h3 text-h3 text-slate-50 mb-2">Los datos no se actualizan</h3>
-                    <ol class="list-decimal pl-5 text-sm text-on-surface-variant space-y-1">
-                      <li>Deslizá hacia abajo para refrescar.</li>
-                      <li>Cerrá sesión y volvé a iniciar.</li>
-                      <li>Reiniciá el dispositivo.</li>
-                    </ol>
-                  </div>
+            <!-- Problemas Comunes -->
+            <section class="mb-section-gap" id="problemas">
+              <h2 class="font-h2 text-h2 text-slate-50 mb-6">Problemas Comunes</h2>
+              <div class="space-y-4">
+                <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+                  <h3 class="font-h3 text-h3 text-slate-50 mb-2">No puedo iniciar sesión</h3>
+                  <ol class="list-decimal pl-5 text-sm text-on-surface-variant space-y-1">
+                    <li>Revisá credenciales.</li>
+                    <li>Verificá conexión estable.</li>
+                    <li>Si olvidaste contraseña, registrate con otro correo.</li>
+                  </ol>
                 </div>
-              </section>
-
-              <!-- Glosario -->
-              <section class="mb-section-gap" id="glosario">
-                <h2 class="font-h2 text-h2 text-slate-50 mb-6">Glosario</h2>
-                <div class="overflow-x-auto">
-                  <table class="w-full text-sm">
-                    <thead>
-                      <tr class="border-b border-[#334155]">
-                        <th class="text-left py-3 px-4 text-slate-400 font-semibold">Término</th>
-                        <th class="text-left py-3 px-4 text-slate-400 font-semibold">Significado</th
-                        >
-                      </tr>
-                    </thead>
-                    <tbody class="text-on-surface-variant">
-                      <tr class="border-b border-[#334155]/50"
-                        ><td class="py-3 px-4 font-semibold text-slate-200">Balance</td><td
-                          class="py-3 px-4">Diferencia entre ingresos y gastos.</td
-                        ></tr
-                      >
-                      <tr class="border-b border-[#334155]/50"
-                        ><td class="py-3 px-4 font-semibold text-slate-200">Ingreso</td><td
-                          class="py-3 px-4">Entrada de dinero.</td
-                        ></tr
-                      >
-                      <tr class="border-b border-[#334155]/50"
-                        ><td class="py-3 px-4 font-semibold text-slate-200">Gasto</td><td
-                          class="py-3 px-4">Salida de dinero.</td
-                        ></tr
-                      >
-                      <tr class="border-b border-[#334155]/50"
-                        ><td class="py-3 px-4 font-semibold text-slate-200">Meta semanal</td><td
-                          class="py-3 px-4">Objetivo de ahorro.</td
-                        ></tr
-                      >
-                      <tr class="border-b border-[#334155]/50"
-                        ><td class="py-3 px-4 font-semibold text-slate-200">Semana</td><td
-                          class="py-3 px-4">Periodo domingo a sábado.</td
-                        ></tr
-                      >
-                      <tr class="border-b border-[#334155]/50"
-                        ><td class="py-3 px-4 font-semibold text-slate-200">Categoría</td><td
-                          class="py-3 px-4">Etiqueta que clasifica movimientos.</td
-                        ></tr
-                      >
-                      <tr class="border-b border-[#334155]/50"
-                        ><td class="py-3 px-4 font-semibold text-slate-200">Tendencia</td><td
-                          class="py-3 px-4">Gráfico de comportamiento.</td
-                        ></tr
-                      >
-                      <tr
-                        ><td class="py-3 px-4 font-semibold text-slate-200">Saldo disponible</td><td
-                          class="py-3 px-4">Dinero restante.</td
-                        ></tr
-                      >
-                    </tbody>
-                  </table>
+                <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+                  <h3 class="font-h3 text-h3 text-slate-50 mb-2">
+                    No puedo guardar un ingreso/gasto
+                  </h3>
+                  <ol class="list-decimal pl-5 text-sm text-on-surface-variant space-y-1">
+                    <li>Confirmá categoría.</li>
+                    <li>Verificá monto positivo.</li>
+                    <li>Revisá saldo disponible.</li>
+                    <li>Chequeá conexión.</li>
+                  </ol>
                 </div>
-              </section>
-
-              <!-- Categorías -->
-              <section class="mb-section-gap" id="categorias">
-                <h2 class="font-h2 text-h2 text-slate-50 mb-6">Categorías Disponibles</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <h3 class="font-h3 text-h3 text-slate-50 mb-4">Categorías de Ingresos</h3>
-                    <ul class="space-y-2 text-on-surface-variant">
-                      <li><strong>Trabajo</strong> - Sueldos, honorarios.</li>
-                      <li><strong>Regalo</strong> - Transferencias.</li>
-                      <li><strong>Reintegro</strong> - Devoluciones.</li>
-                      <li><strong>Otros</strong> - Entradas esporádicas.</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <h3 class="font-h3 text-h3 text-slate-50 mb-4">Categorías de Gastos</h3>
-                    <ul class="space-y-2 text-on-surface-variant">
-                      <li><strong>Comida</strong> - Supermercado, restaurantes.</li>
-                      <li><strong>Viajes</strong> - Transporte, gasolina.</li>
-                      <li><strong>Compras</strong> - Ropa, tecnología.</li>
-                      <li><strong>Salud</strong> - Médica, farmacia.</li>
-                      <li><strong>Ocio</strong> - Cine, suscripciones.</li>
-                    </ul>
-                  </div>
+                <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+                  <h3 class="font-h3 text-h3 text-slate-50 mb-2">No encuentro Ahorros</h3>
+                  <p class="text-sm text-on-surface-variant">
+                    En Inicio, desplazate hasta "Mis Ahorros" y tocá "Ver detalles".
+                  </p>
                 </div>
-              </section>
+                <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+                  <h3 class="font-h3 text-h3 text-slate-50 mb-2">
+                    La app muestra "meta en riesgo"
+                  </h3>
+                  <p class="text-sm text-on-surface-variant">
+                    Tus gastos superan el plan. Ajustá compras o incrementá ingresos.
+                  </p>
+                </div>
+                <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+                  <h3 class="font-h3 text-h3 text-slate-50 mb-2">Los datos no se actualizan</h3>
+                  <ol class="list-decimal pl-5 text-sm text-on-surface-variant space-y-1">
+                    <li>Deslizá hacia abajo para refrescar.</li>
+                    <li>Cerrá sesión y volvé a iniciar.</li>
+                    <li>Reiniciá el dispositivo.</li>
+                  </ol>
+                </div>
+              </div>
+            </section>
 
+            <!-- Glosario -->
+            <section class="mb-section-gap" id="glosario">
+              <h2 class="font-h2 text-h2 text-slate-50 mb-6">Glosario</h2>
+              <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                  <thead>
+                    <tr class="border-b border-[#334155]">
+                      <th class="text-left py-3 px-4 text-slate-400 font-semibold">Término</th>
+                      <th class="text-left py-3 px-4 text-slate-400 font-semibold">Significado</th>
+                    </tr>
+                  </thead>
+                  <tbody class="text-on-surface-variant">
+                    <tr class="border-b border-[#334155]/50"
+                      ><td class="py-3 px-4 font-semibold text-slate-200">Balance</td><td
+                        class="py-3 px-4">Diferencia entre ingresos y gastos.</td
+                      ></tr
+                    >
+                    <tr class="border-b border-[#334155]/50"
+                      ><td class="py-3 px-4 font-semibold text-slate-200">Ingreso</td><td
+                        class="py-3 px-4">Entrada de dinero.</td
+                      ></tr
+                    >
+                    <tr class="border-b border-[#334155]/50"
+                      ><td class="py-3 px-4 font-semibold text-slate-200">Gasto</td><td
+                        class="py-3 px-4">Salida de dinero.</td
+                      ></tr
+                    >
+                    <tr class="border-b border-[#334155]/50"
+                      ><td class="py-3 px-4 font-semibold text-slate-200">Meta semanal</td><td
+                        class="py-3 px-4">Objetivo de ahorro.</td
+                      ></tr
+                    >
+                    <tr class="border-b border-[#334155]/50"
+                      ><td class="py-3 px-4 font-semibold text-slate-200">Semana</td><td
+                        class="py-3 px-4">Periodo domingo a sábado.</td
+                      ></tr
+                    >
+                    <tr class="border-b border-[#334155]/50"
+                      ><td class="py-3 px-4 font-semibold text-slate-200">Categoría</td><td
+                        class="py-3 px-4">Etiqueta que clasifica movimientos.</td
+                      ></tr
+                    >
+                    <tr class="border-b border-[#334155]/50"
+                      ><td class="py-3 px-4 font-semibold text-slate-200">Tendencia</td><td
+                        class="py-3 px-4">Gráfico de comportamiento.</td
+                      ></tr
+                    >
+                    <tr
+                      ><td class="py-3 px-4 font-semibold text-slate-200">Saldo disponible</td><td
+                        class="py-3 px-4">Dinero restante.</td
+                      ></tr
+                    >
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            <!-- Categorías -->
+            <section class="mb-section-gap" id="categorias">
+              <h2 class="font-h2 text-h2 text-slate-50 mb-6">Categorías Disponibles</h2>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <h3 class="font-h3 text-h3 text-slate-50 mb-4">Categorías de Ingresos</h3>
+                  <ul class="space-y-2 text-on-surface-variant">
+                    <li><strong>Trabajo</strong> - Sueldos, honorarios.</li>
+                    <li><strong>Regalo</strong> - Transferencias.</li>
+                    <li><strong>Reintegro</strong> - Devoluciones.</li>
+                    <li><strong>Otros</strong> - Entradas esporádicas.</li>
+                  </ul>
+                </div>
+                <div>
+                  <h3 class="font-h3 text-h3 text-slate-50 mb-4">Categorías de Gastos</h3>
+                  <ul class="space-y-2 text-on-surface-variant">
+                    <li><strong>Comida</strong> - Supermercado, restaurantes.</li>
+                    <li><strong>Viajes</strong> - Transporte, gasolina.</li>
+                    <li><strong>Compras</strong> - Ropa, tecnología.</li>
+                    <li><strong>Salud</strong> - Médica, farmacia.</li>
+                    <li><strong>Ocio</strong> - Cine, suscripciones.</li>
+                  </ul>
+                </div>
+              </div>
+            </section>
           </div>
         </section>
       </div>
@@ -939,7 +1047,7 @@ import SubAccordion from '../components/SubAccordion.astro';
         href="#almacenamiento">Almacenamiento</a
       >
     </li>
-       <li>
+    <li>
       <a
         class="block pl-4 py-1 text-slate-400 hover:text-slate-200 transition-colors text-sm truncate"
         href="#navegacion">Navegación</a
@@ -975,20 +1083,6 @@ import SubAccordion from '../components/SubAccordion.astro';
         href="#categorias">Categorías</a
       >
     </li>
-    <li>
-      <a
-        class="block pl-4 py-1 text-slate-400 hover:text-slate-200 transition-colors text-sm truncate"
-        href="#contacto">Contacto</a
-      >
-    </li>
   </ul>
-  <div
-    class="mt-12 p-4 rounded-xl bg-slate-800/30 border border-slate-700/50 w-full max-w-full overflow-hidden"
-  >
-    <p class="text-xs text-slate-400 mb-3">¿Necesitas ayuda adicional?</p>
-    <button
-      class="w-full py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-sm font-semibold transition-all"
-      >Contactar Soporte</button
-    >
-  </div>
+
 </aside>
