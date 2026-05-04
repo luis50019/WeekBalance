@@ -1,0 +1,428 @@
+---
+import StitchLayout from '../layouts/StitchLayout.astro';
+---
+
+<StitchLayout>
+  <!-- TopNavBar -->
+  <header
+    class="fixed top-0 w-full z-50 bg-[#0f172a]/80 backdrop-blur-[12px] border-b border-[#334155] h-16 shadow-none font-manrope antialiased tracking-tight"
+  >
+    <div class="flex justify-between items-center h-16 px-6 max-w-[1280px] mx-auto">
+      <div class="flex items-center gap-8">
+        <span class="text-lg font-bold text-slate-50">WeekBalance Docs</span>
+        <nav class="hidden md:flex gap-6">
+          <a class="text-blue-500 font-semibold transition-all" href="#">Documentation</a>
+          <a class="text-slate-400 hover:text-slate-200 transition-colors transition-all" href="#"
+            >Guides</a
+          >
+          <a class="text-slate-400 hover:text-slate-200 transition-colors transition-all" href="#"
+            >API</a
+          >
+        </nav>
+      </div>
+      <div class="flex items-center gap-4">
+        <div class="relative hidden sm:block">
+          <span
+            class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-sm"
+            >search</span
+          >
+          <input
+            class="bg-slate-800/50 border border-[#334155] rounded-md pl-9 pr-4 py-1.5 text-sm w-64 focus:outline-none focus:ring-1 focus:ring-blue-500 text-slate-200"
+            placeholder="Search documentation..."
+            type="text"
+          />
+        </div>
+        <button
+          class="p-2 hover:bg-slate-800/50 rounded-md transition-all text-slate-400 hover:text-slate-200"
+        >
+          <span class="material-symbols-outlined">terminal</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="flex max-w-[1280px] mx-auto w-full min-w-0 overflow-hidden">
+    <!-- SideNavBar -->
+    <aside
+      class="fixed left-0 top-16 h-[calc(100vh-64px)] w-64 bg-[#020617] border-r border-[#334155] overflow-y-auto custom-scrollbar hidden lg:block"
+    >
+      <div class="flex flex-col gap-1 py-8 font-manrope text-sm font-medium">
+        <div class="px-6 mb-6">
+          <h2 class="text-xl font-black text-slate-50 uppercase tracking-tighter">WeekBalance</h2>
+          <p class="text-xs text-slate-500 uppercase tracking-widest mt-1">Documentation</p>
+        </div>
+        <div class="mb-4">
+          <div class="px-6 py-2 text-[11px] font-bold text-slate-500 uppercase tracking-widest">
+            General
+          </div>
+          <a
+            class="flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800/30 transition-all duration-200"
+            href="/"
+          >
+            <span class="material-symbols-outlined">home</span>
+            Inicio
+          </a>
+        </div>
+        <div class="mb-4">
+          <div class="px-6 py-2 text-[11px] font-bold text-slate-500 uppercase tracking-widest">
+            Manuales
+          </div>
+          <a
+            class="flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800/30 transition-all duration-200"
+            href="/usuario"
+          >
+            <span class="material-symbols-outlined">person</span>
+            Usuario
+          </a>
+          <a
+            class="flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800/30 transition-all duration-200"
+            href="/tecnico"
+          >
+            <span class="material-symbols-outlined">engineering</span>
+            Técnico
+          </a>
+          <a
+            class="flex items-center gap-3 px-4 py-2 text-blue-400 border-l-2 border-blue-500 bg-blue-500/10 hover:bg-slate-800/30 transition-all duration-200"
+            href="#"
+          >
+            <span class="material-symbols-outlined">install_desktop</span>
+            Instalación
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 min-w-0 w-full lg:pl-64 lg:pr-[280px] px-6 pt-24 pb-20 overflow-hidden">
+      <div class="max-w-4xl mx-auto px-4 w-full min-w-0 overflow-hidden break-words">
+        <header class="mb-section-gap">
+          <h1 class="font-h1 text-h1 text-slate-50 mb-4">Manual de Instalación - WeekBalance</h1>
+          <p class="font-body text-body text-on-surface-variant leading-relaxed">
+            Este manual explica cómo preparar desde cero el entorno de WeekBalance, incluyendo
+            backend (Express + Supabase) y frontend (Expo/React Native).
+          </p>
+        </header>
+
+        <!-- Requisitos -->
+        <section class="mb-section-gap" id="requisitos">
+          <h2 class="font-h2 text-h2 text-slate-50 mb-6">Requisitos del sistema</h2>
+          <div class="space-y-4">
+            <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+              <h3 class="font-h3 text-h3 text-slate-50 mb-2">Hardware mínimo</h3>
+              <ul class="text-on-surface-variant space-y-1 text-sm">
+                <li>CPU de 4 núcleos.</li>
+                <li>8 GB de RAM (16 GB recomendado si emulás dispositivos).</li>
+                <li>10 GB de espacio libre en disco.</li>
+              </ul>
+            </div>
+            <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+              <h3 class="font-h3 text-h3 text-slate-50 mb-2">Sistema Operativo</h3>
+              <p class="text-on-surface-variant text-sm">
+                macOS 12+, Windows 10/11 (WSL para backend) o cualquier distro Linux moderna.
+              </p>
+            </div>
+            <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+              <h3 class="font-h3 text-h3 text-slate-50 mb-2">Software base</h3>
+              <ul class="text-on-surface-variant space-y-1 text-sm">
+                <li>Node.js 20.x LTS y npm 10.x.</li>
+                <li>Git 2.40+.</li>
+                <li>Expo Go (en dispositivo físico) o emulador Android/iOS.</li>
+                <li>Supabase CLI (opcional) o acceso a la consola web.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- Dependencias -->
+        <section class="mb-section-gap" id="dependencias">
+          <h2 class="font-h2 text-h2 text-slate-50 mb-6">Dependencias necesarias</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+              <h3 class="font-h3 text-h3 text-slate-50 mb-2">Backend</h3>
+              <ul class="text-sm text-on-surface-variant space-y-1">
+                <li>TypeScript, ts-node-dev</li>
+                <li>@supabase/supabase-js</li>
+                <li>express, cors, node-cron</li>
+              </ul>
+            </div>
+            <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+              <h3 class="font-h3 text-h3 text-slate-50 mb-2">Frontend</h3>
+              <ul class="text-sm text-on-surface-variant space-y-1">
+                <li>Expo SDK 54</li>
+                <li>react-native, react-navigation</li>
+                <li>zustand, react-hook-form</li>
+                <li>Expo LinearGradient, Reanimated</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- Variables de entorno -->
+        <section class="mb-section-gap" id="variables">
+          <h2 class="font-h2 text-h2 text-slate-50 mb-6">Configuración de variables de entorno</h2>
+          <div class="space-y-4">
+            <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+              <h3 class="font-h3 text-h3 text-slate-50 mb-2">
+                Backend (<code>BackEnd/.env</code>)
+              </h3>
+              <div
+                class="bg-[#1e293b] rounded-lg p-4 font-code text-code text-slate-200 overflow-x-auto"
+              >
+                <code>
+                  PORT=3000<br />
+                  SUPABASE_URL=https://&lt;your-project&gt;.supabase.co<br />
+                  SUPABASE_SERVICE_ROLE_KEY=&lt;service-role-key&gt;<br />
+                  SUPABASE_ANON_KEY=&lt;anon-key&gt;<br />
+                  JWT_SECRET=&lt;cadena_aleatoria&gt;
+                </code>
+              </div>
+              <p class="text-sm text-on-surface-variant mt-2">
+                SUPABASE_SERVICE_ROLE_KEY es la llave de servicio (no compartirla).
+              </p>
+            </div>
+            <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+              <h3 class="font-h3 text-h3 text-slate-50 mb-2">
+                Frontend (<code>weekbalance/.env</code>)
+              </h3>
+              <div
+                class="bg-[#1e293b] rounded-lg p-4 font-code text-code text-slate-200 overflow-x-auto"
+              >
+                <code>
+                  EXPO_PUBLIC_API_URL=http://localhost:3000/api<br />
+                  EXPO_PUBLIC_SUPABASE_URL=https://&lt;your-project&gt;.supabase.co<br />
+                  EXPO_PUBLIC_SUPABASE_ANON_KEY=&lt;anon-key&gt;
+                </code>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Instalación Backend -->
+        <section class="mb-section-gap" id="backend">
+          <h2 class="font-h2 text-h2 text-slate-50 mb-6">Instalación del backend</h2>
+          <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+            <ol class="list-decimal pl-5 text-on-surface-variant space-y-2">
+              <li>Entrá en el directorio: <code class="text-blue-400">cd BackEnd</code></li>
+              <li>Instalá dependencias: <code class="text-blue-400">npm install</code></li>
+              <li>Compilá (opcional): <code class="text-blue-400">npm run build</code></li>
+              <li>Ejecutá en modo desarrollo: <code class="text-blue-400">npm run dev</code></li>
+            </ol>
+            <p class="text-sm text-on-surface-variant mt-3">
+              Esto expone la API en <code class="text-blue-400">http://localhost:3000/api</code>.
+            </p>
+          </div>
+        </section>
+
+        <!-- Instalación Frontend -->
+        <section class="mb-section-gap" id="frontend">
+          <h2 class="font-h2 text-h2 text-slate-50 mb-6">Instalación del frontend</h2>
+          <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+            <ol class="list-decimal pl-5 text-on-surface-variant space-y-2">
+              <li>Entrá en el directorio: <code class="text-blue-400">cd weekbalance</code></li>
+              <li>Instalá dependencias: <code class="text-blue-400">npm install</code></li>
+              <li>Iniciá el servidor Metro: <code class="text-blue-400">npm start</code></li>
+              <li>
+                Elegí plataforma: <code class="text-blue-400">a</code> para Android, <code
+                  class="text-blue-400">i</code
+                > para iOS, o escaneá el QR con Expo Go.
+              </li>
+            </ol>
+          </div>
+        </section>
+
+        <!-- Base de datos -->
+        <section class="mb-section-gap" id="basedatos">
+          <h2 class="font-h2 text-h2 text-slate-50 mb-6">Configuración de la base de datos</h2>
+          <div class="space-y-4">
+            <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+              <ol class="list-decimal pl-5 text-on-surface-variant space-y-2 text-sm">
+                <li>
+                  Creá un proyecto en <a class="text-blue-500" href="https://supabase.com/"
+                    >Supabase</a
+                  >.
+                </li>
+                <li>
+                  Desde la sección SQL, ejecutá scripts para crear tablas: <code>profiles</code>, <code
+                    >accounts</code
+                  >, <code>income_history</code>, <code>expense_history</code>, <code
+                    >savings_movements</code
+                  >.
+                </li>
+                <li>Habilitá autenticación por correo/contraseña en Supabase Auth.</li>
+                <li>
+                  Copiá las claves (Anon y Service Role) en los <code>.env</code> respectivos.
+                </li>
+              </ol>
+            </div>
+          </div>
+        </section>
+
+        <!-- Ejecución -->
+        <section class="mb-section-gap" id="ejecucion">
+          <h2 class="font-h2 text-h2 text-slate-50 mb-6">Ejecución del sistema</h2>
+          <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+            <ol class="list-decimal pl-5 text-on-surface-variant space-y-2 text-sm">
+              <li>
+                Asegurate de que el backend esté corriendo (<code>npm run dev</code> en <code
+                  >BackEnd</code
+                >).
+              </li>
+              <li>Iniciá Expo (<code>npm start</code> en <code>weekbalance</code>).</li>
+              <li>Abrí la app (emulador o físico). Iniciá sesión o registrate.</li>
+              <li>Registrá un ingreso y un gasto de prueba.</li>
+            </ol>
+          </div>
+        </section>
+
+        <!-- Verificación -->
+        <section class="mb-section-gap" id="verificacion">
+          <h2 class="font-h2 text-h2 text-slate-50 mb-6">Verificación de la instalación</h2>
+          <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+            <ul class="text-on-surface-variant space-y-2 text-sm">
+              <li>Desde la consola del backend deberías ver logs de solicitudes.</li>
+              <li>
+                En la app verificá: el balance se actualiza, Ahorros muestra meta inicial, perfil
+                refleja nombre.
+              </li>
+              <li>
+                En Supabase, confirmá que en <code>income_history</code> y <code
+                  >expense_history</code
+                > aparecieron los registros.
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- Solución de problemas -->
+        <section class="mb-section-gap" id="problemas">
+          <h2 class="font-h2 text-h2 text-slate-50 mb-6">Solución de problemas comunes</h2>
+          <div class="space-y-4">
+            <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+              <h3 class="font-h3 text-h3 text-slate-50 mb-2">Error de conexión (ECONNREFUSED)</h3>
+              <p class="text-sm text-on-surface-variant">
+                Revisá que el backend esté activo y que <code>EXPO_PUBLIC_API_URL</code> apunte a la dirección
+                correcta.
+              </p>
+            </div>
+            <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+              <h3 class="font-h3 text-h3 text-slate-50 mb-2">Token inválido / 401</h3>
+              <p class="text-sm text-on-surface-variant">
+                Asegurate de que las claves Supabase del frontend y backend correspondan al mismo
+                proyecto. Limpia la sesión borrando AsyncStorage.
+              </p>
+            </div>
+            <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+              <h3 class="font-h3 text-h3 text-slate-50 mb-2">Expo no detecta dispositivos</h3>
+              <p class="text-sm text-on-surface-variant">
+                Comprobá que tu dispositivo o emulador esté en la misma red; reintentá con <code
+                  >adb reverse tcp:3000 tcp:3000</code
+                > para Android.
+              </p>
+            </div>
+            <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+              <h3 class="font-h3 text-h3 text-slate-50 mb-2">Cron jobs no corren</h3>
+              <p class="text-sm text-on-surface-variant">
+                Validá que <code>startWeeklyBalanceCron()</code> se invoque en <code
+                  >BackEnd/src/server.ts</code
+                >.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Desinstalación -->
+        <section class="mb-section-gap" id="desinstalacion">
+          <h2 class="font-h2 text-h2 text-slate-50 mb-6">Desinstalación (opcional)</h2>
+          <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+            <ol class="list-decimal pl-5 text-on-surface-variant space-y-2 text-sm">
+              <li>Detené procesos (<code>Ctrl+C</code> en terminales).</li>
+              <li>
+                Eliminá dependencias: <code class="text-blue-400"
+                  >rm -rf BackEnd/node_modules weekbalance/node_modules</code
+                >
+              </li>
+              <li>Borrá archivos <code>.env</code> si contienen claves sensibles.</li>
+              <li>Si lo deseás, eliminá el proyecto Supabase desde la consola.</li>
+            </ol>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- Right TOC -->
+    <aside
+      class="fixed right-0 top-16 h-[calc(100vh-64px)] w-[280px] py-10 px-8 hidden xl:block overflow-y-auto custom-scrollbar max-w-full overflow-hidden"
+    >
+      <h3 class="font-label text-label text-slate-50 uppercase tracking-widest mb-6">Contenido</h3>
+      <ul class="space-y-3 border-l border-[#334155]">
+        <li>
+          <a
+            class="block pl-4 py-1 text-slate-400 hover:text-slate-200 transition-colors text-sm"
+            href="#requisitos">Requisitos</a
+          >
+        </li>
+        <li>
+          <a
+            class="block pl-4 py-1 text-slate-400 hover:text-slate-200 transition-colors text-sm"
+            href="#dependencias">Dependencias</a
+          >
+        </li>
+        <li>
+          <a
+            class="block pl-4 py-1 text-slate-400 hover:text-slate-200 transition-colors text-sm"
+            href="#variables">Variables de entorno</a
+          >
+        </li>
+        <li>
+          <a
+            class="block pl-4 py-1 text-blue-500 border-l-2 border-blue-500 -ml-[1px] transition-all text-sm"
+            href="#backend">Instalación Backend</a
+          >
+        </li>
+        <li>
+          <a
+            class="block pl-4 py-1 text-slate-400 hover:text-slate-200 transition-colors text-sm"
+            href="#frontend">Instalación Frontend</a
+          >
+        </li>
+        <li>
+          <a
+            class="block pl-4 py-1 text-slate-400 hover:text-slate-200 transition-colors text-sm"
+            href="#basedatos">Base de datos</a
+          >
+        </li>
+        <li>
+          <a
+            class="block pl-4 py-1 text-slate-400 hover:text-slate-200 transition-colors text-sm"
+            href="#ejecucion">Ejecución</a
+          >
+        </li>
+        <li>
+          <a
+            class="block pl-4 py-1 text-slate-400 hover:text-slate-200 transition-colors text-sm"
+            href="#verificacion">Verificación</a
+          >
+        </li>
+        <li>
+          <a
+            class="block pl-4 py-1 text-slate-400 hover:text-slate-200 transition-colors text-sm"
+            href="#problemas">Problemas</a
+          >
+        </li>
+        <li>
+          <a
+            class="block pl-4 py-1 text-slate-400 hover:text-slate-200 transition-colors text-sm"
+            href="#desinstalacion">Desinstalación</a
+          >
+        </li>
+      </ul>
+      <div class="mt-12 p-4 rounded-xl bg-slate-800/30 border border-slate-700/50">
+        <p class="text-xs text-slate-400 mb-3">¿Necesitas ayuda adicional?</p>
+        <button
+          class="w-full py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-sm font-semibold transition-all"
+          >Contactar Soporte</button
+        >
+      </div>
+    </aside>
+  </div>
+</StitchLayout>

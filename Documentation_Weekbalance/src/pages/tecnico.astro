@@ -1,0 +1,495 @@
+---
+import StitchLayout from '../layouts/StitchLayout.astro';
+---
+
+<StitchLayout>
+  <!-- TopNavBar -->
+  <header
+    class="fixed top-0 w-full z-50 bg-[#0f172a]/80 backdrop-blur-[12px] border-b border-[#334155] h-16 shadow-none font-manrope antialiased tracking-tight"
+  >
+    <div class="flex justify-between items-center h-16 px-6 max-w-[1280px] mx-auto">
+      <div class="flex items-center gap-8">
+        <span class="text-lg font-bold text-slate-50">WeekBalance Docs</span>
+        <nav class="hidden md:flex gap-6">
+          <a class="text-blue-500 font-semibold transition-all" href="#">Documentation</a>
+          <a class="text-slate-400 hover:text-slate-200 transition-colors transition-all" href="#"
+            >Guides</a
+          >
+          <a class="text-slate-400 hover:text-slate-200 transition-colors transition-all" href="#"
+            >API</a
+          >
+        </nav>
+      </div>
+      <div class="flex items-center gap-4">
+        <div class="relative hidden sm:block">
+          <span
+            class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-sm"
+            >search</span
+          >
+          <input
+            class="bg-slate-800/50 border border-[#334155] rounded-md pl-9 pr-4 py-1.5 text-sm w-64 focus:outline-none focus:ring-1 focus:ring-blue-500 text-slate-200"
+            placeholder="Search documentation..."
+            type="text"
+          />
+        </div>
+        <button
+          class="p-2 hover:bg-slate-800/50 rounded-md transition-all text-slate-400 hover:text-slate-200"
+        >
+          <span class="material-symbols-outlined">terminal</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="flex max-w-[1280px] mx-auto w-full min-w-0 overflow-hidden">
+    <!-- SideNavBar -->
+    <aside
+      class="fixed left-0 top-16 h-[calc(100vh-64px)] w-64 bg-[#020617] border-r border-[#334155] overflow-y-auto custom-scrollbar hidden lg:block"
+    >
+      <div class="flex flex-col gap-1 py-8 font-manrope text-sm font-medium">
+        <div class="px-6 mb-6">
+          <h2 class="text-xl font-black text-slate-50 uppercase tracking-tighter">WeekBalance</h2>
+          <p class="text-xs text-slate-500 uppercase tracking-widest mt-1">Documentation</p>
+        </div>
+        <div class="mb-4">
+          <div class="px-6 py-2 text-[11px] font-bold text-slate-500 uppercase tracking-widest">
+            General
+          </div>
+          <a
+            class="flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800/30 transition-all duration-200"
+            href="/"
+          >
+            <span class="material-symbols-outlined">home</span>
+            Inicio
+          </a>
+        </div>
+        <div class="mb-4">
+          <div class="px-6 py-2 text-[11px] font-bold text-slate-500 uppercase tracking-widest">
+            Manuales
+          </div>
+          <a
+            class="flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800/30 transition-all duration-200"
+            href="/usuario"
+          >
+            <span class="material-symbols-outlined">person</span>
+            Usuario
+          </a>
+          <a
+            class="flex items-center gap-3 px-4 py-2 text-blue-400 border-l-2 border-blue-500 bg-blue-500/10 hover:bg-slate-800/30 transition-all duration-200"
+            href="#"
+          >
+            <span class="material-symbols-outlined">engineering</span>
+            Técnico
+          </a>
+          <a
+            class="flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800/30 transition-all duration-200"
+            href="/instalacion"
+          >
+            <span class="material-symbols-outlined">install_desktop</span>
+            Instalación
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 min-w-0 w-full lg:pl-64 lg:pr-[280px] px-6 pt-24 pb-20 overflow-hidden">
+      <div class="max-w-4xl mx-auto px-4 w-full min-w-0 overflow-hidden break-words">
+        <header class="mb-section-gap">
+          <h1 class="font-h1 text-h1 text-slate-50 mb-4">Manual Técnico de WeekBalance</h1>
+          <p class="font-body text-body text-on-surface-variant leading-relaxed">
+            WeekBalance es una plataforma de finanzas personales que combina una aplicación móvil
+            desarrollada con React Native y un backend en Express.js.
+          </p>
+        </header>
+
+        <!-- Arquitectura -->
+        <section class="mb-section-gap" id="arquitectura">
+          <h2 class="font-h2 text-h2 text-slate-50 mb-6">Arquitectura del Sistema</h2>
+          <div class="space-y-4">
+            <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+              <h3 class="font-h3 text-h3 text-slate-50 mb-2">Cliente móvil/web</h3>
+              <p class="text-on-surface-variant">
+                Aplicación Expo (React Native) que consume la API vía HTTPS. Implementa navegación
+                stack, formularios controlados y gráficas interactivas.
+              </p>
+            </div>
+            <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+              <h3 class="font-h3 text-h3 text-slate-50 mb-2">Backend</h3>
+              <p class="text-on-surface-variant">
+                API REST en Express.js (TypeScript) con capa de servicios, repositorios y DTOs.
+                Orquesta operaciones de autenticación, ingresos, egresos, ahorros y balance.
+              </p>
+            </div>
+            <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+              <h3 class="font-h3 text-h3 text-slate-50 mb-2">Servicios gestionados</h3>
+              <p class="text-on-surface-variant">
+                Supabase provee autenticación, base de datos Postgres y almacenamiento seguro de
+                sesiones.
+              </p>
+            </div>
+            <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+              <h3 class="font-h3 text-h3 text-slate-50 mb-2">Cron semanal</h3>
+              <p class="text-on-surface-variant">
+                <code class="text-blue-400">balance/balance.cron.ts</code> ejecuta cálculos periódicos
+                de balance usando <code class="text-blue-400">node-cron</code>.
+              </p>
+            </div>
+            <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+              <h3 class="font-h3 text-h3 text-slate-50 mb-2">Comunicación</h3>
+              <p class="text-on-surface-variant">
+                JSON sobre HTTPS; el frontend agrega el token Supabase (<code class="text-blue-400"
+                  >Bearer &lt;jwt&gt;</code
+                >) en cada request protegida.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Tecnologías -->
+        <section class="mb-section-gap" id="tecnologias">
+          <h2 class="font-h2 text-h2 text-slate-50 mb-6">Tecnologías y Herramientas</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+              <h3 class="font-h3 text-h3 text-slate-50 mb-2">Frontend</h3>
+              <ul class="text-sm text-on-surface-variant space-y-1">
+                <li>Expo 54, React 19, React Navigation</li>
+                <li>React Hook Form, Zustand</li>
+                <li>Expo Linear Gradient, Reanimated</li>
+                <li>Chart Kit y Gifted Charts</li>
+              </ul>
+            </div>
+            <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+              <h3 class="font-h3 text-h3 text-slate-50 mb-2">Backend</h3>
+              <ul class="text-sm text-on-surface-variant space-y-1">
+                <li>Express 5, Supabase JS v2</li>
+                <li>TypeScript 5, ts-node-dev</li>
+                <li>node-cron, JWT, uuid</li>
+              </ul>
+            </div>
+            <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+              <h3 class="font-h3 text-h3 text-slate-50 mb-2">Infraestructura</h3>
+              <ul class="text-sm text-on-surface-variant space-y-1">
+                <li>Configuración central en <code>BackEnd/src/config</code></li>
+                <li>Variables vía <code>.env</code></li>
+              </ul>
+            </div>
+            <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+              <h3 class="font-h3 text-h3 text-slate-50 mb-2">Testing</h3>
+              <ul class="text-sm text-on-surface-variant space-y-1">
+                <li>Jest con <code>jest-expo</code></li>
+                <li>Pruebas unitarias aisladas</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- Estructura -->
+        <section class="mb-section-gap" id="estructura">
+          <h2 class="font-h2 text-h2 text-slate-50 mb-6">Estructura del Proyecto</h2>
+          <div class="space-y-4">
+            <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+              <h3 class="font-h3 text-h3 text-slate-50 mb-2">
+                Frontend (<code>weekbalance/</code>)
+              </h3>
+              <ul class="text-sm text-on-surface-variant space-y-1">
+                <li><code>src/app</code>: pantallas principales, enrutamiento y layout.</li>
+                <li><code>src/auth</code>: hooks, pantallas y servicios para login/registro.</li>
+                <li><code>src/balance</code>: componentes, API y hooks para tendencias.</li>
+                <li><code>src/shared</code>: componentes reutilizables, utilidades.</li>
+                <li><code>src/core</code>: constantes, configuración HTTP.</li>
+              </ul>
+            </div>
+            <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+              <h3 class="font-h3 text-h3 text-slate-50 mb-2">Backend (<code>BackEnd/</code>)</h3>
+              <ul class="text-sm text-on-surface-variant space-y-1">
+                <li><code>src/app.ts</code>: instancia Express, middlewares.</li>
+                <li><code>src/server.ts</code>: arranque HTTP y carga de cron jobs.</li>
+                <li><code>src/modules</code>: subdirectorios por dominio.</li>
+                <li><code>src/infrastructure</code>: conexión Postgres vía Supabase.</li>
+                <li><code>src/middlewares</code>: autenticación y CORS.</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- API -->
+          <section class="mb-section-gap" id="api">
+            <h2 class="font-h2 text-h2 text-slate-50 mb-6">API (Comunicación)</h2>
+            <div class="space-y-4">
+              <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+                <h3 class="font-h3 text-h3 text-slate-50 mb-2">
+                  Autenticación (<code>/api/auth</code>)
+                </h3>
+                <ul class="text-sm text-on-surface-variant space-y-1">
+                  <li><code>POST /login</code>: recibe email, password; responde token.</li>
+                  <li><code>POST /register</code>: crea usuario y cuenta base.</li>
+                  <li><code>GET /profile/:id</code>: lectura de perfil.</li>
+                </ul>
+              </div>
+              <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+                <h3 class="font-h3 text-h3 text-slate-50 mb-2">
+                  Ingresos (<code>/api/incomes</code>)
+                </h3>
+                <ul class="text-sm text-on-surface-variant space-y-1">
+                  <li><code>POST /add/</code>: registra ingreso.</li>
+                  <li><code>GET /history/:accountId</code>: historial.</li>
+                  <li><code>PUT /update/</code>: actualiza ingreso.</li>
+                </ul>
+              </div>
+              <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+                <h3 class="font-h3 text-h3 text-slate-50 mb-2">
+                  Gastos (<code>/api/expenses</code>)
+                </h3>
+                <p class="text-sm text-on-surface-variant">Rutas homólogas a ingresos.</p>
+              </div>
+              <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+                <h3 class="font-h3 text-h3 text-slate-50 mb-2">
+                  Balance (<code>/api/balance</code>)
+                </h3>
+                <ul class="text-sm text-on-surface-variant space-y-1">
+                  <li><code>GET /monthly-trend</code>: tendencia mensual.</li>
+                  <li><code>GET /weekly-trend</code>: tendencia semanal.</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <!-- Base de datos -->
+          <section class="mb-section-gap" id="base-datos">
+            <h2 class="font-h2 text-h2 text-slate-50 mb-6">Base de Datos</h2>
+            <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30 mb-4">
+              <h3 class="font-h3 text-h3 text-slate-50 mb-2">Proveedor</h3>
+              <p class="text-on-surface-variant">Supabase Postgres administrado.</p>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm">
+                <thead>
+                  <tr class="border-b border-[#334155]">
+                    <th class="text-left py-3 px-4 text-slate-400 font-semibold">Tabla</th>
+                    <th class="text-left py-3 px-4 text-slate-400 font-semibold">Columnas</th>
+                  </tr>
+                </thead>
+                <tbody class="text-on-surface-variant">
+                  <tr class="border-b border-[#334155]/50">
+                    <td class="py-3 px-4 font-semibold text-slate-200">profiles</td>
+                    <td class="py-3 px-4">id uuid, full_name, avatar_url, created_at</td>
+                  </tr>
+                  <tr class="border-b border-[#334155]/50">
+                    <td class="py-3 px-4 font-semibold text-slate-200">accounts</td>
+                    <td class="py-3 px-4">id uuid, user_id uuid, balance numeric</td>
+                  </tr>
+                  <tr>
+                    <td class="py-3 px-4 font-semibold text-slate-200">income_history</td>
+                    <td class="py-3 px-4">account_id, amount, category, description</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- Seguridad -->
+          <section class="mb-section-gap" id="seguridad">
+            <h2 class="font-h2 text-h2 text-slate-50 mb-6">Seguridad</h2>
+            <div class="space-y-4">
+              <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+                <h3 class="font-h3 text-h3 text-slate-50 mb-2">Autenticación</h3>
+                <p class="text-sm text-on-surface-variant">
+                  Supabase Auth emite tokens JWT; middleware valida vigencia.
+                </p>
+              </div>
+              <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+                <h3 class="font-h3 text-h3 text-slate-50 mb-2">Autorización</h3>
+                <p class="text-sm text-on-surface-variant">
+                  Servicios operan sobre accountId ligado al usuario.
+                </p>
+              </div>
+              <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+                <h3 class="font-h3 text-h3 text-slate-50 mb-2">Transporte</h3>
+                <p class="text-sm text-on-surface-variant">Requiere HTTPS en despliegues.</p>
+              </div>
+              <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+                <h3 class="font-h3 text-h3 text-slate-50 mb-2">Protección de secretos</h3>
+                <p class="text-sm text-on-surface-variant">
+                  Variables en <code>.env</code> (excluido del repo).
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Instalación -->
+          <section class="mb-section-gap" id="instalacion">
+            <h2 class="font-h2 text-h2 text-slate-50 mb-6">Instalación y Ejecución</h2>
+            <div class="space-y-4">
+              <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+                <h3 class="font-h3 text-h3 text-slate-50 mb-2">Requisitos</h3>
+                <p class="text-sm text-on-surface-variant">
+                  Node.js 20+, npm 10+, Expo CLI, cuentas Supabase.
+                </p>
+              </div>
+              <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+                <h3 class="font-h3 text-h3 text-slate-50 mb-2">Frontend</h3>
+                <ol class="list-decimal pl-5 text-sm text-on-surface-variant space-y-1">
+                  <li><code>npm install</code></li>
+                  <li>Copiar <code>.env.example</code> a <code>.env</code></li>
+                  <li><code>npm start</code> para Expo Go</li>
+                </ol>
+              </div>
+              <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+                <h3 class="font-h3 text-h3 text-slate-50 mb-2">Backend</h3>
+                <ol class="list-decimal pl-5 text-sm text-on-surface-variant space-y-1">
+                  <li><code>npm install</code></li>
+                  <li>Definir <code>.env</code> con variables</li>
+                  <li><code>npm run dev</code> para desarrollo</li>
+                </ol>
+              </div>
+            </div>
+          </section>
+
+          <!-- Flujo -->
+          <section class="mb-section-gap" id="flujo">
+            <h2 class="font-h2 text-h2 text-slate-50 mb-6">Flujo del Sistema</h2>
+            <ol class="list-decimal pl-5 space-y-3 text-on-surface-variant">
+              <li>Usuario se registra (<code>/api/auth/register</code>).</li>
+              <li>Backend crea cuenta base y perfil.</li>
+              <li>Tras login, frontend guarda token y carga perfil.</li>
+              <li>Usuario registra ingresos/gastos; servicios actualizan balance.</li>
+              <li>Módulo de ahorros ajusta metas semanales.</li>
+              <li>Dashboards consultan endpoints de balance.</li>
+            </ol>
+          </section>
+
+          <!-- Pruebas -->
+          <section class="mb-section-gap" id="pruebas">
+            <h2 class="font-h2 text-h2 text-slate-50 mb-6">Pruebas</h2>
+            <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+              <h3 class="font-h3 text-h3 text-slate-50 mb-2">Frontend</h3>
+              <p class="text-sm text-on-surface-variant">
+                <code>npm test</code> ejecuta jest-expo con @testing-library/react-native.
+              </p>
+            </div>
+            <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+              <h3 class="font-h3 text-h3 text-slate-50 mb-2">Backend</h3>
+              <p class="text-sm text-on-surface-variant">Pruebas unitarias aisladas con Jest.</p>
+            </div>
+          </section>
+
+          <!-- Mantenimiento -->
+          <section class="mb-section-gap" id="mantenimiento">
+            <h2 class="font-h2 text-h2 text-slate-50 mb-6">Mantenimiento</h2>
+            <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+              <ul class="text-on-surface-variant space-y-2">
+                <li>TypeScript estricto en todo el proyecto.</li>
+                <li>ESLint con normas por defecto de Expo.</li>
+                <li>Scripts npm para builds locales.</li>
+                <li>Variables de entorno centralizadas.</li>
+              </ul>
+            </div>
+          </section>
+
+          <!-- Problemas -->
+          <section class="mb-section-gap" id="problemas">
+            <h2 class="font-h2 text-h2 text-slate-50 mb-6">Problemas Comunes</h2>
+            <div class="space-y-4">
+              <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+                <h3 class="font-h3 text-h3 text-slate-50 mb-2">Error de conexión a Supabase</h3>
+                <p class="text-sm text-on-surface-variant">
+                  Verificar que las variables SUPABASE_URL y SUPABASE_SERVICE_KEY estén definidas.
+                </p>
+              </div>
+              <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+                <h3 class="font-h3 text-h3 text-slate-50 mb-2">Cron job no se ejecuta</h3>
+                <p class="text-sm text-on-surface-variant">
+                  Revisar logs del servidor y asegurar que node-cron está instalado.
+                </p>
+              </div>
+              <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+                <h3 class="font-h3 text-h3 text-slate-50 mb-2">Error de CORS</h3>
+                <p class="text-sm text-on-surface-variant">
+                  Configurar middleware CORS en Express.
+                </p>
+              </div>
+            </div>
+          </section>
+        </section>
+      </div>
+
+      <!-- Right TOC -->
+      <aside
+        class="fixed right-0 top-16 h-[calc(100vh-64px)] w-[280px] py-10 px-8 hidden xl:block overflow-y-auto custom-scrollbar max-w-full overflow-hidden"
+      >
+        <h3 class="font-label text-label text-slate-50 uppercase tracking-widest mb-6">
+          Contenido
+        </h3>
+        <ul class="space-y-3 border-l border-[#334155]">
+          <li>
+            <a
+              class="block pl-4 py-1 text-slate-400 hover:text-slate-200 transition-colors text-sm"
+              href="#arquitectura">Arquitectura</a
+            >
+          </li>
+          <li>
+            <a
+              class="block pl-4 py-1 text-slate-400 hover:text-slate-200 transition-colors text-sm"
+              href="#tecnologias">Tecnologías</a
+            >
+          </li>
+          <li>
+            <a
+              class="block pl-4 py-1 text-slate-400 hover:text-slate-200 transition-colors text-sm"
+              href="#estructura">Estructura</a
+            >
+          </li>
+          <li>
+            <a
+              class="block pl-4 py-1 text-blue-500 border-l-2 border-blue-500 -ml-[1px] transition-all text-sm"
+              href="#api">API</a
+            >
+          </li>
+          <li>
+            <a
+              class="block pl-4 py-1 text-slate-400 hover:text-slate-200 transition-colors text-sm"
+              href="#base-datos">Base de Datos</a
+            >
+          </li>
+          <li>
+            <a
+              class="block pl-4 py-1 text-slate-400 hover:text-slate-200 transition-colors text-sm"
+              href="#seguridad">Seguridad</a
+            >
+          </li>
+          <li>
+            <a
+              class="block pl-4 py-1 text-slate-400 hover:text-slate-200 transition-colors text-sm"
+              href="#instalacion">Instalación</a
+            >
+          </li>
+          <li>
+            <a
+              class="block pl-4 py-1 text-slate-400 hover:text-slate-200 transition-colors text-sm"
+              href="#flujo">Flujo</a
+            >
+          </li>
+          <li>
+            <a
+              class="block pl-4 py-1 text-slate-400 hover:text-slate-200 transition-colors text-sm"
+              href="#pruebas">Pruebas</a
+            >
+          </li>
+          <li>
+            <a
+              class="block pl-4 py-1 text-slate-400 hover:text-slate-200 transition-colors text-sm"
+              href="#problemas">Problemas</a
+            >
+          </li>
+        </ul>
+        <div class="mt-12 p-4 rounded-xl bg-slate-800/30 border border-slate-700/50">
+          <p class="text-xs text-slate-400 mb-3">¿Necesitas ayuda adicional?</p>
+          <button
+            class="w-full py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-sm font-semibold transition-all"
+            >Contactar Soporte</button
+          >
+        </div>
+      </aside>
+    </main>
+  </div></StitchLayout
+>

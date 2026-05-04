@@ -1,0 +1,84 @@
+---
+type SectionItem = {
+  label: string;
+  href: string;
+  active?: boolean;
+};
+
+type Section = {
+  title: string;
+  icon: string;
+  items: SectionItem[];
+};
+
+interface Props {
+  sections?: Section[];
+  version?: string;
+  ctaText?: string;
+  ctaHref?: string;
+}
+
+const {
+  sections = [],
+  version = "v1.0.0",
+  ctaText = "View GitHub",
+  ctaHref = "https://github.com",
+} = Astro.props satisfies Props;
+---
+
+<aside class="fixed left-0 top-16 z-40 flex h-[calc(100vh-4rem)] w-64 flex-col overflow-y-auto bg-slate-950/80 bg-gradient-to-b from-slate-900/40 to-slate-950/80 backdrop-blur-xl transition-all duration-300">
+  <div class="border-b border-white/10 px-6 py-5">
+    <p class="text-lg font-bold text-white">Documentation</p>
+    <span class="text-xs font-semibold uppercase tracking-[0.35em] text-slate-500">{version}</span>
+  </div>
+
+  <nav class="flex-1 space-y-7 px-4 py-6">
+    {sections.map((section) => (
+      <section class="space-y-3">
+        <header class="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.35em] text-slate-400">
+          <span class="material-symbols-rounded text-base text-slate-500/80">{section.icon}</span>
+          <span>{section.title}</span>
+        </header>
+        <ul class="space-y-1.5">
+          {section.items.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class={[
+                  "flex items-center gap-3 rounded-lg px-4 py-2 text-sm text-slate-400 transition-colors",
+                  item.active
+                    ? "border-l-2 border-sky-400 bg-gradient-to-r from-sky-400/10 to-transparent text-white"
+                    : "hover:bg-white/5 hover:text-slate-200",
+                ].join(" ")}
+              >
+                <span>{item.label}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </nav>
+
+  <footer class="border-t border-white/10 px-4 py-6">
+    <a
+      href={ctaHref}
+      class="block rounded-xl bg-gradient-to-r from-sky-500 to-sky-400 px-4 py-2.5 text-center text-sm font-semibold text-white shadow-lg transition-transform duration-200 hover:scale-[1.02]"
+      rel="noreferrer"
+      target="_blank"
+    >
+      {ctaText}
+    </a>
+
+    <div class="mt-6 space-y-3 text-sm text-slate-400">
+      <a class="flex items-center gap-2 transition-colors hover:text-white" href="#settings">
+        <span class="material-symbols-rounded text-base">settings</span>
+        <span>Settings</span>
+      </a>
+      <a class="flex items-center gap-2 transition-colors hover:text-white" href="#support">
+        <span class="material-symbols-rounded text-base">support_agent</span>
+        <span>Support</span>
+      </a>
+    </div>
+  </footer>
+</aside>

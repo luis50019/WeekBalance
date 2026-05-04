@@ -1,0 +1,69 @@
+---
+interface Props {
+  title: string;
+  defaultOpen?: boolean;
+}
+
+const { title, defaultOpen = false } = Astro.props;
+const id = title
+  .toLowerCase()
+  .replace(/[^a-z0-9]/g, '-')
+  .replace(/-+/g, '-');
+---
+
+<div class="sub-accordion-item w-full max-w-full overflow-hidden" data-sub-accordion-id={id}>
+  <button
+    class="sub-accordion-trigger w-full flex items-center justify-between p-3 bg-slate-800 border border-slate-700 rounded-lg text-left hover:bg-slate-700/50 transition-all duration-200 group min-w-0"
+    data-target={id}
+    aria-expanded={defaultOpen ? 'true' : 'false'}
+  >
+    <span
+      class="text-slate-200 font-semibold text-sm group-hover:text-white transition-colors truncate"
+      >{title}</span
+    >
+    <span
+      class="sub-accordion-arrow material-symbols-outlined text-slate-400 transition-transform duration-200 text-lg flex-shrink-0"
+    >
+      expand_more
+    </span>
+  </button>
+
+  <div
+    class="sub-accordion-content w-full max-w-full overflow-hidden transition-all duration-300 ease-in-out"
+    data-sub-accordion-content={id}
+    style={`max-height: ${defaultOpen ? '3000px' : '0'}; opacity: ${defaultOpen ? '1' : '0'};`}
+  >
+    <div class="pt-3 pb-2 w-full max-w-full overflow-hidden">
+      <slot />
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.sub-accordion-trigger').forEach((button) => {
+    button.addEventListener('click', () => {
+      const targetId = button.getAttribute('data-target');
+      const content = document.querySelector(`[data-sub-accordion-content="${targetId}"]`);
+      const arrow = button.querySelector('.sub-accordion-arrow');
+      const isExpanded = button.getAttribute('aria-expanded') === 'true';
+
+      if (content) {
+        content.style.maxHeight = isExpanded ? '0' : '3000px';
+        content.style.opacity = isExpanded ? '0' : '1';
+      }
+      if (arrow) {
+        arrow.classList.toggle('rotate-180', !isExpanded);
+      }
+      button.setAttribute('aria-expanded', isExpanded ? 'false' : 'true');
+    });
+  });
+</script>
+
+<style>
+  .sub-accordion-arrow {
+    transform: rotate(0deg);
+  }
+  .sub-accordion-arrow.rotate-180 {
+    transform: rotate(180deg);
+  }
+</style>

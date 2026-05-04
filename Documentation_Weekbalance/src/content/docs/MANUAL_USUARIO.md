@@ -68,11 +68,11 @@ Antes de empezar, asegurate de cumplir con lo siguiente:
 
 ### Consideraciones Importantes
 
-| Situación                | ¿Qué sucede con tus datos?                                                                 |
-| ------------------------ | ------------------------------------------------------------------------------------------ |
-| Desinstalar la app       | Al reinstalar e iniciar sesión, se sincronizan nuevamente tus datos desde Supabase.        |
-| Cambiar de teléfono      | Basta con instalar WeekBalance e iniciar sesión con tu correo/contraseña originales.       |
-| Formatear el dispositivo | Los datos persisten en la nube; solo necesitás recordar tus credenciales.                  |
+| Situación                | ¿Qué sucede con tus datos?                                                                |
+| ------------------------ | ----------------------------------------------------------------------------------------- |
+| Desinstalar la app       | Al reinstalar e iniciar sesión, se sincronizan nuevamente tus datos desde Supabase.       |
+| Cambiar de teléfono      | Basta con instalar WeekBalance e iniciar sesión con tu correo/contraseña originales.      |
+| Formatear el dispositivo | Los datos persisten en la nube; solo necesitás recordar tus credenciales.                 |
 | Sin conexión             | Podés revisar lo último cargado, pero las operaciones quedan pendientes hasta reconectar. |
 
 ### Recomendación
@@ -116,11 +116,11 @@ En segundos vas a ver cómo cambian tu balance y la meta semanal.
 
 La barra inferior fija incluye tres accesos principales:
 
-| Sección      | Icono     | Descripción                                                             |
-| ------------ | --------- | ----------------------------------------------------------------------- |
-| **Inicio**   | Casa      | Vista general: balance, metas, tendencias y últimos gastos.             |
-| **Ingresos** | Billetera | Historial semanal de ingresos, filtros por categoría y botón de alta.   |
-| **Gastos**   | Dinero    | Historial semanal de gastos, filtros por categoría y botón de alta.     |
+| Sección      | Icono     | Descripción                                                           |
+| ------------ | --------- | --------------------------------------------------------------------- |
+| **Inicio**   | Casa      | Vista general: balance, metas, tendencias y últimos gastos.           |
+| **Ingresos** | Billetera | Historial semanal de ingresos, filtros por categoría y botón de alta. |
+| **Gastos**   | Dinero    | Historial semanal de gastos, filtros por categoría y botón de alta.   |
 
 Tocando tu avatar en la cabecera accedés al **Perfil** (datos personales y cerrar sesión). Desde el panel **Inicio** podés:
 
@@ -336,16 +336,16 @@ Significa que tus gastos semanales superan el plan de ahorro. Revisa el históri
 
 ## Glosario
 
-| Término              | Significado                                                      |
-| -------------------- | ---------------------------------------------------------------- |
-| **Balance**          | Diferencia entre ingresos y gastos acumulados.                   |
-| **Ingreso**          | Entrada de dinero (sueldo, freelance, regalos, etc.).            |
-| **Gasto**            | Salida de dinero (comida, transporte, ocio, etc.).               |
-| **Meta semanal**     | Objetivo de ahorro para la semana en curso.                      |
-| **Semana**           | Periodo de domingo a sábado usado para agrupar movimientos.      |
-| **Categoría**        | Etiqueta que clasifica movimientos para análisis y filtros.      |
-| **Tendencia**        | Gráfico que resume el comportamiento de tus gastos/ingresos.     |
-| **Saldo disponible** | Dinero restante en tu cuenta después de los movimientos actuales.|
+| Término              | Significado                                                       |
+| -------------------- | ----------------------------------------------------------------- |
+| **Balance**          | Diferencia entre ingresos y gastos acumulados.                    |
+| **Ingreso**          | Entrada de dinero (sueldo, freelance, regalos, etc.).             |
+| **Gasto**            | Salida de dinero (comida, transporte, ocio, etc.).                |
+| **Meta semanal**     | Objetivo de ahorro para la semana en curso.                       |
+| **Semana**           | Periodo de domingo a sábado usado para agrupar movimientos.       |
+| **Categoría**        | Etiqueta que clasifica movimientos para análisis y filtros.       |
+| **Tendencia**        | Gráfico que resume el comportamiento de tus gastos/ingresos.      |
+| **Saldo disponible** | Dinero restante en tu cuenta después de los movimientos actuales. |
 
 ---
 

@@ -1,0 +1,44 @@
+---
+interface NavLink {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  projectName?: string;
+  navLinks?: NavLink[];
+}
+
+const {
+  projectName = "WeekBalance",
+  navLinks = [
+    { label: "Docs", href: "/docs" },
+    { label: "API", href: "/api" },
+    { label: "Blog", href: "/blog" },
+  ],
+} = Astro.props satisfies Props;
+---
+
+<nav class="fixed top-0 z-50 w-full bg-slate-950/80 backdrop-blur-xl bg-gradient-to-b from-slate-900/50 to-transparent shadow-nav-glass">
+  <div class="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-6 md:px-8">
+    <div class="flex items-center gap-8">
+      <a href="/" class="text-2xl font-black uppercase tracking-wide text-white">
+        {projectName}
+      </a>
+      {navLinks.length > 0 && (
+        <ul class="hidden md:flex items-center gap-6 text-xl font-medium text-white">
+          {navLinks.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class="transition-colors text-white hover:text-white"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+     </div>
+</nav>

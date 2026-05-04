@@ -1,0 +1,994 @@
+---
+import StitchLayout from '../layouts/StitchLayout.astro';
+import AccordionItem from '../components/AccordionItem.astro';
+import SubAccordion from '../components/SubAccordion.astro';
+---
+
+<StitchLayout>
+  <!-- TopNavBar -->
+  <header
+    class="fixed top-0 w-full z-50 bg-[#0f172a]/80 backdrop-blur-[12px] border-b border-[#334155] h-16 shadow-none font-manrope antialiased tracking-tight"
+  >
+    <div class="flex justify-between items-center h-16 px-6 max-w-[1280px] mx-auto">
+      <div class="flex items-center gap-8">
+        <span class="text-lg font-bold text-slate-50">WeekBalance Docs</span>
+        <nav class="hidden md:flex gap-6">
+          <a class="text-blue-500 font-semibold transition-all" href="#">Documentation</a>
+          <a class="text-slate-400 hover:text-slate-200 transition-colors transition-all" href="#"
+            >Guides</a
+          >
+          <a class="text-slate-400 hover:text-slate-200 transition-colors transition-all" href="#"
+            >API</a
+          >
+        </nav>
+      </div>
+      <div class="flex items-center gap-4">
+        <div class="relative hidden sm:block">
+          <span
+            class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-sm"
+            >search</span
+          >
+          <input
+            class="bg-slate-800/50 border border-[#334155] rounded-md pl-9 pr-4 py-1.5 text-sm w-64 focus:outline-none focus:ring-1 focus:ring-blue-500 text-slate-200"
+            placeholder="Search documentation..."
+            type="text"
+          />
+        </div>
+        <button
+          class="p-2 hover:bg-slate-800/50 rounded-md transition-all text-slate-400 hover:text-slate-200"
+        >
+          <span class="material-symbols-outlined">terminal</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="flex max-w-7xl mx-auto w-full min-w-0 overflow-hidden">
+    <!-- SideNavBar -->
+    <aside
+      class="fixed left-0 top-16 h-[calc(100vh-64px)] w-64 bg-[#020617] border-r border-slate-700 overflow-y-auto custom-scrollbar hidden lg:block flex-shrink-0"
+    >
+      <div class="flex flex-col gap-1 py-8 font-manrope text-sm font-medium">
+        <div class="px-6 mb-6">
+          <h2 class="text-xl font-black text-slate-50 uppercase tracking-tighter">WeekBalance</h2>
+          <p class="text-xs text-slate-500 uppercase tracking-widest mt-1">Documentation</p>
+        </div>
+        <div class="mb-4">
+          <div class="px-6 py-2 text-[11px] font-bold text-slate-500 uppercase tracking-widest">
+            General
+          </div>
+          <a
+            class="flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800/30 transition-all duration-200"
+            href="/"
+          >
+            <span class="material-symbols-outlined">home</span>
+            Inicio
+          </a>
+        </div>
+        <div class="mb-4">
+          <div class="px-6 py-2 text-[11px] font-bold text-slate-500 uppercase tracking-widest">
+            Manuales
+          </div>
+          <a
+            class="flex items-center gap-3 px-4 py-2 text-blue-400 border-l-2 border-blue-500 bg-blue-500/10 hover:bg-slate-800/30 transition-all duration-200"
+            href="#"
+          >
+            <span class="material-symbols-outlined">person</span>
+            Usuario
+          </a>
+          <a
+            class="flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800/30 transition-all duration-200"
+            href="/tecnico"
+          >
+            <span class="material-symbols-outlined">engineering</span>
+            Técnico
+          </a>
+          <a
+            class="flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800/30 transition-all duration-200"
+            href="/instalacion"
+          >
+            <span class="material-symbols-outlined">install_desktop</span>
+            Instalación
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 min-w-0 w-full lg:pl-64 lg:pr-[280px] px-4 pt-24 pb-20 overflow-hidden">
+      <div class="max-w-4xl mx-auto px-4 w-full min-w-0 overflow-hidden break-words">
+        <!-- Título -->
+        <header class="mb-section-gap">
+          <h1 class="font-h1 text-h1 text-slate-50 mb-4">WeekBalance - Manual de Usuario</h1>
+          <p class="font-body text-body text-on-surface-variant leading-relaxed">
+            <strong>WeekBalance</strong> es una app de finanzas personales que combina una experiencia
+            móvil construida con Expo/React Native y un backend en la nube. Está pensada para que controles
+            tu dinero semana a semana (domingo a sábado).
+          </p>
+        </header>
+
+        <!-- Info Alert -->
+        <div
+          class="mb-section-gap flex gap-4 bg-primary-container/10 border-l-4 border-primary p-6 rounded-r-xl"
+        >
+          <span class="material-symbols-outlined text-primary">cloud_done</span>
+          <div>
+            <p class="font-body text-body text-on-surface">
+              Todo se sincroniza automáticamente con los servicios de Supabase, por lo que conservás
+              tus datos aunque cambies de dispositivo.
+            </p>
+          </div>
+        </div>
+
+        <!-- Requisitos del Sistema -->
+        <section class="mb-section-gap" id="requisitos">
+          <h2 class="font-h2 text-h2 text-slate-50 mb-6">Requisitos del Sistema</h2>
+          <div class="space-y-4">
+            <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+              <h3 class="font-h3 text-h3 text-slate-50 mb-3 flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary">phone_android</span>
+                Dispositivo Compatible
+              </h3>
+              <ul class="text-on-surface-variant space-y-1">
+                <li>
+                  <strong>Android</strong> 8.0 o superior / <strong>iOS</strong> 13.0 o superior.
+                </li>
+                <li>Pantalla mínima 360 x 640 px.</li>
+                <li>Al menos 150 MB de memoria disponible.</li>
+              </ul>
+            </div>
+            <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+              <h3 class="font-h3 text-h3 text-slate-50 mb-3 flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary">wifi</span>
+                Conexión a Internet
+              </h3>
+              <p class="text-on-surface-variant">
+                Es obligatoria para registrar cuenta, iniciar sesión, sincronizar movimientos y ver
+                reportes.
+              </p>
+            </div>
+            <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+              <h3 class="font-h3 text-h3 text-slate-50 mb-3 flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary">storage</span>
+                Espacio en el Dispositivo
+              </h3>
+              <ul class="text-on-surface-variant space-y-1">
+                <li>Instalación ~80 MB (Expo + assets).</li>
+                <li>Recomendado 200 MB libres.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- Almacenamiento -->
+        <section class="mb-section-gap" id="almacenamiento">
+          <h2 class="font-h2 text-h2 text-slate-50 mb-6">Almacenamiento de Datos</h2>
+          <h3 class="font-h3 text-h3 text-slate-50 mb-3">Cómo se Guardan tus Datos</h3>
+          <ul class="text-on-surface-variant space-y-2 mb-4">
+            <li>
+              <strong>Nube (Supabase Postgres)</strong>: Cada transacción, meta y perfil se guarda
+              en la base central.
+            </li>
+            <li>
+              <strong>Dispositivo</strong>: Solo se guarda el token de sesión cifrado
+              (AsyncStorage).
+            </li>
+          </ul>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead>
+                <tr class="border-b border-[#334155]">
+                  <th class="text-left py-3 px-4 text-slate-400 font-semibold">Situación</th>
+                  <th class="text-left py-3 px-4 text-slate-400 font-semibold"
+                    >¿Qué sucede con tus datos?</th
+                  >
+                </tr>
+              </thead>
+              <tbody class="text-on-surface-variant">
+                <tr class="border-b border-[#334155]/50">
+                  <td class="py-3 px-4">Desinstalar la app</td>
+                  <td class="py-3 px-4"
+                    >Al reinstalar e iniciar sesión, se sincronizan nuevamente tus datos desde
+                    Supabase.</td
+                  >
+                </tr>
+                <tr class="border-b border-[#334155]/50">
+                  <td class="py-3 px-4">Cambiar de teléfono</td>
+                  <td class="py-3 px-4"
+                    >Basta con instalar WeekBalance e iniciar sesión con tu correo/contraseña
+                    originales.</td
+                  >
+                </tr>
+                <tr class="border-b border-[#334155]/50">
+                  <td class="py-3 px-4">Formatear el dispositivo</td>
+                  <td class="py-3 px-4"
+                    >Los datos persisten en la nube; solo necesitás recordar tus credenciales.</td
+                  >
+                </tr>
+                <tr>
+                  <td class="py-3 px-4">Sin conexión</td>
+                  <td class="py-3 px-4"
+                    >Podés revisar lo último cargado, pero las operaciones quedan pendientes hasta
+                    reconectar.</td
+                  >
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+
+        <!-- Navegación -->
+        <section class="mb-section-gap" id="navegacion">
+          <h2 class="font-h2 text-h2 text-slate-50 mb-6">Navegación</h2>
+          <p class="text-on-surface-variant mb-4">
+            La barra inferior fija incluye tres accesos principales:
+          </p>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead>
+                <tr class="border-b border-[#334155]">
+                  <th class="text-left py-3 px-4 text-slate-400 font-semibold">Sección</th>
+                  <th class="text-left py-3 px-4 text-slate-400 font-semibold">Icono</th>
+                  <th class="text-left py-3 px-4 text-slate-400 font-semibold">Descripción</th>
+                </tr>
+              </thead>
+              <tbody class="text-on-surface-variant">
+                <tr class="border-b border-[#334155]/50">
+                  <td class="py-3 px-4 font-semibold text-slate-200">Inicio</td>
+                  <td class="py-3 px-4">Casa</td>
+                  <td class="py-3 px-4"
+                    >Vista general: balance, metas, tendencias y últimos gastos.</td
+                  >
+                </tr>
+                <tr class="border-b border-[#334155]/50">
+                  <td class="py-3 px-4 font-semibold text-slate-200">Ingresos</td>
+                  <td class="py-3 px-4">Billetera</td>
+                  <td class="py-3 px-4"
+                    >Historial semanal de ingresos, filtros por categoría y botón de alta.</td
+                  >
+                </tr>
+                <tr>
+                  <td class="py-3 px-4 font-semibold text-slate-200">Gastos</td>
+                  <td class="py-3 px-4">Dinero</td>
+                  <td class="py-3 px-4"
+                    >Historial semanal de gastos, filtros por categoría y botón de alta.</td
+                  >
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="mt-4 text-on-surface-variant">
+            Tocando tu avatar en la cabecera accedés al <strong>Perfil</strong>.
+          </p>
+        </section>
+
+        <!-- Funcionalidades -->
+        <section class="mb-section-gap" id="funcionalidades">
+          <h2 class="font-h2 text-h2 text-slate-50 mb-6">Funcionalidades</h2>
+
+          <div class="space-y-6">
+            <!-- Registro e Inicio de Sesión (MAIN STATIC) -->
+            <div
+              class="w-full max-w-full overflow-hidden bg-slate-800 border border-slate-700 rounded-xl p-4"
+            >
+              <h3 class="font-h3 text-h3 text-slate-50 mb-4 flex items-center gap-2">
+                <span class="material-symbols-outlined text-blue-400">person_add</span>
+                Registro e Inicio de Sesión
+              </h3>
+
+              <div class="flex flex-col space-y-4">
+                <SubAccordion title="Crear una cuenta nueva">
+                  <div class="flex flex-col space-y-3 text-on-surface-variant text-sm">
+                    <p class="text-slate-300">Seguí estos pasos para crear tu cuenta:</p>
+                    <ol class="list-decimal pl-4 space-y-3">
+                      <li>
+                        Pulsá <strong>"Regístrate"</strong> en la pantalla principal.<div
+                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        >
+                          Imagen del paso
+                        </div>
+                      </li>
+                      <li>
+                        Cargá tu nombre completo, correo electrónico y contraseña.<div
+                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        >
+                          Imagen del paso
+                        </div>
+                      </li>
+                      <li>
+                        Confirmá con <strong>"Crear cuenta"</strong>.<div
+                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        >
+                          Imagen del paso
+                        </div>
+                      </li>
+                    </ol>
+                    <p class="mt-2 text-xs text-slate-400">
+                      El sistema crea tu perfil, cuenta y sesión en Supabase automáticamente.
+                    </p>
+                  </div>
+                </SubAccordion>
+
+                <SubAccordion title="Iniciar sesión">
+                  <div class="flex flex-col space-y-3 text-on-surface-variant text-sm">
+                    <ol class="list-decimal pl-4 space-y-3">
+                      <li>
+                        Introducí tu correo electrónico.<div
+                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        >
+                          Imagen del paso
+                        </div>
+                      </li>
+                      <li>
+                        Ingresá tu contraseña.<div
+                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        >
+                          Imagen del paso
+                        </div>
+                      </li>
+                      <li>
+                        Tocá <strong>"Iniciar sesión"</strong>.<div
+                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        >
+                          Imagen del paso
+                        </div>
+                      </li>
+                      <li>
+                        Esperá la sincronización inicial (balance y movimientos se cargan desde la
+                        nube).<div
+                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        >
+                          Imagen del paso
+                        </div>
+                      </li>
+                    </ol>
+                  </div>
+                </SubAccordion>
+
+                <SubAccordion title="Cerrar sesión">
+                  <div class="flex flex-col space-y-3 text-on-surface-variant text-sm">
+                    <ol class="list-decimal pl-4 space-y-3">
+                      <li>
+                        Desde cualquier pantalla, tocá tu avatar en la esquina superior izquierda.<div
+                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        >
+                          Imagen del paso
+                        </div>
+                      </li>
+                      <li>
+                        Seleccioná <strong>Cerrar sesión</strong> del menú.<div
+                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        >
+                          Imagen del paso
+                        </div>
+                      </li>
+                      <li>
+                        Confirmá la acción.<div
+                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        >
+                          Imagen del paso
+                        </div>
+                      </li>
+                    </ol>
+                    <p class="mt-2 text-xs text-slate-400">
+                      Esto borra el token local y regresa a la pantalla de autenticación.
+                    </p>
+                  </div>
+                </SubAccordion>
+              </div>
+            </div>
+
+            <!-- Gestionar Ingresos (MAIN STATIC) -->
+            <div
+              class="w-full max-w-full overflow-hidden bg-slate-800 border border-slate-700 rounded-xl p-4"
+            >
+              <h3 class="font-h3 text-h3 text-slate-50 mb-4 flex items-center gap-2">
+                <span class="material-symbols-outlined text-blue-400">trending_up</span>
+                Gestionar Ingresos
+              </h3>
+              <p class="text-on-surface-variant mb-4">
+                Los ingresos representan entradas de dinero (sueldos, freelance, regalos, etc.).
+              </p>
+
+              <div class="flex flex-col space-y-4">
+                <SubAccordion title="Ver historial">
+                  <div class="flex flex-col space-y-3 text-on-surface-variant text-sm">
+                    <ol class="list-decimal pl-4 space-y-3">
+                      <li>
+                        Abrí la sección <strong>Ingresos</strong> desde la barra de navegación.<div
+                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        >
+                          Imagen del paso
+                        </div>
+                      </li>
+                      <li>
+                        Deslizá para ver grupos semanales (la app agrupa del domingo al sábados).<div
+                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        >
+                          Imagen del paso
+                        </div>
+                      </li>
+                      <li>
+                        Tocá un registro para abrirlo en modo edición.<div
+                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        >
+                          Imagen del paso
+                        </div>
+                      </li>
+                    </ol>
+                  </div>
+                </SubAccordion>
+
+                <SubAccordion title="Agregar ingreso">
+                  <div class="flex flex-col space-y-3 text-on-surface-variant text-sm">
+                    <ol class="list-decimal pl-4 space-y-3">
+                      <li>
+                        Botón flotante <strong>Agregar</strong> en la parte inferior.<div
+                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        >
+                          Imagen del paso
+                        </div>
+                      </li>
+                      <li>
+                        Seleccioná una categoría (ej. "Trabajo", "Regalo").<div
+                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        >
+                          Imagen del paso
+                        </div>
+                      </li>
+                      <li>
+                        Escribí una descripción (opcional pero recomendable).<div
+                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        >
+                          Imagen del paso
+                        </div>
+                      </li>
+                      <li>
+                        Ingresá el monto positivo con dos decimales.<div
+                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        >
+                          Imagen del paso
+                        </div>
+                      </li>
+                      <li>
+                        Guardá. El backend ajusta tu saldo y las metas automáticamente.<div
+                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        >
+                          Imagen del paso
+                        </div>
+                      </li>
+                    </ol>
+                  </div>
+                </SubAccordion>
+
+                <SubAccordion title="Editar ingreso">
+                  <div class="flex flex-col space-y-3 text-on-surface-variant text-sm">
+                    <ol class="list-decimal pl-4 space-y-3">
+                      <li>
+                        Desde la lista, tocá el movimiento que deseás modificar.<div
+                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        >
+                          Imagen del paso
+                        </div>
+                      </li>
+                      <li>
+                        Modificá el monto, categoría o descripción.<div
+                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        >
+                          Imagen del paso
+                        </div>
+                      </li>
+                      <li>
+                        Confirmá con <strong>Actualizar ingreso</strong>.<div
+                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        >
+                          Imagen del paso
+                        </div>
+                      </li>
+                    </ol>
+                    <p class="mt-2 text-xs text-slate-400">
+                      La actualización se envía a la API /incomes/update/ y se refleja en balance y
+                      metas.
+                    </p>
+                  </div>
+                </SubAccordion>
+              </div>
+            </div>
+
+            <!-- Gestionar Gastos (MAIN STATIC) -->
+            <div
+              class="w-full max-w-full overflow-hidden bg-slate-800 border border-slate-700 rounded-xl p-4"
+            >
+              <h3 class="font-h3 text-h3 text-slate-50 mb-4 flex items-center gap-2">
+                <span class="material-symbols-outlined text-blue-400">payments</span>
+                Gestionar Gastos
+              </h3>
+              <p class="text-on-surface-variant mb-4">
+                Los gastos abarcan todo egreso (alimentación, transporte, ocio, etc.).
+              </p>
+
+              <div class="flex flex-col space-y-4">
+                <SubAccordion title="Ver historial">
+                  <div class="flex flex-col space-y-3 text-on-surface-variant text-sm">
+                    <ol class="list-decimal pl-4 space-y-3">
+                      <li>
+                        Abrí la sección <strong>Gastos</strong> desde la barra de navegación.<div
+                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        >
+                          Imagen del paso
+                        </div>
+                      </li>
+                      <li>
+                        Revisá los bloques semanales con totales y fechas.<div
+                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        >
+                          Imagen del paso
+                        </div>
+                      </li>
+                      <li>
+                        Cada tarjeta se puede presionar para editar.<div
+                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        >
+                          Imagen del paso
+                        </div>
+                      </li>
+                    </ol>
+                  </div>
+                </SubAccordion>
+
+                <SubAccordion title="Registrar gasto">
+                  <div class="flex flex-col space-y-3 text-on-surface-variant text-sm">
+                    <ol class="list-decimal pl-4 space-y-3">
+                      <li>
+                        Botón flotante <strong>Agregar</strong> en la parte inferior.<div
+                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        >
+                          Imagen del paso
+                        </div>
+                      </li>
+                      <li>
+                        Seleccioná la categoría correspondiente (ej. "Comida", "Viajes").<div
+                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        >
+                          Imagen del paso
+                        </div>
+                      </li>
+                      <li>
+                        Ingresá descripción y monto.<div
+                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        >
+                          Imagen del paso
+                        </div>
+                      </li>
+                      <li>
+                        Guardá. Si el monto supera tu saldo disponible, la app te avisa antes de
+                        enviar.<div
+                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        >
+                          Imagen del paso
+                        </div>
+                      </li>
+                    </ol>
+                  </div>
+                </SubAccordion>
+
+                <SubAccordion title="Editar gasto">
+                  <div class="flex flex-col space-y-3 text-on-surface-variant text-sm">
+                    <ol class="list-decimal pl-4 space-y-3">
+                      <li>
+                        Desde el historial, tocá la transacción.<div
+                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        >
+                          Imagen del paso
+                        </div>
+                      </li>
+                      <li>
+                        Ajustá categoría, descripción o monto.<div
+                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        >
+                          Imagen del paso
+                        </div>
+                      </li>
+                      <li>
+                        Confirmá con <strong>Actualizar gasto</strong>.<div
+                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        >
+                          Imagen del paso
+                        </div>
+                      </li>
+                    </ol>
+                    <p class="mt-2 text-xs text-slate-400">
+                      La operación se realiza vía /expenses/update/; el saldo y las metas se
+                      recalculan al instante.
+                    </p>
+                  </div>
+                </SubAccordion>
+              </div>
+            </div>
+
+            <!-- Sistema de Ahorro (MAIN STATIC) -->
+            <div
+              class="w-full max-w-full overflow-hidden bg-slate-800 border border-slate-700 rounded-xl p-4"
+            >
+              <h3 class="font-h3 text-h3 text-slate-50 mb-4 flex items-center gap-2">
+                <span class="material-symbols-outlined text-blue-400">savings</span>
+                Sistema de Ahorro
+              </h3>
+              <p class="text-on-surface-variant mb-4">
+                La sección <strong>Ahorros</strong> gestiona metas semanales basadas en tu flujo real.
+              </p>
+
+              <div class="flex flex-col space-y-4">
+                <SubAccordion title="Panel principal">
+                  <div class="flex flex-col space-y-3 text-on-surface-variant text-sm">
+                    <ul class="list-disc pl-4 space-y-2">
+                      <li>Meta semanal activa (progreso, monto restante, estado).</li>
+                      <li>Métricas de la semana: total ahorrado vs meta, progreso porcentual.</li>
+                      <li>
+                        Historial de metas pasadas con estado ("Completada", "Incompleta", "Extra").
+                      </li>
+                    </ul>
+                    <div
+                      class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                    >
+                      Imagen del paso
+                    </div>
+                  </div>
+                </SubAccordion>
+
+                <SubAccordion title="Crear meta semanal">
+                  <div class="flex flex-col space-y-3 text-on-surface-variant text-sm">
+                    <ol class="list-decimal pl-4 space-y-3">
+                      <li>
+                        En la sección <strong>Ahorros</strong>, tocá <strong
+                          >Crear meta semanal</strong
+                        >.<div
+                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        >
+                          Imagen del paso
+                        </div>
+                      </li>
+                      <li>
+                        Ingresá el monto objetivo para la semana.<div
+                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        >
+                          Imagen del paso
+                        </div>
+                      </li>
+                      <li>
+                        Guardá. Si ya existe una meta activa para la semana, la app te lo informará.<div
+                          class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                        >
+                          Imagen del paso
+                        </div>
+                      </li>
+                    </ol>
+                  </div>
+                </SubAccordion>
+
+                <SubAccordion title="Seguimiento y ajustes">
+                  <div class="flex flex-col space-y-3 text-on-surface-variant text-sm">
+                    <ul class="list-disc pl-4 space-y-2">
+                      <li>
+                        Si gastás más de lo planificado, el progreso mostrará alerta "Meta
+                        incompleta".
+                      </li>
+                      <li>
+                        Podés crear nuevas metas cada semana; las semanas anteriores quedan solo
+                        para consulta.
+                      </li>
+                      <li>No hay eliminación retroactiva de metas ya cerradas.</li>
+                    </ul>
+                    <div
+                      class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                    >
+                      Imagen del paso
+                    </div>
+                  </div>
+                </SubAccordion>
+              </div>
+            </div>
+
+            <!-- Entender tu Balance (MAIN STATIC) -->
+            <div
+              class="w-full max-w-full overflow-hidden bg-slate-800 border border-slate-700 rounded-xl p-4"
+            >
+              <h3 class="font-h3 text-h3 text-slate-50 mb-4 flex items-center gap-2">
+                <span class="material-symbols-outlined text-blue-400">account_balance_wallet</span>
+                Entender tu Balance
+              </h3>
+
+              <div class="flex flex-col space-y-4">
+                <div class="p-4 bg-[#1e293b] rounded-lg border border-slate-600">
+                  <code class="text-blue-400 font-mono"
+                    >Balance = Ingresos totales - Gastos totales</code
+                  >
+                </div>
+
+                <SubAccordion title="CardCurrentFound">
+                  <div class="flex flex-col space-y-3 text-on-surface-variant text-sm">
+                    <p>Muestra el saldo actual, totales de ingresos y gastos acumulados.</p>
+                    <div
+                      class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                    >
+                      Imagen del paso
+                    </div>
+                  </div>
+                </SubAccordion>
+
+                <SubAccordion title="Resumen semanal">
+                  <div class="flex flex-col space-y-3 text-on-surface-variant text-sm">
+                    <p>Expone ingresos, gastos y ahorro esperado para la semana vigente.</p>
+                    <div
+                      class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                    >
+                      Imagen del paso
+                    </div>
+                  </div>
+                </SubAccordion>
+
+                <SubAccordion title="Tendencia">
+                  <div class="flex flex-col space-y-3 text-on-surface-variant text-sm">
+                    <p>
+                      Gráficos de línea con comportamiento por día (tendencias diarias/semanales).
+                    </p>
+                    <div
+                      class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                    >
+                      Imagen del paso
+                    </div>
+                  </div>
+                </SubAccordion>
+
+                <SubAccordion title="Gastos recientes">
+                  <div class="flex flex-col space-y-3 text-on-surface-variant text-sm">
+                    <p>Últimos movimientos para control rápido.</p>
+                    <div
+                      class="w-full h-40 max-w-full bg-slate-700 border border-slate-600 rounded-lg flex items-center justify-center text-slate-400 text-sm mt-2 overflow-hidden"
+                    >
+                      Imagen del paso
+                    </div>
+                  </div>
+                </SubAccordion>
+              </div>
+            </div>
+              <section class="mb-section-gap">
+                <div
+                  class="flex gap-4 bg-tertiary-container/10 border-l-4 border-tertiary-container p-6 rounded-r-xl"
+                >
+                  <span class="material-symbols-outlined text-tertiary">warning</span>
+                  <div>
+                    <h4 class="font-h3 text-lg text-slate-50 mb-2">Limitaciones Actuales</h4>
+                    <ul class="text-on-surface-variant space-y-1">
+                      <li><strong>Sin eliminación de movimientos</strong>: solo editable.</li>
+                      <li><strong>Sin recuperación de contraseña</strong>: necesitás soporte.</li>
+                      <li><strong>Cambios de correo no soportados</strong>.</li>
+                      <li><strong>Metas históricas bloqueadas</strong>: solo lectura.</li>
+                    </ul>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Recomendaciones -->
+              <section class="mb-section-gap" id="recomendaciones">
+                <h2 class="font-h2 text-h2 text-slate-50 mb-6">Recomendaciones de Uso</h2>
+                <ol class="list-decimal pl-5 space-y-3 text-on-surface-variant">
+                  <li><strong>Registrá movimientos al instante</strong>.</li>
+                  <li><strong>Revisá el resumen semanal los domingos</strong>.</li>
+                  <li><strong>Usá categorías consistentes</strong>.</li>
+                  <li><strong>Actualizá tu nombre desde Perfil</strong>.</li>
+                  <li><strong>Verificá tu conexión antes de cerrar la app</strong>.</li>
+                </ol>
+              </section>
+
+              <!-- Problemas Comunes -->
+              <section class="mb-section-gap" id="problemas">
+                <h2 class="font-h2 text-h2 text-slate-50 mb-6">Problemas Comunes</h2>
+                <div class="space-y-4">
+                  <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+                    <h3 class="font-h3 text-h3 text-slate-50 mb-2">No puedo iniciar sesión</h3>
+                    <ol class="list-decimal pl-5 text-sm text-on-surface-variant space-y-1">
+                      <li>Revisá credenciales.</li>
+                      <li>Verificá conexión estable.</li>
+                      <li>Si olvidaste contraseña, registrate con otro correo.</li>
+                    </ol>
+                  </div>
+                  <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+                    <h3 class="font-h3 text-h3 text-slate-50 mb-2">
+                      No puedo guardar un ingreso/gasto
+                    </h3>
+                    <ol class="list-decimal pl-5 text-sm text-on-surface-variant space-y-1">
+                      <li>Confirmá categoría.</li>
+                      <li>Verificá monto positivo.</li>
+                      <li>Revisá saldo disponible.</li>
+                      <li>Chequeá conexión.</li>
+                    </ol>
+                  </div>
+                  <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+                    <h3 class="font-h3 text-h3 text-slate-50 mb-2">No encuentro Ahorros</h3>
+                    <p class="text-sm text-on-surface-variant">
+                      En Inicio, desplazate hasta "Mis Ahorros" y tocá "Ver detalles".
+                    </p>
+                  </div>
+                  <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+                    <h3 class="font-h3 text-h3 text-slate-50 mb-2">
+                      La app muestra "meta en riesgo"
+                    </h3>
+                    <p class="text-sm text-on-surface-variant">
+                      Tus gastos superan el plan. Ajustá compras o incrementá ingresos.
+                    </p>
+                  </div>
+                  <div class="p-4 bg-surface-container rounded-xl border border-outline-variant/30">
+                    <h3 class="font-h3 text-h3 text-slate-50 mb-2">Los datos no se actualizan</h3>
+                    <ol class="list-decimal pl-5 text-sm text-on-surface-variant space-y-1">
+                      <li>Deslizá hacia abajo para refrescar.</li>
+                      <li>Cerrá sesión y volvé a iniciar.</li>
+                      <li>Reiniciá el dispositivo.</li>
+                    </ol>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Glosario -->
+              <section class="mb-section-gap" id="glosario">
+                <h2 class="font-h2 text-h2 text-slate-50 mb-6">Glosario</h2>
+                <div class="overflow-x-auto">
+                  <table class="w-full text-sm">
+                    <thead>
+                      <tr class="border-b border-[#334155]">
+                        <th class="text-left py-3 px-4 text-slate-400 font-semibold">Término</th>
+                        <th class="text-left py-3 px-4 text-slate-400 font-semibold">Significado</th
+                        >
+                      </tr>
+                    </thead>
+                    <tbody class="text-on-surface-variant">
+                      <tr class="border-b border-[#334155]/50"
+                        ><td class="py-3 px-4 font-semibold text-slate-200">Balance</td><td
+                          class="py-3 px-4">Diferencia entre ingresos y gastos.</td
+                        ></tr
+                      >
+                      <tr class="border-b border-[#334155]/50"
+                        ><td class="py-3 px-4 font-semibold text-slate-200">Ingreso</td><td
+                          class="py-3 px-4">Entrada de dinero.</td
+                        ></tr
+                      >
+                      <tr class="border-b border-[#334155]/50"
+                        ><td class="py-3 px-4 font-semibold text-slate-200">Gasto</td><td
+                          class="py-3 px-4">Salida de dinero.</td
+                        ></tr
+                      >
+                      <tr class="border-b border-[#334155]/50"
+                        ><td class="py-3 px-4 font-semibold text-slate-200">Meta semanal</td><td
+                          class="py-3 px-4">Objetivo de ahorro.</td
+                        ></tr
+                      >
+                      <tr class="border-b border-[#334155]/50"
+                        ><td class="py-3 px-4 font-semibold text-slate-200">Semana</td><td
+                          class="py-3 px-4">Periodo domingo a sábado.</td
+                        ></tr
+                      >
+                      <tr class="border-b border-[#334155]/50"
+                        ><td class="py-3 px-4 font-semibold text-slate-200">Categoría</td><td
+                          class="py-3 px-4">Etiqueta que clasifica movimientos.</td
+                        ></tr
+                      >
+                      <tr class="border-b border-[#334155]/50"
+                        ><td class="py-3 px-4 font-semibold text-slate-200">Tendencia</td><td
+                          class="py-3 px-4">Gráfico de comportamiento.</td
+                        ></tr
+                      >
+                      <tr
+                        ><td class="py-3 px-4 font-semibold text-slate-200">Saldo disponible</td><td
+                          class="py-3 px-4">Dinero restante.</td
+                        ></tr
+                      >
+                    </tbody>
+                  </table>
+                </div>
+              </section>
+
+              <!-- Categorías -->
+              <section class="mb-section-gap" id="categorias">
+                <h2 class="font-h2 text-h2 text-slate-50 mb-6">Categorías Disponibles</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <h3 class="font-h3 text-h3 text-slate-50 mb-4">Categorías de Ingresos</h3>
+                    <ul class="space-y-2 text-on-surface-variant">
+                      <li><strong>Trabajo</strong> - Sueldos, honorarios.</li>
+                      <li><strong>Regalo</strong> - Transferencias.</li>
+                      <li><strong>Reintegro</strong> - Devoluciones.</li>
+                      <li><strong>Otros</strong> - Entradas esporádicas.</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h3 class="font-h3 text-h3 text-slate-50 mb-4">Categorías de Gastos</h3>
+                    <ul class="space-y-2 text-on-surface-variant">
+                      <li><strong>Comida</strong> - Supermercado, restaurantes.</li>
+                      <li><strong>Viajes</strong> - Transporte, gasolina.</li>
+                      <li><strong>Compras</strong> - Ropa, tecnología.</li>
+                      <li><strong>Salud</strong> - Médica, farmacia.</li>
+                      <li><strong>Ocio</strong> - Cine, suscripciones.</li>
+                    </ul>
+                  </div>
+                </div>
+              </section>
+
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+</StitchLayout>
+
+<!-- Right TOC -->
+<aside
+  class="fixed right-0 top-16 h-[calc(100vh-64px)] w-[280px] py-10 px-8 hidden xl:block overflow-y-auto custom-scrollbar flex-shrink-0 max-w-full overflow-hidden"
+>
+  <h3 class="font-label text-label text-slate-50 uppercase tracking-widest mb-6">Contenido</h3>
+  <ul class="space-y-3 border-l border-slate-700">
+    <li>
+      <a
+        class="block pl-4 py-1 text-slate-400 hover:text-slate-200 transition-colors text-sm truncate"
+        href="#requisitos">Requisitos</a
+      >
+    </li>
+    <li>
+      <a
+        class="block pl-4 py-1 text-slate-400 hover:text-slate-200 transition-colors text-sm truncate"
+        href="#almacenamiento">Almacenamiento</a
+      >
+    </li>
+       <li>
+      <a
+        class="block pl-4 py-1 text-slate-400 hover:text-slate-200 transition-colors text-sm truncate"
+        href="#navegacion">Navegación</a
+      >
+    </li>
+    <li>
+      <a
+        class="block pl-4 py-1 text-blue-500 border-l-2 border-blue-500 -ml-[1px] transition-all text-sm truncate"
+        href="#funcionalidades">Funcionalidades</a
+      >
+    </li>
+    <li>
+      <a
+        class="block pl-4 py-1 text-slate-400 hover:text-slate-200 transition-colors text-sm truncate"
+        href="#recomendaciones">Recomendaciones</a
+      >
+    </li>
+    <li>
+      <a
+        class="block pl-4 py-1 text-slate-400 hover:text-slate-200 transition-colors text-sm truncate"
+        href="#problemas">Problemas</a
+      >
+    </li>
+    <li>
+      <a
+        class="block pl-4 py-1 text-slate-400 hover:text-slate-200 transition-colors text-sm truncate"
+        href="#glosario">Glosario</a
+      >
+    </li>
+    <li>
+      <a
+        class="block pl-4 py-1 text-slate-400 hover:text-slate-200 transition-colors text-sm truncate"
+        href="#categorias">Categorías</a
+      >
+    </li>
+    <li>
+      <a
+        class="block pl-4 py-1 text-slate-400 hover:text-slate-200 transition-colors text-sm truncate"
+        href="#contacto">Contacto</a
+      >
+    </li>
+  </ul>
+  <div
+    class="mt-12 p-4 rounded-xl bg-slate-800/30 border border-slate-700/50 w-full max-w-full overflow-hidden"
+  >
+    <p class="text-xs text-slate-400 mb-3">¿Necesitas ayuda adicional?</p>
+    <button
+      class="w-full py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-sm font-semibold transition-all"
+      >Contactar Soporte</button
+    >
+  </div>
+</aside>

@@ -1,0 +1,115 @@
+---
+import '../styles/global.css';
+interface Props {
+  title?: string;
+  description?: string;
+  currentPage?: string;
+}
+const {
+  title = 'WeekBalance Docs',
+  description = 'Documentación de WeekBalance',
+  currentPage = 'introduccion',
+} = Astro.props;
+
+const navItems = [
+  {
+    section: 'General',
+    items: [
+      { id: 'introduccion', label: 'Introducción', icon: 'description', href: '/' },
+      { id: 'quickstart', label: 'Inicio Rápido', icon: 'bolt', href: '/quickstart' },
+    ],
+  },
+  {
+    section: 'Manuales',
+    items: [
+      { id: 'usuario', label: 'Usuario', icon: 'person', href: '/usuario' },
+      { id: 'tecnico', label: 'Técnico', icon: 'engineering', href: '/tecnico' },
+      { id: 'instalacion', label: 'Instalación', icon: 'install_desktop', href: '/instalacion' },
+    ],
+  },
+];
+---
+
+<!doctype html>
+<html lang="es" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Manrope:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- TopNavBar -->
+    <header class="top-nav">
+      <div class="top-nav-inner">
+        <div class="flex items-center gap-8">
+          <span class="nav-brand">WeekBalance Docs</span>
+          <nav class="nav-links">
+            <a class="nav-link active" href="/">Documentation</a>
+            <a class="nav-link" href="#">Guides</a>
+            <a class="nav-link" href="#">API</a>
+          </nav>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="search-box">
+            <span class="search-icon material-symbols-outlined">search</span>
+            <input class="search-input" type="text" placeholder="Search documentation..." />
+          </div>
+          <button class="nav-btn">
+            <span class="material-symbols-outlined">terminal</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="main-wrapper">
+      <!-- SideNavBar -->
+      <aside class="sidebar custom-scrollbar">
+        <div class="sidebar-inner">
+          <div class="sidebar-header">
+            <h2 class="sidebar-title">WeekBalance</h2>
+            <p class="sidebar-subtitle">Documentation</p>
+          </div>
+          {
+            navItems.map((section) => (
+              <div class="sidebar-section">
+                <div class="sidebar-section-title">{section.section}</div>
+                {section.items.map((item) => (
+                  <a
+                    class={`sidebar-link ${currentPage === item.id ? 'active' : ''}`}
+                    href={item.href}
+                  >
+                    <span class="material-symbols-outlined">{item.icon}</span>
+                    {item.label}
+                  </a>
+                ))}
+              </div>
+            ))
+          }
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <div class="main-inner">
+          <slot />
+        </div>
+      </main>
+
+      <!-- Right Table of Contents -->
+      <aside class="toc">
+        <slot name="toc" />
+      </aside>
+    </div>
+  </body>
+</html>
