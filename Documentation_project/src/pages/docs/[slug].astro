@@ -1,0 +1,71 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import {
+  getDocs,
+  getDocBySlug,
+  buildSidebarItems,
+  type DocEntry,
+} from "../../modules/docs/queries";
+
+export async function getStaticPaths() {
+  const docs = await getDocs();
+
+  return docs.map((doc) => ({
+    params: { slug: doc.data.slug },
+    props: {
+      slug: doc.data.slug,
+    },
+  }));
+}
+
+interface Props {
+  slug: string;
+}
+
+const { slug } = Astro.props satisfies Props;
+const allDocs = await getDocs();
+const doc = (await getDocBySlug(slug)) as DocEntry | undefined;
+
+if (!doc) {
+  throw new Error(`Documento con slug "${slug}" no encontrado.`);
+}
+
+const sidebarItems = buildSidebarItems(allDocs);
+const { Content, headings } = await doc.render();
+const updatedHeading = doc.data.updatedAt ?? undefined;
+---
+
+<Layout
+  pageTitle={`${doc.data.title} | WeekBalance Docs`}
+  pageDescription={doc.data.description}
+  heroEyebrow="WeekBalance Docs"
+  heroTitle="Documentacion WeekBalance"
+  heroDescription="Explora la base de conocimiento: arquitectura, despliegue, QA y manuales de uso."
+  sidebarItems={sidebarItems}
+  activeSlug={doc.data.slug}
+>
+  <article class="doc-content">
+    <header class="doc-content__header">
+      <h1>{doc.data.title}</h1>
+      <p>{doc.data.description}</p>
+      {updatedHeading && (
+        <p class="doc-content__meta">Ultima actualizacion: {updatedHeading}</p>
+      )}
+    </header>
+    <section class="doc-content__body">
+      <Content />
+    </section>
+    {headings.length > 0 && (
+      <aside class="doc-content__toc">
+        <p class="doc-content__toc-title">Contenido rapido</p>
+        <ul>
+          {headings.map((heading) => (
+            <li class={`toc-level-${heading.depth}`}>
+              <a href={`#${heading.slug}`}>{heading.text}</a>
+            </li>
+          ))}
+        </ul>
+      </aside>
+    )}
+  </article>
+</Layout>

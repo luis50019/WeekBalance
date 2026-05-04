@@ -1,0 +1,26 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { getDocs, buildSidebarItems } from "../modules/docs/queries";
+
+const docs = await getDocs();
+const sidebarItems = buildSidebarItems(docs);
+---
+
+<Layout
+	pageTitle="WeekBalance Docs"
+	pageDescription="Guias tecnicas, manuales y procesos criticos para mantener WeekBalance sin romper nada."
+	sidebarItems={sidebarItems}
+	heroTitle="Estrategia y operacion WeekBalance"
+	heroDescription="Concentramos arquitectura, instalacion y guias funcionales en un solo espacio navegable. Aprovecha el indice lateral para saltar directo a lo que necesitas."
+>
+	<section class="doc-grid">
+		{docs.map((doc) => (
+			<article class="doc-card">
+				<h2 class="doc-card__title">
+					<a href={`/docs/${doc.data.slug}`}>{doc.data.title}</a>
+				</h2>
+				<p class="doc-card__description">{doc.data.description}</p>
+			</article>
+		))}
+	</section>
+</Layout>

@@ -1,0 +1,91 @@
+---
+interface Props {
+  title: string;
+  icon?: string;
+  defaultOpen?: boolean;
+}
+
+const { title, icon, defaultOpen = false } = Astro.props;
+const id = title
+  .toLowerCase()
+  .replace(/[^a-z0-9]/g, '-')
+  .replace(/-+/g, '-');
+---
+
+<div class="accordion-item w-full max-w-full overflow-hidden" data-accordion-id={id}>
+  <button
+    class="accordion-trigger w-full flex items-center justify-between p-4 bg-slate-800 border border-slate-700 rounded-xl text-left hover:bg-slate-700 transition-all duration-300 group min-w-0"
+    data-target={id}
+    aria-expanded={defaultOpen ? 'true' : 'false'}
+  >
+    <div class="flex items-center gap-3 min-w-0 overflow-hidden">
+      {
+        icon && (
+          <span class="material-symbols-outlined text-blue-400 text-xl flex-shrink-0">{icon}</span>
+        )
+      }
+      <span class="font-h3 text-h3 text-slate-200 group-hover:text-white transition-colors truncate"
+        >{title}</span
+      >
+    </div>
+    <span
+      class="accordion-arrow material-symbols-outlined text-slate-400 transition-transform duration-300 text-xl flex-shrink-0"
+    >
+      expand_more
+    </span>
+  </button>
+
+  <div
+    class="accordion-content w-full max-w-full overflow-hidden transition-all duration-300 ease-in-out"
+    data-accordion-content={id}
+    style={`max-height: ${defaultOpen ? '4000px' : '0'}; opacity: ${defaultOpen ? '1' : '0'};`}
+  >
+    <div
+      class="p-4 bg-slate-800/50 border-l-2 border-blue-500 ml-1 w-full max-w-full overflow-hidden"
+    >
+      <slot />
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.accordion-trigger').forEach((button) => {
+    button.addEventListener('click', () => {
+      const targetId = button.getAttribute('data-target');
+      const content = document.querySelector(`[data-accordion-content="${targetId}"]`);
+      const arrow = button.querySelector('.accordion-arrow');
+      const isExpanded = button.getAttribute('aria-expanded') === 'true';
+
+      document.querySelectorAll('.accordion-content').forEach((el) => {
+        if (el !== content) {
+          el.style.maxHeight = '0';
+          el.style.opacity = '0';
+        }
+      });
+      document.querySelectorAll('.accordion-trigger').forEach((btn) => {
+        if (btn !== button) {
+          btn.setAttribute('aria-expanded', 'false');
+          btn.querySelector('.accordion-arrow')?.classList.remove('rotate-180');
+        }
+      });
+
+      button.setAttribute('aria-expanded', isExpanded ? 'false' : 'true');
+      if (content) {
+        content.style.maxHeight = isExpanded ? '0' : '4000px';
+        content.style.opacity = isExpanded ? '0' : '1';
+      }
+      if (arrow) {
+        arrow.classList.toggle('rotate-180', !isExpanded);
+      }
+    });
+  });
+</script>
+
+<style>
+  .accordion-arrow {
+    transform: rotate(0deg);
+  }
+  .accordion-arrow.rotate-180 {
+    transform: rotate(180deg);
+  }
+</style>

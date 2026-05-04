@@ -1,0 +1,137 @@
+<!doctype html>
+<html class="dark" lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      is:inline
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Manrope:wght@600;700;800&display=swap"
+    />
+    <link
+      is:inline
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
+    />
+    <script is:inline src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script is:inline>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              'on-primary-fixed': '#001a42',
+              'inverse-surface': '#e1e2ec',
+              'on-tertiary': '#502400',
+              error: '#ffb4ab',
+              background: '#10131a',
+              'secondary-container': '#571bc1',
+              'surface-container-lowest': '#0b0e15',
+              secondary: '#d0bcff',
+              'tertiary-container': '#df7412',
+              surface: '#10131a',
+              'outline-variant': '#424754',
+              'surface-dim': '#10131a',
+              'error-container': '#93000a',
+              'surface-bright': '#363941',
+              'tertiary-fixed': '#ffdcc6',
+              primary: '#adc6ff',
+              'surface-variant': '#32353c',
+              'on-secondary-fixed': '#23005c',
+              'surface-container-low': '#191b23',
+              'inverse-primary': '#005ac2',
+              'surface-tint': '#adc6ff',
+              'secondary-fixed': '#e9ddff',
+              'inverse-on-surface': '#2e3038',
+              'surface-container': '#1d2027',
+              'on-tertiary-fixed-variant': '#723600',
+              'on-error': '#690005',
+              'on-tertiary-fixed': '#311400',
+              'on-surface': '#e1e2ec',
+              'surface-container-highest': '#32353c',
+              'surface-container-high': '#272a31',
+              tertiary: '#ffb786',
+              'on-secondary-container': '#c4abff',
+              'on-secondary-fixed-variant': '#5516be',
+              'secondary-fixed-dim': '#d0bcff',
+              'on-surface-variant': '#c2c6d6',
+              'on-primary': '#002e6a',
+              'on-tertiary-container': '#461f00',
+              'primary-fixed-dim': '#adc6ff',
+              'on-primary-fixed-variant': '#004395',
+              outline: '#8c909f',
+              'tertiary-fixed-dim': '#ffb786',
+              'on-background': '#e1e2ec',
+              'on-error-container': '#ffdad6',
+              'on-primary-container': '#00285d',
+              'on-secondary': '#3c0091',
+              'primary-fixed': '#d8e2ff',
+              'primary-container': '#4d8eff',
+            },
+            borderRadius: {
+              DEFAULT: '0.25rem',
+              lg: '0.5rem',
+              xl: '0.75rem',
+              full: '9999px',
+            },
+            spacing: {
+              'section-gap': '48px',
+              'sidebar-width': '280px',
+              'container-max': '1280px',
+              unit: '4px',
+              gutter: '24px',
+            },
+            fontFamily: {
+              sans: ['Inter'],
+              manrope: ['Manrope'],
+              h1: ['Manrope'],
+              h2: ['Manrope'],
+              code: ['ui-monospace'],
+              body: ['Inter'],
+              h3: ['Manrope'],
+              label: ['Inter'],
+            },
+            fontSize: {
+              h1: ['40px', { lineHeight: '1.2', letterSpacing: '-0.02em', fontWeight: '800' }],
+              h2: ['30px', { lineHeight: '1.3', letterSpacing: '-0.01em', fontWeight: '700' }],
+              code: ['14px', { lineHeight: '1.5', fontWeight: '400' }],
+              body: ['16px', { lineHeight: '1.6', fontWeight: '400' }],
+              h3: ['24px', { lineHeight: '1.4', fontWeight: '600' }],
+              label: ['13px', { lineHeight: '1', letterSpacing: '0.02em', fontWeight: '500' }],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        background-color: #0f172a;
+      }
+      .material-symbols-outlined {
+        font-variation-settings:
+          'FILL' 0,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 24;
+        vertical-align: middle;
+      }
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #334155;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body
+    class="min-h-screen w-full overflow-x-hidden bg-slate-900 text-slate-200 antialiased font-sans"
+  >
+    <div class="flex w-full min-w-0">
+      <slot />
+    </div>
+  </body>
+</html>

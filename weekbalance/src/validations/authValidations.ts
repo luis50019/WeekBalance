@@ -39,7 +39,13 @@ export const passwordValidations = {
   },
 };
 
-const ALLOWED_EMAIL_DOMAINS = ["gmail.com", "outlook.com", "hotmail.com", "live.com", "msn.com"];
+const ALLOWED_EMAIL_DOMAINS = [
+  "gmail.com",
+  "outlook.com",
+  "hotmail.com",
+  "live.com",
+  "msn.com",
+];
 
 export const emailValidatios = {
   required: "El correo es obligatorio",

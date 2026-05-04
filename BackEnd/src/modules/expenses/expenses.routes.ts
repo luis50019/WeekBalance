@@ -1,5 +1,15 @@
 import { Router } from "express";
-import { createExpense, getHistoryExpensesById, getExpensesByCategory, getWeeklyExpenseTotal, getWeeklyExpensesByCategory, getWeeklyExpensesByDay, getDailyExpenses, updateExpense, getExpenseById } from "./expenses.controller";
+import {
+  createExpense,
+  getHistoryExpensesById,
+  getExpensesByCategory,
+  getWeeklyExpenseTotal,
+  getWeeklyExpensesByCategory,
+  getWeeklyExpensesByDay,
+  getDailyExpenses,
+  updateExpense,
+  getExpenseById,
+} from "./expenses.controller";
 import { authMiddleware } from "../../middlewares/auth.middleware";
 
 export const expensesRouter = Router();
@@ -30,10 +40,6 @@ expensesRouter.get(
   authMiddleware,
   getWeeklyExpensesByDay,
 );
-expensesRouter.get(
-  "/daily/:accountId",
-  authMiddleware,
-  getDailyExpenses,
-);
+expensesRouter.get("/daily/:accountId", authMiddleware, getDailyExpenses);
 expensesRouter.put("/update/", authMiddleware, updateExpense);
 expensesRouter.get("/:id", authMiddleware, getExpenseById);

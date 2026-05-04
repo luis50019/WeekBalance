@@ -1,0 +1,127 @@
+---
+import "../styles/global.css";
+import SiteHeader from "../components/layout/SiteHeader.astro";
+import SiteFooter from "../components/layout/SiteFooter.astro";
+import type { SidebarItem } from "../modules/docs/queries";
+import Navbar from "../components/docs/Navbar.astro";
+import Sidebar from "../components/docs/Sidebar.astro";
+
+interface NavLink {
+  label: string;
+  href: string;
+}
+
+type SidebarSectionItem = {
+  label: string;
+  href: string;
+  active?: boolean;
+};
+
+type SidebarSection = {
+  title: string;
+  icon: string;
+  items: SidebarSectionItem[];
+};
+
+interface Props {
+  pageTitle?: string;
+  pageDescription?: string;
+  heroEyebrow?: string;
+  heroTitle?: string;
+  heroDescription?: string;
+  sidebarItems?: SidebarItem[];
+  sidebarSections?: SidebarSection[];
+  sidebarVersion?: string;
+  sidebarCtaText?: string;
+  sidebarCtaHref?: string;
+  activeSlug?: string;
+  hideSidebar?: boolean;
+  navLinks?: NavLink[];
+  projectName?: string;
+}
+
+const {
+  pageTitle = "WeekBalance Docs",
+  pageDescription = "Documentacion centralizada del ecosistema WeekBalance.",
+  heroEyebrow = "WeekBalance Knowledge Base",
+  heroTitle = pageTitle,
+  heroDescription = pageDescription,
+  sidebarItems = [],
+  sidebarSections,
+  sidebarVersion = "v1.0.0",
+  sidebarCtaText = "View GitHub",
+  sidebarCtaHref = "https://github.com",
+  activeSlug,
+  hideSidebar = false,
+  navLinks = [
+    { label: "Docs", href: "/docs" },
+    { label: "API", href: "/api" },
+    { label: "Blog", href: "/blog" },
+  ],
+  projectName = "WeekBalance",
+} = Astro.props satisfies Props;
+
+const derivedSections: SidebarSection[] = sidebarSections && sidebarSections.length > 0
+  ? sidebarSections
+  : sidebarItems.length > 0
+    ? [
+        {
+          title: "Guides",
+          icon: "menu_book",
+          items: sidebarItems.map((item) => ({
+            label: item.label,
+            href: item.href,
+            active: item.slug === activeSlug,
+          })),
+        },
+      ]
+    : [];
+
+const showSidebar = !hideSidebar && derivedSections.length > 0;
+const bodyClass = ["theme", showSidebar ? "sidebar-visible" : ""].filter(Boolean).join(" ");
+---
+
+<!doctype html>
+<html lang="es">
+  	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{pageTitle}</title>
+		<meta name="description" content={pageDescription} />
+		<link
+			rel="preconnect"
+			href="https://fonts.googleapis.com"
+			crossorigin
+		/>
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap"
+			rel="stylesheet"
+		/>
+ 	</head>
+	<body class={bodyClass}>
+		<Navbar projectName={projectName} navLinks={navLinks} />
+		{showSidebar && (
+			<Sidebar
+				sections={derivedSections}
+				version={sidebarVersion}
+				ctaText={sidebarCtaText}
+				ctaHref={sidebarCtaHref}
+			/>
+		)}
+		<div class={showSidebar ? "ml-64" : ""}>
+			<div class="shell">
+				<SiteHeader eyebrow={heroEyebrow} title={heroTitle} description={heroDescription} />
+				<div class="shell__content">
+					<main class="shell__main">
+						<slot />
+					</main>
+				</div>
+				<SiteFooter />
+			</div>
+		</div>
+ 	</body>
+</html>

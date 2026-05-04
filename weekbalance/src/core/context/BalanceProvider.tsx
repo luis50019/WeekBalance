@@ -1,25 +1,20 @@
 import { ReactNode, useEffect, useCallback, createContext, useContext } from "react";
 import { useAuthStore } from "../../auth/store";
 import { COLORSGRAPIC } from "../../core/constants/Color";
-
-interface ExpenseAnalysisItem {
-  value: number;
-  color: string;
-  text: string;
-}
-
-interface DailyExpenseItem {
-  day: string;
-  total: number;
-  value: number;
-}
+import { CategoryExpenseStrategy } from "../patterns/expenses/CategoryExpenseStrategy";
+import { DailyExpenseStrategy } from "../patterns/expenses/DailyExpenseStrategy";
+import { ExpenseTransformationContext } from "../patterns/expenses/ExpenseTransformationContext";
+import type {
+  CategoryExpenseAnalysis,
+  DailyExpenseAnalysis,
+} from "../patterns/expenses/types";
 
 interface BalanceContextValue {
   balance: number;
   totalExpenses: number;
   totalIncomes: number;
-  expenseAnalysis: ExpenseAnalysisItem[];
-  dailyExpenseAnalysis: DailyExpenseItem[];
+  expenseAnalysis: CategoryExpenseAnalysis[];
+  dailyExpenseAnalysis: DailyExpenseAnalysis[];
   setChangeValue: () => void;
 }
 
@@ -50,22 +45,15 @@ export const BalanceProvider = ({ children }: { children: ReactNode }) => {
   }, [account?.id]);
 
   // Transformar datos para la gráfica de categorías
-  const expenseAnalysis: ExpenseAnalysisItem[] = (weeklyData.expensesByCategory || []).map(
-    (expense) => ({
-      value: expense.percentage,
-      color: COLORSGRAPIC[expense.category] || "#888",
-      text: expense.category,
-    })
+  const categoryContext = new ExpenseTransformationContext<CategoryExpenseAnalysis>(
+    new CategoryExpenseStrategy(weeklyData.expensesByCategory || [], COLORSGRAPIC),
   );
+  const expenseAnalysis = categoryContext.execute();
 
-  // Transformar datos para la gráfica diaria (días de la semana)
-  const dailyExpenseAnalysis: DailyExpenseItem[] = (weeklyData.expensesByDay || []).map(
-    (expense) => ({
-      day: expense.day,
-      total: expense.total,
-      value: expense.total,
-    })
+  const dailyContext = new ExpenseTransformationContext<DailyExpenseAnalysis>(
+    new DailyExpenseStrategy(weeklyData.expensesByDay || []),
   );
+  const dailyExpenseAnalysis = dailyContext.execute();
 
   console.log("[BalanceProvider] weeklyData.expensesByDay:", JSON.stringify(weeklyData.expensesByDay));
   console.log("[BalanceProvider] dailyExpenseAnalysis:", JSON.stringify(dailyExpenseAnalysis));
@@ -74,8 +62,8 @@ export const BalanceProvider = ({ children }: { children: ReactNode }) => {
     <BalanceContext.Provider
       value={{
         balance: account?.balance || 0,
-        expenseAnalysis,
-        dailyExpenseAnalysis,
+         expenseAnalysis,
+         dailyExpenseAnalysis,
         totalExpenses: weeklyData.weeklyExpenses,
         totalIncomes: weeklyData.weeklyIncomes,
         setChangeValue,

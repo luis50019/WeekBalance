@@ -1,5 +1,10 @@
-# WeekBalance - Manual de Usuario
-
+---
+title: Manual de Usuario
+description: Guía funcional para aprovechar WeekBalance en el día a día.
+slug: manual-usuario
+sidebar:
+  label: Manual de Usuario
+  order: 3
 ---
 
 ## Tabla de Contenidos
